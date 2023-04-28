@@ -1,0 +1,17 @@
+server:
+  port: 8761
+spring:
+  application:
+    name: eureka
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+  client:
+    #以下两个配置设置成false,表示客户端只从 Eureka 服务端获取注册表信息，不将自身注册到 Eureka 服务端。
+    #表示是否从 Eureka 服务端获取注册表信息
+    fetchRegistry: false
+    #表示客户端是否将自身注册到 Eureka 服务端
+    registerWithEureka: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/

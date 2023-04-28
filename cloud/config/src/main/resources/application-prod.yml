@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: config
+  cloud:
+    config:
+      server:
+        git:
+          timeout: 10000
+          uri: git@github.com:MichaelD494/SpringCloud-Config.git
+          defaultLabel: main
+          cloneOnStart: true
+          basedir: D:\ClouldConfig
+
+
+server:
+  port: 7100
+
+eureka:
+  client:
+    enabled: true
+    serviceUrl:
+      #Eureka 服务端的地址
+      defaultZone: http://localhost:8761/eureka
+#logging:
+#  level:
+#    root: debug
