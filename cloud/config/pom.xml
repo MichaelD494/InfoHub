@@ -11,7 +11,6 @@
 
     <groupId>com.config</groupId>
     <artifactId>config</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>config-service</name>
     <description>config-service</description>
 

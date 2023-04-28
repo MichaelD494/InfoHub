@@ -23,6 +23,7 @@
         <java.version>17</java.version>
         <spring-cloud.version>2022.0.2</spring-cloud.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <dolores.version>0.0.1</dolores.version>
     </properties>
 
     <modules>
@@ -30,14 +31,22 @@
         <module>infohub</module>
     </modules>
 
-    <dependencies>
-
-
-
-    </dependencies>
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>com.dolores</groupId>
+                <artifactId>cloud</artifactId>
+                <version>${dolores.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.dolores</groupId>
+                <artifactId>infohub</artifactId>
+                <version>${dolores.version}</version>
+            </dependency>
+
             <!-- springCloud -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>

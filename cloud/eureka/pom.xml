@@ -11,7 +11,6 @@
 	</parent>
 
 	<artifactId>eureka</artifactId>
-	<version>0.0.1</version>
 	<name>eureka</name>
 	<description>eureka</description>
 
