@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dolores.system.mapper.SysMenuMapper">
+    <resultMap id="queryMenuListMap" type="com.dolores.system.domain.SysMenu">
+        <collection property="children"
+                    ofType="com.dolores.system.domain.SysMenu"
+                    column="{id=id}"
+                    select="menuListSelect"
+        />
+    </resultMap>
+    <resultMap id="menuListSelectMap" type="com.dolores.system.domain.SysMenu">
+        <collection property="children"
+                    ofType="com.dolores.system.domain.SysMenu"
+                    column="{id=id}"
+                    select="menuListSelectMapSelect"
+        />
+    </resultMap>
+    <select id="menuListSelectMapSelect" resultType="com.dolores.system.domain.SysMenu">
+        select id, title, pid
+        from sys_menu
+        where pid = #{id}
+          and type = 3
+        order by sort
+    </select>
+    <select id="menuListSelect" resultMap="menuListSelectMap">
+        select id, title, pid
+        from sys_menu
+        where pid = #{id}
+          and type = 2
+        order by sort
+    </select>
+    <select id="queryMenuList" resultMap="queryMenuListMap">
+        select id, title, pid
+        from sys_menu
+        where pid = 0
+          and type = 1
+        order by sort
+    </select>
+
+    <select id="queryMenuListByIds" resultType="com.dolores.system.domain.SysMenu">
+        select * from sys_menu
+        where pid = 0 and type = 1
+        and id in
+        <foreach collection="menuIds" open="(" close=")" item="item" separator=",">
+            #{item}
+        </foreach>
+        order by create_time
+    </select>
+
+    <select id="querySubListByIds" resultType="com.dolores.system.domain.SysMenu">
+        select *
+        from sys_menu
+        where pid != 0 and type=2 and id in
+        <foreach collection="menuIds" open="(" close=")" item="item" separator=",">
+            #{item}
+        </foreach>
+        order by sort
+    </select>
+    <resultMap id="queryMenuListByDetailMap" type="com.dolores.system.domain.SysMenu">
+        <collection property="children"
+                    ofType="com.dolores.system.domain.SysMenu"
+                    column="{id=id}"
+                    select="queryMenuListByDetailSelect"
+        >
+        </collection>
+    </resultMap>
+    <resultMap id="queryMenuListByDetailSelectMap" type="com.dolores.system.domain.SysMenu">
+        <collection property="children"
+                    ofType="com.dolores.system.domain.SysMenu"
+                    column="{id=id}"
+                    select="queryMenuListByDetailChildrenSelect"
+        >
+        </collection>
+    </resultMap>
+    <select id="queryMenuListByDetailChildrenSelect" resultType="com.dolores.system.domain.SysMenu">
+        select *
+        from sys_menu
+        where pid = #{id}
+          and type = 3
+        order by sort
+    </select>
+    <select id="queryMenuListByDetailSelect" resultMap="queryMenuListByDetailSelectMap">
+        select *
+        from sys_menu
+        where pid = #{id}
+          and type = 2
+        order by sort
+    </select>
+    <select id="queryMenuListByDetail" resultMap="queryMenuListByDetailMap">
+        select *
+        from sys_menu
+        where pid = 0
+        and type = 1
+        <if test="title!=null and title!=''">
+            and title like concat('%',#{title},'%')
+        </if>
+        order by sort
+    </select>
+</mapper>

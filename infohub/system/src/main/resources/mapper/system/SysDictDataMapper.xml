@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dolores.system.mapper.SysDictDataMapper">
+    <select id="queryList" resultType="com.dolores.system.domain.SysDictData">
+        select * from sys_dict_data
+        <where>
+            and dict_type = #{dictType}
+            <if test="sysDictData!=null">
+                <if test="sysDictData.dictLabel!=null and sysDictData.dictLabel!=''">
+                    and dict_label like concat('%',#{sysDictData.dictLabel},'%')
+                </if>
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dolores.system.mapper.SysDictTypeMapper">
+    <select id="queryList" resultType="com.dolores.system.domain.SysDictType">
+        select * from sys_dict_type
+        <where>
+            <if test="dictName!=null and dictName!=''">
+                and dict_name like concat('%',#{dictName},'%')
+            </if>
+            <if test="dictType!=null and dictType!=''">
+                and dict_type like concat('%',#{dictType},'%')
+            </if>
+            <if test="status!=null">
+                and status = #{status}
+            </if>
+            <if test="createDateMap!=null">
+                <if test="createDateMap.startDate!=null">
+                    and date_format(create_time,'%y%m%d') &gt;= date_format(#{createDateMap.startDate},'%y%m%d')
+                </if>
+                <if test="createDateMap.endDate!=null">
+                    and date_format(create_time,'%y%m%d') &lt;= date_format(#{createDateMap.endDate},'%y%m%d')
+                </if>
+            </if>
+        </where>
+    </select>
+</mapper>
