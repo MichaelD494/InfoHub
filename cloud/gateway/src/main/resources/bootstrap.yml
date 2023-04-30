@@ -10,7 +10,7 @@ spring:
             - Path=/admin-api/**
 
 server:
-  port: 7200
+  port: 7100
 
 eureka:
   instance:

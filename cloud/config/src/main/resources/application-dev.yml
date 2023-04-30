@@ -9,15 +9,15 @@ spring:
           uri: git@github.com:MichaelD494/InfoHub-Config.git
           defaultLabel: main
           cloneOnStart: true
-          basedir: D:\InfoHub-config
+          basedir: D:\InfoHub-Config
 
 
 server:
-  port: 7100
+  port: 7000
 
 eureka:
   client:
-    enabled: true
+    enabled: false
     serviceUrl:
       #Eureka 服务端的地址
       defaultZone: http://localhost:8761/eureka

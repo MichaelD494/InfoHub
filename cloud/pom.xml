@@ -29,7 +29,6 @@
 
     <dependencyManagement>
         <dependencies>
-
             <dependency>
                 <groupId>com.dolores</groupId>
                 <artifactId>config</artifactId>
@@ -47,7 +46,6 @@
                 <artifactId>gateway</artifactId>
                 <version>${dolores.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 

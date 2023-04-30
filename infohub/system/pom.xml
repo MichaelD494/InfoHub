@@ -8,7 +8,6 @@
 		<version>0.0.1</version>
 	</parent>
 	<artifactId>system</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>system</name>
 	<description>system</description>
 	<properties>
