@@ -10,4 +10,6 @@ import java.util.Set;
 public class LoginUser implements Serializable {
     private SysUser sysUser;
     private List<SysUserPerms> roles;
+
+    private String token;
 }

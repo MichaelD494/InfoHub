@@ -89,7 +89,6 @@
             <version>1.2.17</version>
         </dependency>
 
-
         <!--Freemarker配和Mybatis-plus代码生成器-->
         <dependency>
             <groupId>org.freemarker</groupId>
@@ -121,7 +120,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.23</version>
+            <version>8.0.27</version>
         </dependency>
 
         <!--Spring框架扩展库-->

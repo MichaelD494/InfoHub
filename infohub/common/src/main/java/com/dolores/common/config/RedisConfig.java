@@ -1,5 +1,6 @@
 package com.dolores.common.config;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -20,9 +21,14 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 public class RedisConfig {
-    @Autowired
-    private RedisProperties redisProperties;  // 自动注入redis配置类
-
+    @Value("${redis.host}")
+    private String host;
+    @Value("${redis.port}")
+    private int port;
+    @Value("${redis.database}")
+    private int database;
+    @Value("${redis.password}")
+    private String password;
 
     /**
      * 配置Redis连接工厂
@@ -31,11 +37,11 @@ public class RedisConfig {
     public LettuceConnectionFactory redisConnectionFactory() {
         //创建RedisStandaloneConfiguration实例，并设置host、port和database属性
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
-        redisStandaloneConfiguration.setHostName(redisProperties.getHost());
-        redisStandaloneConfiguration.setPort(redisProperties.getPort());
-        redisStandaloneConfiguration.setDatabase(redisProperties.getDatabase());
-        if (redisProperties.getPassword() != null) {
-            redisStandaloneConfiguration.setPassword(redisProperties.getPassword());
+        redisStandaloneConfiguration.setHostName(host);
+        redisStandaloneConfiguration.setPort(port);
+        redisStandaloneConfiguration.setDatabase(database);
+        if (StringUtils.isNotBlank(password)) {
+            redisStandaloneConfiguration.setPassword(password);
         }
         //创建LettuceConnectionFactory实例，并将RedisStandaloneConfiguration传入
         return new LettuceConnectionFactory(redisStandaloneConfiguration);

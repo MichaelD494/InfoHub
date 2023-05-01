@@ -2,6 +2,7 @@ package com.dolores.framework.config;
 
 import com.dolores.system.domain.SysUser;
 import com.dolores.system.domain.SysUserPerms;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang.StringUtils;
@@ -9,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -17,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
-public class UserInfo implements UserDetails {
+public class UserInfo implements UserDetails, Serializable {
     /**
      * 用户信息
      */

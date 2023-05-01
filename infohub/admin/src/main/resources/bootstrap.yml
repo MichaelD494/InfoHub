@@ -8,6 +8,12 @@ spring:
     password: 5f992877380b81e1099291148c8e200c
     url: jdbc:mysql://101.33.208.213:3306/infohub?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      minimum-idle: 3  # 最小空闲连接数量
+      maximum-pool-size: 5  # 连接池最大连接数，默认是10
+      max-lifetime: 1800000
+
+
   thymeleaf:
     cache: false
     suffix: .html

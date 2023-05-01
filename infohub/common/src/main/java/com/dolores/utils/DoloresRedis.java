@@ -73,7 +73,8 @@ public class DoloresRedis {
      * @return
      */
     public static String hGetUserCache(String token) {
-        return redisUtil.hget(RedisConstant.SYSUSERLIST, RedisConstant.USERKEY + token).toString();
+        Object hGet = redisUtil.hget(RedisConstant.SYSUSERLIST, RedisConstant.USERKEY + token);
+        return hGet != null ? hGet.toString() : null;
     }
 
     /**
