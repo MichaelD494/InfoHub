@@ -19,4 +19,6 @@ public interface ISysUserService extends IService<SysUser> {
     LoginUser queryUserByName(String name);
 
     List<SysUser> querySysUserList(SysUser sysUser);
+
+    void updateLoginLoginInfo(String sysUserId, String ip);
 }

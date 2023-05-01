@@ -3,7 +3,9 @@ package com.dolores.system.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -24,11 +26,11 @@ public class SysLoginRecord implements Serializable {
     /**
      * 系统用户id
      */
-    private Long sysUserId;
+    private String sysUserId;
     /**
      * 系统用户名
      */
-    private String sysUserName;
+    private String sysUsername;
     /**
      * 登录ip
      */
@@ -51,4 +53,13 @@ public class SysLoginRecord implements Serializable {
      * 创建时间
      */
     private Date createTime;
+
+    public SysLoginRecord(String sysUserId, String sysUsername, String loginIp, String os, String browser, String address) {
+        this.sysUserId = sysUserId;
+        this.sysUsername = sysUsername;
+        this.loginIp = loginIp;
+        this.os = os;
+        this.browser = browser;
+        this.address = address;
+    }
 }

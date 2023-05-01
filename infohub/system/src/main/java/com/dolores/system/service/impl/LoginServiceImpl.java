@@ -12,11 +12,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class LoginServiceImpl implements ILoginService {
-    @Autowired
-    private LoginMapper loginMapper;
 
-    @Override
-    public SysUser getUserByName(String getMapByName) {
-        return loginMapper.getUserByName(getMapByName);
-    }
+
 }
