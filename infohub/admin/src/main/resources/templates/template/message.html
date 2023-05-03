@@ -1,22 +1,26 @@
-
 <!-- Live Toast-->
-<div th:fragment="toast-notice" class="toast position-absolute top-0 end-0 mt-7" role="alert" aria-live="assertive"
+<div th:fragment="toast-notice" id="toast-notice" class="toast position-absolute top-0 end-0 mt-7 hide" role="alert"
+     aria-live="assertive"
      aria-atomic="true"
      data-delay="5000">
     <div class="toast-header">
         <strong class="me-auto toast-title">Title</strong>
-        <button aria-label="Close" class="btn-close fs-20" data-bs-dismiss="toast"><span aria-hidden="true">×</span></button>
+        <button aria-label="Close" class="btn-close fs-20" data-bs-dismiss="toast"><span aria-hidden="true">×</span>
+        </button>
         </button>
     </div>
     <div class="toast-body">
     </div>
 </div>
 
-<div th:fragment="toast-info" class="toast align-items-center text-white bg-primary border-0 show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+<div th:fragment="toast-info" id="toast-info"
+     class="toast align-items-center position-absolute top-0 end-0 mt-7 text-white bg-primary border-0 hide"
+     role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
     <div class="d-flex">
         <div class="toast-body">
         </div>
-        <button aria-label="Close" class="btn-close fs-20 ms-auto mt-2 pe-2" data-bs-dismiss="toast"><span aria-hidden="true">×</span></button>
+        <button aria-label="Close" class="btn-close fs-20 ms-auto mt-2 pe-2" data-bs-dismiss="toast"><span
+                aria-hidden="true">×</span></button>
     </div>
 </div>
 <!-- /Live Toast-->
