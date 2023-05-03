@@ -1,6 +1,8 @@
+const contextPath = '/infohub';
+
 function get(url, data, successCallback, accessToken) {
     $.ajax({
-        url: url,
+        url: contextPath + url,
         type: 'GET',
         data: data,
         headers: {
@@ -12,7 +14,7 @@ function get(url, data, successCallback, accessToken) {
 
 function post(url, data, successCallback, accessToken) {
     $.ajax({
-        url: url,
+        url: contextPath + url,
         type: 'POST',
         data: JSON.stringify(data),
         dataType: 'JSON',
@@ -26,7 +28,7 @@ function post(url, data, successCallback, accessToken) {
 
 function put(url, data, successCallback, accessToken) {
     $.ajax({
-        url: url,
+        url: contextPath + url,
         type: 'PUT',
         data: JSON.stringify(data),
         dataType: 'JSON',
@@ -40,7 +42,7 @@ function put(url, data, successCallback, accessToken) {
 
 function remove(url, data, successCallback, accessToken) {
     $.ajax({
-        url: url,
+        url: contextPath + url,
         type: 'DELETE',
         dataType: 'JSON',
         contentType: "application/json; charset=utf-8",

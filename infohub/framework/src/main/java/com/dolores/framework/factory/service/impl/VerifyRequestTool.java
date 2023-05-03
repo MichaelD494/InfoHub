@@ -1,32 +1,40 @@
 package com.dolores.framework.factory.service.impl;
 
-import com.dolores.common.constants.Constants;
 import com.dolores.common.constants.RedisConstant;
-import com.dolores.framework.domain.PathMatcher;
-import com.dolores.framework.domain.SystemResource;
+import com.dolores.framework.domain.html.PathMatcher;
+import com.dolores.framework.domain.resource.InfoHubConfig;
+import com.dolores.framework.domain.jwt.VerifyToken;
 import com.dolores.framework.factory.service.VerifyRequest;
 import com.dolores.utils.DoloresRedis;
+import com.dolores.utils.SpringContextHolder;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.util.AntPathMatcher;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public class VerifyRequestTool implements VerifyRequest {
 
     @Override
-    public boolean verifyToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public VerifyToken verifyToken(HttpServletRequest request, HttpServletResponse response, boolean isApiRequest) throws IOException {
+        VerifyToken verifyToken = new VerifyToken();
         //从cookie中获取token
-        String token = getCookieValue(request, "token");
+        String token;
+        if (isApiRequest) {
+            token = request.getHeader("Authorization");
+        } else {
+            token = getCookieValue(request, "Authorization");
+        }
         //判断缓存是否存在token,以缓存为标准(可能出现token中的缓存已经失效,但是cookie还存在token的情况)
         if (!DoloresRedis.isHExists(RedisConstant.SYSUSERLIST, RedisConstant.USERKEY + token)) {
-            response.sendRedirect(Constants.LOGIN_PATH);
-            return false;
+            verifyToken.setVerifyTokenFlag(false);
+            return verifyToken;
         }
-        return true;
+        verifyToken.setVerifyTokenFlag(true).setToken(token);
+        return verifyToken;
     }
 
     @Override
@@ -44,10 +52,11 @@ public class VerifyRequestTool implements VerifyRequest {
 
     @Override
     public boolean verifyPath(HttpServletRequest request) {
+        InfoHubConfig infoHubConfig = SpringContextHolder.getBean(InfoHubConfig.class);
         //获取request访问路径
         String uri = request.getRequestURI();
         //获取系统路径资源
-        Set<String> pathList = SystemResource.PATH_RESOURCE.getPathList();
+        List<String> pathList = infoHubConfig.getPathList();
         //校验是否存在系统资源,如果存在则执行放行
         if (pathList != null && pathList.size() > 0) {
             AntPathMatcher antPathMatcher = PathMatcher.PATH_MATCHER.getAntPathMatcher();

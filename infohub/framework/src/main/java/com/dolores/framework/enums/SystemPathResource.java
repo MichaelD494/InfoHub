@@ -1,8 +1,12 @@
-package com.dolores.framework.domain;
+package com.dolores.framework.enums;
 
 
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 /**
  * 系统资源枚举
@@ -12,20 +16,24 @@ import java.util.Set;
  * 自动支持序列化：Java枚举类型自动支持序列化和反序列化，无需编写特殊的序列化方法。这样可以防止反序列化时创建多个实例的问题。
  * 简洁的代码：枚举单例模式的代码简洁明了，易于阅读和理解。
  */
-public enum SystemResource {
+public enum SystemPathResource {
 
     PATH_RESOURCE;
 
-    private final Set<String> pathList;
+    private final List<String> pathList;
 
-    SystemResource() {
-        pathList = new HashSet<>();
-        pathList.add("/**/login");
-        pathList.add("/captcha/**");
+    SystemPathResource() {
+        pathList = new ArrayList<>();
+        pathList.add("/system/login");
+        pathList.add("/captcha");
         pathList.add("/static/**");
     }
 
-    public Set<String> getPathList() {
+    public List<String> getPathList(String contextPath) {
+        IntStream.range(0, pathList.size()).forEach(index -> {
+            String item = pathList.get(index);
+            pathList.set(index, contextPath + item);
+        });
         return pathList;
     }
 

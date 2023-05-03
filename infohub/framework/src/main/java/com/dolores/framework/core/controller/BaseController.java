@@ -1,6 +1,10 @@
-package com.dolores.common.core.controller;
+package com.dolores.framework.core.controller;
 
-import com.dolores.common.core.domain.AjaxResult;
+import com.dolores.framework.core.domain.AjaxResult;
+import com.dolores.framework.utils.DoloresUtils;
+import com.dolores.system.domain.SysUser;
+
+import java.util.List;
 
 /**
  * @author dolores
@@ -50,6 +54,10 @@ public class BaseController {
         return AjaxResult.error(message);
     }
 
+    public static AjaxResult success(List<?> dataList) {
+        return AjaxResult.success("操作成功", dataList);
+    }
+
     /**
      * 响应返回结果
      *
@@ -68,5 +76,13 @@ public class BaseController {
      */
     protected AjaxResult toAjax(boolean result) {
         return result ? success() : error();
+    }
+
+    protected String getUserId() {
+        return DoloresUtils.getUserId();
+    }
+
+    protected SysUser getUser() {
+        return DoloresUtils.getUser();
     }
 }

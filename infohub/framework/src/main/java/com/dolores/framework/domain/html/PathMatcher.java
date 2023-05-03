@@ -1,4 +1,4 @@
-package com.dolores.framework.domain;
+package com.dolores.framework.domain.html;
 
 import org.springframework.util.AntPathMatcher;
 

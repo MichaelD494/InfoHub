@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .cors()
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/system/login", "/static/**", "/login")
+                .requestMatchers("/system/login", "/static/**", "/login", "/", "/captcha")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

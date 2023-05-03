@@ -1,6 +1,11 @@
-package com.dolores.common.core.domain;
+package com.dolores.framework.core.domain;
 
+import lombok.experimental.Accessors;
+import org.apache.poi.ss.formula.functions.T;
+
+import java.io.Serial;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 操作消息提醒
@@ -9,6 +14,7 @@ import java.util.HashMap;
  * @date 2021/9/9 14:50
  */
 public class AjaxResult extends HashMap<String, Object> {
+    @Serial
     private static final long serialVersionUID = 1L;
     /**
      * 状态码
@@ -55,10 +61,6 @@ public class AjaxResult extends HashMap<String, Object> {
         }
     }
 
-    public AjaxResult() {
-
-    }
-
     /**
      * @param type 状态类型
      * @param msg  返回内容
@@ -94,6 +96,10 @@ public class AjaxResult extends HashMap<String, Object> {
      */
     public static AjaxResult success() {
         return AjaxResult.success("操作成功");
+    }
+
+    public static AjaxResult success(List<?> dataList) {
+        return AjaxResult.success("操作成功", dataList);
     }
 
     /**

@@ -1,9 +1,8 @@
 package com.dolores.framework.utils;
 
-import com.dolores.common.core.domain.AjaxResult;
+import com.dolores.framework.core.domain.AjaxResult;
 import com.dolores.framework.config.UserInfo;
 import com.dolores.system.domain.SysUser;
-import com.dolores.utils.MD5Encode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +22,7 @@ public class DoloresUtils {
      *
      * @return
      */
-    public static SysUser getCurrentUser() {
+    public static SysUser getUser() {
         UserInfo userInfo = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userInfo.getSysUser();
     }
@@ -43,8 +42,8 @@ public class DoloresUtils {
      *
      * @return
      */
-    public static String getCurrentUserId() {
-        return getCurrentUser().getSysUserId();
+    public static String getUserId() {
+        return getUser().getSysUserId();
     }
 
     /**
@@ -53,7 +52,7 @@ public class DoloresUtils {
      * @return
      */
     public static String getCurrentUserName() {
-        return getCurrentUser().getUserName();
+        return getUser().getUserName();
     }
 
     /**
@@ -64,21 +63,6 @@ public class DoloresUtils {
     public static String getUserSessionId() {
         UserInfo userInfo = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userInfo.getSessionId();
-    }
-
-    /**
-     * 密码加密
-     *
-     * @param pwd 需要加密的密码
-     * @return encodeArr [0] = 盐值 [1] = 最终加密密码
-     */
-    public static String[] encode(String pwd) {
-        String[] encodeArr = new String[2];
-        String salt = MD5Encode.createSaltValue();
-        encodeArr[0] = salt;
-        String md5EncodePwd = MD5Encode.md5EncodePwd(pwd);
-        encodeArr[1] = MD5Encode.getFinalPwd(salt, md5EncodePwd);
-        return encodeArr;
     }
 
     /**
@@ -99,6 +83,7 @@ public class DoloresUtils {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+            assert out != null;
             out.flush();
             out.close();
         }
@@ -122,20 +107,20 @@ public class DoloresUtils {
         for (int i = 0; i < chars.length; i++) {
             arr[i] = String.valueOf(chars[i]);
         }
-        String str = "";
+        StringBuilder str = new StringBuilder();
         for (int i = 0; i < arr.length; i++) {
             if (i == 0) {
-                str = arr[i].toLowerCase();
+                str = new StringBuilder(arr[i].toLowerCase());
                 continue;
             }
             if (arr[i].equals("_")) {
-                str += arr[i + 1].toUpperCase();
+                str.append(arr[i + 1].toUpperCase());
                 i++;
                 continue;
             }
-            str += arr[i];
+            str.append(arr[i]);
         }
-        return str;
+        return str.toString();
     }
 
     /**

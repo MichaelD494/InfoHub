@@ -364,23 +364,21 @@
                     <ul class="side-menu">
                         <li class="sub-category">
                             <h3>Main</h3></li>
-                        <li class="slide"><a class="side-menu__item has-link" data-bs-toggle="slide" th:href="@{/system/home}"><i
-                                class="side-menu__icon fe fe-home"></i><span
-                                class="side-menu__label">首页</span></a></li>
-                        <li class="sub-category">
-                            <h3>UI Kit</h3></li>
-                        <li class="slide"><a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
-                                class="side-menu__icon fe fe-slack"></i><span class="side-menu__label">Apps</span><i
-                                class="angle fe fe-chevron-right"></i> </a>
-                            <ul class="slide-menu">
+                        <li class="slide" th:each="parent:${sysMenuList}">
+                            <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"
+                            >
+                                <i class="side-menu__icon fe fe-slack"></i>
+                                <span class="side-menu__label" th:text="${parent.title}"></span>
+                                <i class="angle fe fe-chevron-right"></i>
+                            </a>
+                            <ul class="slide-menu" th:each="sub:${parent.children}">
                                 <li class="panel sidetab-menu">
                                     <div class="panel-body tabs-menu-body p-0 border-0">
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="side5">
                                                 <ul class="sidemenu-list mega-menu-list">
-                                                    <li class="side-menu-label1"><a
-                                                            href="javascript:void(0)">Bootstrap</a></li>
-                                                    <li><a href="alerts.html" class="slide-item"> Alerts</a></li>
+                                                    <li><a href="alerts.html" class="slide-item"
+                                                           th:text="${sub.title}"></a></li>
                                                 </ul>
                                                 <div class="menutabs-content mt-5 p-0">
                                                     <div class="Annoucement_card">
@@ -401,6 +399,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
                                 </li>
                             </ul>
                         </li>

@@ -1,10 +1,10 @@
 package com.dolores.admin.controller.system.data;
 
-import com.dolores.common.core.controller.BaseController;
-import com.dolores.common.core.domain.AjaxResult;
+import com.dolores.framework.core.controller.BaseController;
+import com.dolores.framework.core.domain.AjaxResult;
 import com.dolores.system.domain.SysUser;
 import com.dolores.system.service.ISysUserService;
-import com.dolores.utils.MD5Encode;
+import com.dolores.utils.DoloresEncrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,13 +19,15 @@ public class SysUserController extends BaseController {
     @GetMapping("/saveUser")
     public AjaxResult saveUser() {
         SysUser sysUser = new SysUser();
+        String salt = DoloresEncrypt.generateSaltValue();
+        String encryptPassword = DoloresEncrypt.encryptPassword(salt, "123456");
+        System.out.println(salt);
+        System.out.println(encryptPassword);
         sysUser.setUserName("admin");
-        String salt = MD5Encode.createSaltValue();
-        String md5EncodePwd = MD5Encode.md5EncodePwd("123456");
-        String finalPwd = MD5Encode.getFinalPwd(salt, md5EncodePwd);
-        sysUser.setSalt(salt);
-        sysUser.setPassword(finalPwd);
-        sysUserService.save(sysUser);
-        return success();
+//        sysUserService.save(sysUser);
+        AjaxResult ajaxResult = success();
+        ajaxResult.put("salt", salt);
+        ajaxResult.put("encryptPassword", encryptPassword);
+        return ajaxResult;
     }
 }

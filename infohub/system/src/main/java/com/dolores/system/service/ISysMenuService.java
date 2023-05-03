@@ -2,6 +2,7 @@ package com.dolores.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.dolores.system.domain.SysMenu;
+import com.dolores.system.domain.vo.SysMenuVo;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  */
 
 public interface ISysMenuService extends IService<SysMenu> {
-    List<SysMenu> queryMenuList();
+    List<SysMenuVo> queryMenuList(String userId);
 
     List<SysMenu> queryMenuListByIds(List<Long> menuIds);
 

@@ -2,39 +2,54 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dolores.system.mapper.SysMenuMapper">
-    <resultMap id="queryMenuListMap" type="com.dolores.system.domain.SysMenu">
+    <resultMap id="queryMenuListMap" type="com.dolores.system.domain.vo.SysMenuVo">
         <collection property="children"
-                    ofType="com.dolores.system.domain.SysMenu"
-                    column="{id=id}"
+                    ofType="com.dolores.system.domain.vo.SysMenuVo"
+                    column="{id=id,sys_user_id=sys_user_id}"
                     select="menuListSelect"
         />
     </resultMap>
-    <resultMap id="menuListSelectMap" type="com.dolores.system.domain.SysMenu">
+    <resultMap id="menuListSelectMap" type="com.dolores.system.domain.vo.SysMenuVo">
         <collection property="children"
-                    ofType="com.dolores.system.domain.SysMenu"
-                    column="{id=id}"
+                    ofType="com.dolores.system.domain.vo.SysMenuVo"
+                    column="{id=id,sys_user_id=sys_user_id}"
                     select="menuListSelectMapSelect"
         />
     </resultMap>
-    <select id="menuListSelectMapSelect" resultType="com.dolores.system.domain.SysMenu">
-        select id, title, pid
-        from sys_menu
+    <select id="menuListSelectMapSelect" resultType="com.dolores.system.domain.vo.SysMenuVo">
+        select sm.id, title, pid
+        from sys_menu sm
+                 left join sys_role_menu srm
+                           on sm.id = srm.menu_id
+                 left join sys_user_role sur
+                           on srm.role_id = sur.role_id
         where pid = #{id}
           and type = 3
+          and sys_user_id = #{sys_user_id}
         order by sort
     </select>
-    <select id="menuListSelect" resultMap="menuListSelectMap">
-        select id, title, pid
-        from sys_menu
+    <select id="menuListSelect" resultType="com.dolores.system.domain.vo.SysMenuVo">
+        select sm.id, title, pid
+        from sys_menu sm
+                 left join sys_role_menu srm
+                           on sm.id = srm.menu_id
+                 left join sys_user_role sur
+                           on srm.role_id = sur.role_id
         where pid = #{id}
           and type = 2
+          and sys_user_id = #{sys_user_id}
         order by sort
     </select>
     <select id="queryMenuList" resultMap="queryMenuListMap">
-        select id, title, pid
-        from sys_menu
+        select sm.id, title, pid, sys_user_id
+        from sys_menu sm
+                 left join sys_role_menu srm
+                           on sm.id = srm.menu_id
+                 left join sys_user_role sur
+                           on srm.role_id = sur.role_id
         where pid = 0
           and type = 1
+          and sys_user_id = #{userId}
         order by sort
     </select>
 
@@ -57,23 +72,23 @@
         </foreach>
         order by sort
     </select>
-    <resultMap id="queryMenuListByDetailMap" type="com.dolores.system.domain.SysMenu">
+    <resultMap id="queryMenuListByDetailMap" type="com.dolores.system.domain.vo.SysMenuVo">
         <collection property="children"
-                    ofType="com.dolores.system.domain.SysMenu"
+                    ofType="com.dolores.system.domain.vo.SysMenuVo"
                     column="{id=id}"
                     select="queryMenuListByDetailSelect"
         >
         </collection>
     </resultMap>
-    <resultMap id="queryMenuListByDetailSelectMap" type="com.dolores.system.domain.SysMenu">
+    <resultMap id="queryMenuListByDetailSelectMap" type="com.dolores.system.domain.vo.SysMenuVo">
         <collection property="children"
-                    ofType="com.dolores.system.domain.SysMenu"
+                    ofType="com.dolores.system.domain.vo.SysMenuVo"
                     column="{id=id}"
                     select="queryMenuListByDetailChildrenSelect"
         >
         </collection>
     </resultMap>
-    <select id="queryMenuListByDetailChildrenSelect" resultType="com.dolores.system.domain.SysMenu">
+    <select id="queryMenuListByDetailChildrenSelect" resultType="com.dolores.system.domain.vo.SysMenuVo">
         select *
         from sys_menu
         where pid = #{id}

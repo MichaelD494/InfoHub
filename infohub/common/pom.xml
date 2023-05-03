@@ -163,10 +163,26 @@
             <artifactId>hutool-http</artifactId>
             <version>5.8.18</version>
         </dependency>
+        <!--html解析包-->
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>1.16.1</version>
         </dependency>
+
+        <!-- hutool扩展包 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-extra</artifactId>
+            <version>5.8.18</version>
+        </dependency>
+
+        <!-- hutool验证包 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-captcha</artifactId>
+            <version>5.8.18</version>
+        </dependency>
+
     </dependencies>
 </project>

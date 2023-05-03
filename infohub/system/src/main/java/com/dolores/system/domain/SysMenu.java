@@ -28,6 +28,5 @@ public class SysMenu implements Serializable {
     private String path;
     private Long pid;
     private Date createTime;
-    @TableField(exist = false)
-    private List<SysMenu> children = new ArrayList<>();
+
 }

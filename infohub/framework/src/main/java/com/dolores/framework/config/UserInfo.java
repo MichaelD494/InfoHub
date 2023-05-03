@@ -39,14 +39,17 @@ public class UserInfo implements UserDetails, Serializable {
      */
     private List<SysUserPerms> roles;
 
+    private String salt;
+
     /**
      * 用户拥有角色集合
      */
     private List<SimpleGrantedAuthority> authorityList;
 
-    public UserInfo(SysUser sysUser, List<SysUserPerms> roles) {
+    public UserInfo(SysUser sysUser, List<SysUserPerms> roles, String salt) {
         this.sysUser = sysUser;
         this.roles = roles;
+        this.salt = salt;
     }
 
     @Override

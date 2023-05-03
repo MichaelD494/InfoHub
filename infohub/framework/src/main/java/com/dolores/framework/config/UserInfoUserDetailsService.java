@@ -4,6 +4,9 @@ import com.dolores.system.domain.LoginUser;
 import com.dolores.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,6 +31,10 @@ public class UserInfoUserDetailsService implements UserDetailsService {
         if (loginUser == null) {
             throw new RuntimeException("不存在此用户");
         }
-        return new UserInfo(loginUser.getSysUser(), loginUser.getRoles());
+        UserInfo userInfo = new UserInfo(loginUser.getSysUser(), loginUser.getRoles(), loginUser.getSysUser().getSalt());
+        Authentication auth = new UsernamePasswordAuthenticationToken(userInfo, null, userInfo.getAuthorities());
+        //如果存在信息放入SecurityContextHolder中,这样在后面的matches()就能通过SecurityContextHolder获取当前用户登录信息
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        return userInfo;
     }
 }

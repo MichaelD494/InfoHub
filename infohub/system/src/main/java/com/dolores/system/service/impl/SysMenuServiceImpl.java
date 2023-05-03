@@ -2,6 +2,7 @@ package com.dolores.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dolores.system.domain.SysMenu;
+import com.dolores.system.domain.vo.SysMenuVo;
 import com.dolores.system.mapper.SysMenuMapper;
 import com.dolores.system.service.ISysMenuService;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,8 @@ import java.util.List;
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements ISysMenuService {
 
     @Override
-    public List<SysMenu> queryMenuList() {
-        return baseMapper.queryMenuList();
+    public List<SysMenuVo> queryMenuList(String userId) {
+        return baseMapper.queryMenuList(userId);
     }
 
     @Override
