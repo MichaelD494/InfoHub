@@ -5,10 +5,9 @@
     <resultMap id="queryUserByNameMap" type="com.dolores.system.domain.LoginUser">
         <association property="sysUser" javaType="com.dolores.system.domain.SysUser">
             <result column="sys_user_id" property="sysUserId"/>
-            <result column="username" property="username"/>
+            <result column="user_name" property="userName"/>
             <result column="salt" property="salt"/>
             <result column="password" property="password"/>
-            <result column="user_name" property="username"/>
         </association>
         <collection property="roles"
                     select="queryUserByNameSelect"
@@ -23,11 +22,11 @@
         where srm.role_id = #{role_id}
     </select>
     <select id="queryUserByName" resultMap="queryUserByNameMap">
-        select su.sys_user_id,su.sys_user_id, username, password, salt,role_id
+        select su.sys_user_id,su.sys_user_id, user_name, password, salt,role_id
         from sys_user su
                  left join sys_user_role sur
                            on su.sys_user_id = sur.sys_user_id
-        where username = #{name}
+        where user_name = #{name}
         limit 1
     </select>
 

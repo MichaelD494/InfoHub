@@ -53,7 +53,7 @@ public class DoloresUtils {
      * @return
      */
     public static String getCurrentUserName() {
-        return getCurrentUser().getUsername();
+        return getCurrentUser().getUserName();
     }
 
     /**

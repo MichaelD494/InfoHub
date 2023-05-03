@@ -27,7 +27,7 @@ public class SysLoginRecordServiceImpl extends ServiceImpl<SysLoginRecordMapper,
     }
 
     @Override
-    public void loginRecord(String sysUserId, String sysUsername, HttpServletRequest request) {
+    public void loginRecord(String sysUserId, String sysUserName, HttpServletRequest request) {
         //获取User-Agent字符串
         String userAgentString = request.getHeader("User-Agent");
         //使用UserAgentUtils解析User-Agent字符串
@@ -40,7 +40,7 @@ public class SysLoginRecordServiceImpl extends ServiceImpl<SysLoginRecordMapper,
         String realIp = IPUtils.getRealIp(request);
         //根据IP地址获取所属地
         String loginAddress = AddressUtils.getRealAddressByIP(realIp);
-        SysLoginRecord record = new SysLoginRecord(sysUserId, sysUsername, realIp, os.getName(), browserName, loginAddress);
+        SysLoginRecord record = new SysLoginRecord(sysUserId, sysUserName, realIp, os.getName(), browserName, loginAddress);
         save(record);
         sysUserService.updateLoginLoginInfo(sysUserId, realIp);
     }

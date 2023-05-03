@@ -29,4 +29,5 @@ public interface Constants {
      * GBK 字符集
      */
     String GBK = "GBK";
+    String LOGIN_PATH = "/system/login";
 }

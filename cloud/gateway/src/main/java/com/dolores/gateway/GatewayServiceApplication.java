@@ -1,4 +1,4 @@
-package com.dolores.gatewayservice;
+package com.dolores.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

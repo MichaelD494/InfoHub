@@ -5,6 +5,7 @@ import com.dolores.system.domain.SysUserPerms;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
+@Accessors(chain = true)
 public class UserInfo implements UserDetails, Serializable {
     /**
      * 用户信息
@@ -67,7 +69,7 @@ public class UserInfo implements UserDetails, Serializable {
 
     @Override
     public String getUsername() {
-        return sysUser.getUsername();
+        return sysUser.getUserName();
     }
 
     @Override

@@ -5,11 +5,10 @@
 
     <parent>
         <groupId>com.dolores</groupId>
-        <artifactId>InfoHub</artifactId>
+        <artifactId>cloud</artifactId>
         <version>0.0.1</version>
     </parent>
 
-    <groupId>com.config</groupId>
     <artifactId>config</artifactId>
     <name>config-service</name>
     <description>config-service</description>
@@ -28,7 +27,6 @@
         </dependency>
 
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -37,5 +35,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

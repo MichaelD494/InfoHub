@@ -18,7 +18,7 @@ public class SysUser implements Serializable {
     /**
      * 系统用户名
      */
-    private String username;
+    private String userName;
 
     /**
      * 手机号
