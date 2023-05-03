@@ -12,7 +12,9 @@ spring:
       minimum-idle: 3  # 最小空闲连接数量
       maximum-pool-size: 10  # 连接池最大连接数，默认是10
       max-lifetime: 999999
-
+  http:
+    media-types:
+      html: text/html
 
   thymeleaf:
     cache: false

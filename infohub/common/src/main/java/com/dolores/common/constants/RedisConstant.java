@@ -17,7 +17,11 @@ public interface RedisConstant {
      */
     String SECURITYCODE = "dolores:securityCode:";
     /**
-     * 在线字符
+     * 在线用户集合字符
+     */
+    String ONLINE_LIST = "dolores:online:list";
+    /**
+     * 在线用户字符
      */
     String ONLINE = "dolores:online:";
 

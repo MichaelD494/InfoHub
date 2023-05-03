@@ -33,7 +33,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         //检查 X-Api-Request头部(查看是从页面传过来还是api传过来)
         String apiRequestHeader = request.getHeader("X-Api-Request");
         boolean isApiRequest = apiRequestHeader != null && apiRequestHeader.equals("true");
-        if (!isApiRequest) {
+        String uri = request.getRequestURI();
+        /*if (!isApiRequest) {
             //判断是否存在系统路径资源
             boolean verifyPathFlag = verifyRequestFactory.verifyPath(request);
             //如果存在则执行放行
@@ -41,13 +42,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 chain.doFilter(request, response);
                 return;
             }
-        }
+        }*/
         //校验token
         VerifyToken verifyToken = verifyRequestFactory.verifyToken(request, response, isApiRequest);
         //如果token失效,则执行重定向到login page
         if (!verifyToken.isVerifyTokenFlag()) {
-            String uri = request.getRequestURI();
-            if (uri.equals("/infohub/login")) {
+            if (uri.equals("/infohub/login") || uri.equals("/infohub/system/login")) {
                 chain.doFilter(request, response);
                 return;
             }

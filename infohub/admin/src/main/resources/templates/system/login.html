@@ -82,7 +82,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="panel-body tabs-menu-body p-0 pt-5">
+                        <div class="panel-body tabs-menu-body p-0 pt-5 needs-validation">
                             <div class="tab-content">
                                 <div class="tab-pane active" id="tab5">
                                     <div class="wrap-input100 validate-input input-group"
@@ -104,12 +104,12 @@
                                                th:value="123456"
                                                placeholder="密码">
                                     </div>
-                                    <div class="wrap-input100 validate-input input-group" id="Password-toggle">
+                                    <div class="wrap-input100 validate-input input-group" id="code-toggle">
                                         <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
                                             <i class="fa fa-shield text-muted" aria-hidden="true"></i>
                                         </a>
                                         <input class="input100 border-start-0 form-control ms-0" name="code"
-                                               placeholder="验证码" />
+                                               placeholder="验证码" required/>
                                         <img id="captcha" onclick="getCaptcha()"/>
                                     </div>
                                     <div class="text-end pt-4">
@@ -152,21 +152,21 @@
             </div>
         </div>
         <!-- CONTAINER CLOSED -->
-        <div th:replace="~{template/message :: toast-notice}"></div>
-        <div th:replace="~{template/message :: toast-info}"></div>
     </div>
-
 </div>
 <!-- End PAGE -->
-</div>
 <!-- BACKGROUND-IMAGE CLOSED -->
 <!-- JQUERY JS -->
 <script th:src="@{/static/js/jquery.min.js}"></script>
+<script th:src="@{/static/js/dolores/dolores-strutil.js}"></script>
+<script th:src="@{/static/js/dolores/dolores-notify.js}"></script>
+<script th:src="@{/static/js/dolores/dolores-cookie.js}"></script>
 
 <script>
     const loginUrl = '/login';
     const homeUrl = '/system/home';
     const captchaUrl = '/captcha';
+
     let loginObj = {};
     $(function () {
         getCaptcha();
@@ -187,27 +187,37 @@
     }
 
     function login() {
-        loginObj.username = $("[name='username']").val();
-        loginObj.password = $("[name='password']").val();
-        loginObj.code = $("[name='code']").val();
+        const username = $("[name='username']").val();
+        if (!isNotEmpty(username)) {
+            warning("提示", "请输入用户名");
+            return;
+        }
+        loginObj.username = username;
+        const password = $("[name='password']").val();
+        if (!isNotEmpty(password)) {
+            warning("提示", "请输入密码");
+            return;
+        }
+        loginObj.password = password;
+        const code = $("[name='code']").val();
+        if (!isNotEmpty(code)) {
+            warning("提示", "请输入验证码");
+            return;
+        }
+        loginObj.code = code;
         post(loginUrl, loginObj, function (resp) {
-            $('#toast-notice').toast('show');
-            $('.toast-body').text(resp.msg);
+            success('提示', resp.msg);
             if (resp.code === 200) {
-                $('.toast-title').text('提示');
                 const token = resp.token;
-                document.cookie = "Authorization=" + token + "; path=/; max-age=" + 24 * 60 * 60; // 设置有效期为 24 小时
+                setCookie("Authorization", token, 24 * 60 * 60, "/");
                 get(homeUrl, null, function () {
                     console.log(contextPath + "/system/home")
                     window.location.href = contextPath + "/system/home";
                 }, token);
-            } else {
-
             }
         });
     }
 </script>
-
 
 <script th:src="@{/static/js/ajax/ajax.js}"></script>
 
@@ -236,7 +246,11 @@
 <!-- Switcher js -->
 <script th:src="@{/static/switcher/js/switcher.js}"></script>
 
-
+<!-- INTERNAL Notifications js -->
+<script th:src="@{/static/plugins/notify/js/rainbow.js}"></script>
+<script th:src="@{/static/plugins/notify/js/sample.js}"></script>
+<script th:src="@{/static/plugins/notify/js/jquery.growl.js}"></script>
+<script th:src="@{/static/plugins/notify/js/notifIt.js}"></script>
 </body>
 
 </html>

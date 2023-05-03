@@ -20,6 +20,27 @@ public class DoloresRedis {
      */
     private static RedisUtil redisUtil;
 
+    public static long getHour() {
+        return hour;
+    }
+
+    public static void setHour(long hour) {
+        DoloresRedis.hour = hour;
+    }
+
+    public static long getDay() {
+        return day;
+    }
+
+    public static void setDay(long day) {
+        DoloresRedis.day = day;
+    }
+
+    private static long hour = 3600;
+    private static long day = 86400;
+
+
+
     @Autowired
     public void setRedisUtil(RedisUtil redisUtil) {
         DoloresRedis.redisUtil = redisUtil;
@@ -60,7 +81,7 @@ public class DoloresRedis {
         try {
             ObjectMapper mapper = new ObjectMapper();
             redisUtil.hset(RedisConstant.SYSUSERLIST, RedisConstant.USERKEY + token, mapper.writeValueAsString(obj),
-                    86400);
+                    day);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -139,7 +160,8 @@ public class DoloresRedis {
      * @return
      */
     public static String getSecurityCode(String sessionId) {
-        return redisUtil.get(RedisConstant.SECURITYCODE + sessionId).toString();
+        Object obj = redisUtil.get(RedisConstant.SECURITYCODE + sessionId);
+        return obj != null ? obj.toString() : null;
     }
 
     /**

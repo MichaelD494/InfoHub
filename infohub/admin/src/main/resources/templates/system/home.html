@@ -329,9 +329,11 @@
                                                 class="dropdown-icon fe fe-mail"></i> Inbox <span
                                                 class="badge bg-danger rounded-pill float-end">5</span> </a> <a
                                                 class="dropdown-item" href="lockscreen.html"> <i
-                                                class="dropdown-icon fe fe-lock"></i> Lockscreen </a> <a
-                                                class="dropdown-item" href="login.html"> <i
-                                                class="dropdown-icon fe fe-alert-circle"></i> Sign out </a>
+                                                class="dropdown-icon fe fe-lock"></i> Lockscreen </a>
+                                            <div class="dropdown-item" onclick="logout()">
+                                                <i class="dropdown-icon fe fe-alert-circle"></i>
+                                                Sign out
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -387,7 +389,7 @@
                                                                 <h5 class="title mt-0 mb-1 ms-2 font-weight-bold tx-12">
                                                                     Go for Premium Account </h5>
                                                                 <div class="bg-layer">
-                                                                    <img src="../assets/../assets/images/media/37.png"
+                                                                    <img th:src="@{/static/images/media/37.png}"
                                                                          alt="img" class="text-center mx-auto">
                                                                 </div>
                                                                 <p class="subtext mt-0 mb-0 ms-2 fs-13 text-center my-2">
@@ -3316,6 +3318,32 @@
     </footer><!-- FOOTER END --> <!-- BACK-TO-TOP --> <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
     <!-- JQUERY JS -->
     <script th:src="@{/static/js/jquery.min.js}"></script><!-- BOOTSTRAP JS -->
+    <script th:src="@{/static/js/ajax/ajax.js}"></script>
+    <script th:src="@{/static/js/dolores/dolores-strutil.js}"></script>
+    <script th:src="@{/static/js/dolores/dolores-notify.js}"></script>
+    <script th:src="@{/static/js/dolores/dolores-cookie.js}"></script>
+    <script>
+        const logoutUrl = '/logout';
+        const loginPage = "/system/login";
+
+        function logout() {
+            const token = getCookieValue("Authorization");
+            if (!isNotEmpty(token)) {
+                window.location.href = contextPath + loginPage;
+                warning("提示", "身份验证过期，请重新登录");
+                return;
+            }
+            get(logoutUrl, null, function (resp) {
+                if (resp.code === 200) {
+                    success("提示", resp.msg);
+                    // window.location.href = contextPath + loginPage;
+                } else {
+                    window.location.href = contextPath + loginPage;
+                    error("提示", resp.msg);
+                }
+            }, token);
+        }
+    </script>
     <script th:src="@{/static/plugins/bootstrap/js/popper.min.js}"></script>
     <script th:src="@{/static/plugins/bootstrap/js/bootstrap.min.js}"></script><!-- SPARKLINE JS-->
     <script th:src="@{/static/js/jquery.sparkline.min.js}"></script><!-- Sticky js -->
@@ -3349,6 +3377,11 @@
     <script th:src="@{/static/js/custom.js}"></script><!-- Custom-switcher -->
     <script th:src="@{/static/js/custom-swicher.js}"></script><!-- Switcher js -->
     <script th:src="@{/static/switcher/js/switcher.js}"></script>
+    <!-- INTERNAL Notifications js -->
+    <script th:src="@{/static/plugins/notify/js/rainbow.js}"></script>
+    <script th:src="@{/static/plugins/notify/js/sample.js}"></script>
+    <script th:src="@{/static/plugins/notify/js/jquery.growl.js}"></script>
+    <script th:src="@{/static/plugins/notify/js/notifIt.js}"></script>
 </div>
 </body>
 </html>
