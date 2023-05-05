@@ -3329,7 +3329,7 @@
         function logout() {
             const token = getCookieValue("Authorization");
             if (!isNotEmpty(token)) {
-                window.location.href = contextPath + loginPage;
+                window.location.href = loginPage;
                 warning("提示", "身份验证过期，请重新登录");
                 return;
             }
@@ -3338,7 +3338,7 @@
                     success("提示", resp.msg);
                     // window.location.href = contextPath + loginPage;
                 } else {
-                    window.location.href = contextPath + loginPage;
+                    window.location.href = loginPage;
                     error("提示", resp.msg);
                 }
             }, token);

@@ -1,12 +1,12 @@
-const contextPath = '/infohub';
+const sign = "Bearer ";
 
 function get(url, data, successCallback, accessToken) {
     $.ajax({
-        url: contextPath + url,
+        url: url,
         type: 'GET',
         data: data,
         headers: {
-            "Authorization": accessToken
+            "Authorization": accessToken != null ? sign + accessToken : null
         },
         success: successCallback
     });
@@ -14,13 +14,13 @@ function get(url, data, successCallback, accessToken) {
 
 function post(url, data, successCallback, accessToken) {
     $.ajax({
-        url: contextPath + url,
+        url: url,
         type: 'POST',
         data: JSON.stringify(data),
         dataType: 'JSON',
         contentType: "application/json; charset=utf-8",
         headers: {
-            "Authorization": accessToken
+            "Authorization": accessToken != null ? sign + accessToken : null
         },
         success: successCallback
     });
@@ -28,13 +28,13 @@ function post(url, data, successCallback, accessToken) {
 
 function put(url, data, successCallback, accessToken) {
     $.ajax({
-        url: contextPath + url,
+        url: url,
         type: 'PUT',
         data: JSON.stringify(data),
         dataType: 'JSON',
         contentType: "application/json; charset=utf-8",
         headers: {
-            "Authorization": accessToken
+            "Authorization": accessToken != null ? sign + accessToken : null
         },
         success: successCallback
     });
@@ -42,12 +42,12 @@ function put(url, data, successCallback, accessToken) {
 
 function remove(url, data, successCallback, accessToken) {
     $.ajax({
-        url: contextPath + url,
+        url: url,
         type: 'DELETE',
         dataType: 'JSON',
         contentType: "application/json; charset=utf-8",
         headers: {
-            "Authorization": accessToken
+            "Authorization": accessToken != null ? sign + accessToken : null
         },
         success: successCallback
     });
