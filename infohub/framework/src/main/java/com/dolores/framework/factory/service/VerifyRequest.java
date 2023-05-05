@@ -12,5 +12,5 @@ public interface VerifyRequest {
 
     String getCookieValue(HttpServletRequest request, String cookieName);
 
-    boolean verifyPath(HttpServletRequest request);
+    boolean verifyPath(String requestUri);
 }

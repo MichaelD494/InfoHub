@@ -30,5 +30,4 @@ public class SystemController extends BaseController {
         modelMap.put("sysMenuList", sysMenuList);
         return "/system/home";
     }
-
 }

@@ -31,7 +31,7 @@ public class UserInfoUserDetailsService implements UserDetailsService {
         if (loginUser == null) {
             throw new RuntimeException("不存在此用户");
         }
-        UserInfo userInfo = new UserInfo(loginUser.getSysUser(), loginUser.getRoles(), loginUser.getSysUser().getSalt());
+        UserInfo userInfo = new UserInfo(loginUser);
         Authentication auth = new UsernamePasswordAuthenticationToken(userInfo, null, userInfo.getAuthorities());
         //如果存在信息放入SecurityContextHolder中,这样在后面的matches()就能通过SecurityContextHolder获取当前用户登录信息
         SecurityContextHolder.getContext().setAuthentication(auth);

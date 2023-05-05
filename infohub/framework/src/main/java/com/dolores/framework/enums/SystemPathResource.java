@@ -29,10 +29,10 @@ public enum SystemPathResource {
         pathList.add("/static/**");
     }
 
-    public List<String> getPathList(String contextPath) {
+    public List<String> getPathList() {
         IntStream.range(0, pathList.size()).forEach(index -> {
             String item = pathList.get(index);
-            pathList.set(index, contextPath + item);
+            pathList.set(index, item);
         });
         return pathList;
     }

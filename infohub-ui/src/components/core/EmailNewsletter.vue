@@ -1,0 +1,22 @@
+ <template>
+    <div class="card">
+        <div class="header">
+            <h2>Email Newsletter <small>Get our products/news earlier than others, let’s get in touch.</small></h2>
+        </div>
+        <div class="body widget newsletter">                        
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Enter Email">
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="icon-paper-plane"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+export default {
+    name: 'EmailNewsletter',
+}
+</script>
+<style scoped>
+</style>

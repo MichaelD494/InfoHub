@@ -1,34 +1,31 @@
 package com.dolores.admin.controller.system.data;
 
-import cn.hutool.captcha.AbstractCaptcha;
 import cn.hutool.captcha.CaptchaUtil;
-import cn.hutool.captcha.CircleCaptcha;
 import cn.hutool.captcha.ShearCaptcha;
-import cn.hutool.captcha.generator.CodeGenerator;
 import cn.hutool.captcha.generator.MathGenerator;
 import cn.hutool.core.util.IdUtil;
-import com.dolores.common.constants.RedisConstant;
+import com.dolores.framework.config.UserInfo;
 import com.dolores.framework.core.controller.BaseController;
 import com.dolores.framework.core.domain.AjaxResult;
-import com.dolores.framework.config.UserInfo;
-import com.dolores.framework.enums.CaptchaType;
-import com.dolores.framework.properties.CaptchaProperties;
 import com.dolores.framework.service.ICaptchaService;
+import com.dolores.framework.service.JwtService;
 import com.dolores.framework.utils.DoloresUtils;
 import com.dolores.framework.utils.JwtUtils;
 import com.dolores.system.domain.LoginUser;
 import com.dolores.system.domain.SysUser;
 import com.dolores.system.domain.dto.LoginDto;
 import com.dolores.system.service.ISysLoginRecordService;
+import com.dolores.system.service.ISysUserService;
 import com.dolores.utils.DoloresRedis;
-import com.dolores.utils.ReflectUtils;
-import com.dolores.utils.SpringContextHolder;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,13 +35,17 @@ import static com.dolores.common.constants.RedisConstant.*;
 
 @RestController
 public class LoginController extends BaseController {
-
     @Autowired
+
     private AuthenticationProvider authenticationProvider;
     @Autowired
     private ISysLoginRecordService sysLoginRecordService;
     @Autowired
     private ICaptchaService captchaService;
+    @Autowired
+    private JwtService jwtService;
+    @Autowired
+    private ISysUserService sysUserService;
 
     @PostMapping("/login")
     public AjaxResult login(@RequestBody LoginDto dto, HttpServletRequest request) {
@@ -64,8 +65,8 @@ public class LoginController extends BaseController {
         }
         //从缓存中删除已匹配过的验证码
         DoloresRedis.deleteSecurityCode(dto.getUuid());
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword());
-        Authentication auth = authenticationProvider.authenticate(authenticationToken);
+        Authentication auth = authenticationProvider.authenticate(
+                new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword()));
         if (!auth.isAuthenticated()) {
             return error("账户名或密码错误");
         }
@@ -74,10 +75,8 @@ public class LoginController extends BaseController {
         SysUser sysUser = userInfo.getSysUser();
         String sysUserId = sysUser.getSysUserId();
         String username = sysUser.getUserName();
-        String token = JwtUtils.generateToken(sysUserId, dto.getPassword());
-        LoginUser loginUser = new LoginUser();
-        loginUser.setSysUser(sysUser);
-        loginUser.setRoles(userInfo.getRoles());
+        LoginUser loginUser = new LoginUser(sysUser, userInfo.getRoles());
+        String token = jwtService.generateToken(userInfo);
         DoloresRedis.hSetUserCache(token, loginUser);
         DoloresRedis.setHCacheByTime(ONLINE_LIST, ONLINE + sysUserId, sysUserId, DoloresRedis.getDay());
         //记录用户登录信息
@@ -111,10 +110,9 @@ public class LoginController extends BaseController {
      */
     @GetMapping("/logout")
     public AjaxResult logout() {
-        String userToken = DoloresUtils.getUserToken();
-        String userId = JwtUtils.getUserId(userToken);
-        DoloresRedis.hDelUserCache(SYSUSERLIST, userToken);
-        DoloresRedis.hDelCache(ONLINE_LIST, ONLINE + userId);
+//        String userId = JwtUtils.getUserId(userToken);
+//        DoloresRedis.hDelUserCache(SYSUSERLIST, userToken);
+//        DoloresRedis.hDelCache(ONLINE_LIST, ONLINE + userId);
         return success("注销成功");
     }
 }

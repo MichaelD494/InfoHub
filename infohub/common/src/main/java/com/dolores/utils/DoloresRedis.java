@@ -77,10 +77,10 @@ public class DoloresRedis {
      *              3600 秒 = 1 小时
      *              86400 秒 = 1 天
      */
-    public static void hSetUserCache(String token, Object obj) {
+    public static void hSetUserCache(String userId, Object obj) {
         try {
             ObjectMapper mapper = new ObjectMapper();
-            redisUtil.hset(RedisConstant.SYSUSERLIST, RedisConstant.USERKEY + token, mapper.writeValueAsString(obj),
+            redisUtil.hset(RedisConstant.SYSUSERLIST, RedisConstant.USERKEY + userId, mapper.writeValueAsString(obj),
                     day);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
