@@ -16,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 /**
@@ -29,20 +30,19 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
+        http.csrf().disable()
                 .formLogin()
-                .loginPage("/")
+                .loginPage("/system/login")
                 .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/system/home")
+                .permitAll();
+
+        http
+                .authorizeHttpRequests()
+                .requestMatchers("/static/**", "/captcha")
                 .permitAll()
-                .failureForwardUrl("/");
-        http.authorizeHttpRequests().anyRequest().permitAll();
-//        http
-//                .authorizeHttpRequests()
-//                .requestMatchers(HttpMethod.POST,"/login").permitAll()
-//                .requestMatchers("/static/**", "/captcha")
-//                .permitAll()
-//                .anyRequest()
-//                .authenticated();
+                .anyRequest()
+                .authenticated();
         return http.build();
     }
 

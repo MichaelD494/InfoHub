@@ -51,9 +51,18 @@ public class JwtService {
         return generateToken(new HashMap<>(), userDetails);
     }
 
+    //生成令牌
+    public String generateToken(String userId) {
+        return generateToken(new HashMap<>(), userId);
+    }
+
     //生成带额外声明的令牌
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return buildToken(extraClaims, userDetails, jwtExpiration);
+    }
+
+    public String generateToken(Map<String, Object> extraClaims, String userId) {
+        return buildToken(extraClaims, userId, jwtExpiration);
     }
 
     //构建令牌
@@ -62,6 +71,18 @@ public class JwtService {
                 .builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    //构建令牌
+    private String buildToken(Map<String, Object> extraClaims, String userId, long expiration) {
+        return Jwts
+                .builder()
+                .setClaims(extraClaims)
+                .setSubject(userId)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)

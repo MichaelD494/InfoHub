@@ -12,8 +12,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class UserInfoUserDetailsService implements UserDetailsService {
 
     @Autowired
@@ -31,6 +32,8 @@ public class UserInfoUserDetailsService implements UserDetailsService {
         if (loginUser == null) {
             throw new RuntimeException("不存在此用户");
         }
-        return new UserInfo(loginUser);
+        UserInfo userInfo = new UserInfo(loginUser);
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(userInfo, null, userInfo.getAuthorities()));
+        return userInfo;
     }
 }

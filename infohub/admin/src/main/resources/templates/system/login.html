@@ -84,9 +84,8 @@
                         </div>
                         <div class="panel-body tabs-menu-body p-0 pt-5 needs-validation">
                             <div class="tab-content">
-                                <form id="loinForm" action="/login" method="post">
-                                    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-                                    <div class="tab-pane active" id="tab5">
+                                <div class="tab-pane active" id="tab5">
+                                    <from th:action="@{/login}" th:method="post">
                                         <div class="wrap-input100 validate-input input-group"
                                              data-bs-validate="Valid username is required">
                                             <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
@@ -119,12 +118,13 @@
                                                                class="text-primary ms-1">忘记密码 ？</a></p>
                                         </div>
                                         <div class="container-login100-form-btn">
-                                            <button type="submit" id="login" class="login100-form-btn btn-primary">
+                                            <button th:onclick="login()" id="login"
+                                                    class="login100-form-btn btn-primary">
                                                 登录
                                             </button>
                                         </div>
-                                    </div>
-                                </form>
+                                    </from>
+                                </div>
 
                                 <div class="text-center pt-3">
                                     <p class="text-dark mb-0">Not a member?<a th:href="@{register.html}"
@@ -173,12 +173,11 @@
     let loginObj = {};
     $(function () {
         getCaptcha();
-        // document.addEventListener("keydown", function (event) {
-        //     if (event.key === 'Enter') {
-        //         login();
-        //     }
-        // });
-
+        document.addEventListener("keydown", function (event) {
+            if (event.key === 'Enter') {
+                login();
+            }
+        });
     })
 
     function getCaptcha() {
@@ -189,7 +188,7 @@
         })
     }
 
-    /*function login() {
+    function login() {
         const username = $("[name='username']").val();
         if (!isNotEmpty(username)) {
             warning("提示", "请输入用户名");
@@ -213,11 +212,10 @@
             if (resp.code === 200) {
                 const token = resp.token;
                 sessionStorage.setItem('token', token);
-                console.log('222')
-                window.location.href = "/system/home";
+                // window.location.href = "/system/home";
             }
         });
-    }*/
+    }
 </script>
 
 <script th:src="@{/static/js/ajax/ajax.js}"></script>

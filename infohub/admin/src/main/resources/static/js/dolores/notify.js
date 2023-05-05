@@ -1,20 +1,21 @@
-function success(title, msg) {
+function success(title, message) {
     $.growl({
         title: title,
-        msg: msg
+        message: message
     })
 }
 
-function warning(title, msg) {
+function warning(title, message) {
+    console.log(message);
     $.growl.warning({
         title: title,
-        msg: msg
+        message: message
     })
 }
 
-function error(title, msg) {
+function error(title, message) {
     $.growl.error({
         title: title,
-        msg: msg
+        message: message
     })
 }
