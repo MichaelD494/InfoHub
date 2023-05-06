@@ -1,8 +1,11 @@
-package com.dolores.utils;
+package com.dolores.framework.utils;
 
 import com.dolores.common.constants.RedisConstant;
+import com.dolores.framework.domain.json.JsonParser;
+import com.dolores.utils.RedisUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Component;
  * @date 2022/1/7 21:40
  */
 @Component
+@RequiredArgsConstructor
 public class DoloresRedis {
 
     /**
@@ -115,7 +119,7 @@ public class DoloresRedis {
      * @return
      */
     public static boolean isHExists(String key, String item) {
-        return !redisUtil.hHasKey(key, item);
+        return redisUtil.hHasKey(key, item);
     }
 
     /**
@@ -183,7 +187,11 @@ public class DoloresRedis {
      * @param obj  缓存内容
      */
     public static void setHCache(String key, String item, Object obj) {
-        redisUtil.hset(key, item, obj);
+        try {
+            redisUtil.hset(key, item, JsonParser.toJsonString(obj));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -194,7 +202,12 @@ public class DoloresRedis {
      * @param seconds 秒
      */
     public static void setHCacheByTime(String key, String item, Object obj, long seconds) {
-        redisUtil.hset(key, item, obj, seconds);
+        try {
+            String s = JsonParser.toJsonString(obj);
+            redisUtil.hset(key, item, s, seconds);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -205,7 +218,8 @@ public class DoloresRedis {
      */
     public static String getHCache(String key, String item) {
         if (isHExists(key, item)) {
-            return redisUtil.hget(key, item).toString();
+            Object cache = redisUtil.hget(key, item);
+            return cache != null ? cache.toString() : null;
         }
         return null;
     }

@@ -6,7 +6,7 @@ import com.dolores.framework.factory.service.VerifyRequest;
 import com.dolores.framework.factory.utils.FactoryUtil;
 import com.dolores.framework.service.CookieService;
 import com.dolores.system.domain.LoginUser;
-import com.dolores.utils.DoloresRedis;
+import com.dolores.framework.utils.DoloresRedis;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

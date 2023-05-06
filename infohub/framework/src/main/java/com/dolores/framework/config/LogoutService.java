@@ -1,8 +1,7 @@
 package com.dolores.framework.config;
 
-import com.dolores.framework.core.controller.BaseController;
 import com.dolores.framework.domain.json.JsonParser;
-import com.dolores.utils.DoloresRedis;
+import com.dolores.framework.utils.DoloresRedis;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

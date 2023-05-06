@@ -4,7 +4,8 @@ import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.ShearCaptcha;
 import cn.hutool.captcha.generator.MathGenerator;
 import cn.hutool.core.util.IdUtil;
-import com.dolores.common.constants.RedisConstant;
+import com.dolores.common.constants.Constants;
+import com.dolores.framework.annotation.RepeatSubmit;
 import com.dolores.framework.config.UserInfo;
 import com.dolores.framework.core.controller.BaseController;
 import com.dolores.framework.core.domain.AjaxResult;
@@ -16,7 +17,7 @@ import com.dolores.system.domain.SysUser;
 import com.dolores.system.domain.dto.LoginDto;
 import com.dolores.system.service.ISysLoginRecordService;
 import com.dolores.system.service.ISysUserService;
-import com.dolores.utils.DoloresRedis;
+import com.dolores.framework.utils.DoloresRedis;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -91,7 +92,6 @@ public class LoginController extends BaseController {
     /**
      * 获取验证码
      */
-//    @RepeatSubmit(interval = 1000)
     @GetMapping("/captcha")
     public AjaxResult captcha() {
         AjaxResult ajaxResult = success();
@@ -110,10 +110,11 @@ public class LoginController extends BaseController {
      * 注销
      */
     @GetMapping("/logout")
-    public AjaxResult logout() {
+    public AjaxResult logout(HttpServletResponse response) {
         String token = getUserToken();
-        boolean isTokenDel = DoloresRedis.hDelUserCache(SYSUSERLIST, token);
-        boolean isOnlineDel = DoloresRedis.hDelCache(ONLINE_LIST, ONLINE + token);
+        boolean isTokenDel = !DoloresRedis.hDelUserCache(SYSUSERLIST, token);
+        boolean isOnlineDel = !DoloresRedis.hDelCache(ONLINE_LIST, ONLINE + token);
+        cookieService.deleteCookie(response, "token");
         SecurityContextHolder.clearContext();
         return isTokenDel && isOnlineDel ? success("注销成功") : error("注销失败");
     }

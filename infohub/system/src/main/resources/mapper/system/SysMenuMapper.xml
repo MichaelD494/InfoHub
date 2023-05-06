@@ -17,7 +17,7 @@
         />
     </resultMap>
     <select id="menuListSelectMapSelect" resultType="com.dolores.system.domain.vo.SysMenuVo">
-        select sm.id, title, pid
+        select sm.id, title, pid, path,icon
         from sys_menu sm
                  left join sys_role_menu srm
                            on sm.id = srm.menu_id
@@ -29,7 +29,7 @@
         order by sort
     </select>
     <select id="menuListSelect" resultType="com.dolores.system.domain.vo.SysMenuVo">
-        select sm.id, title, pid
+        select sm.id, title, pid, path, icon
         from sys_menu sm
                  left join sys_role_menu srm
                            on sm.id = srm.menu_id
@@ -41,7 +41,7 @@
         order by sort
     </select>
     <select id="queryMenuList" resultMap="queryMenuListMap">
-        select sm.id, title, pid, sys_user_id
+        select sm.id, title, pid, sys_user_id, path,icon
         from sys_menu sm
                  left join sys_role_menu srm
                            on sm.id = srm.menu_id

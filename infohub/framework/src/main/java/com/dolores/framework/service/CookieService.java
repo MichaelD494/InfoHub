@@ -5,5 +5,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public interface CookieService {
     void setHttpOnlyCookie(HttpServletResponse response, String token);
-    String getCookieValue(HttpServletRequest request,String cookieName);
+
+    String getCookieValue(HttpServletRequest request, String cookieName);
+
+    void deleteCookie(HttpServletResponse response, String cookieName);
 }

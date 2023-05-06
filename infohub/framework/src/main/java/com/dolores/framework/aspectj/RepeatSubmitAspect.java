@@ -4,35 +4,35 @@ import com.dolores.common.constants.Constants;
 import com.dolores.framework.annotation.RepeatSubmit;
 import com.dolores.framework.domain.json.JsonParser;
 import com.dolores.framework.properties.RepeatProperties;
-import com.dolores.utils.DoloresEncrypt;
-import com.dolores.utils.DoloresRedis;
+import com.dolores.framework.utils.DoloresRedis;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
  * 防止重复提交
- *
- * @author Michael
- * @date 2022/2/19 13:37
  */
 @Slf4j
 @Aspect
 @Component
+@RequiredArgsConstructor
 public class RepeatSubmitAspect {
-    @Autowired
-    private RepeatProperties repeatProperties;
+    private final RepeatProperties repeatProperties;
 
     //args()切入点函数
-    @Before(value = "@annotation(repeatSubmit)&& args(request,..)")
-    public void doBefore(JoinPoint point, RepeatSubmit repeatSubmit, HttpServletRequest request) {
+    @Before(value = "@annotation(repeatSubmit)")
+    public void doBefore(JoinPoint point, RepeatSubmit repeatSubmit) {
         long interval = repeatProperties.getInterval();
         if (repeatSubmit.interval() > 0) {
             interval = repeatSubmit.timeUnit().toMillis(repeatSubmit.interval());
@@ -40,19 +40,24 @@ public class RepeatSubmitAspect {
         if (interval < 1000) {
             throw new RuntimeException("重复提交间隔不能小于1秒");
         }
-        String params = argsArrayToString(point.getArgs());
-        String uri = request.getRequestURI();
-
-        String submitKey = request.getHeader("token");
-        if (StringUtils.isEmpty(submitKey)) {
-            submitKey = uri;
+        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+        String params = null;
+        Object[] args = point.getArgs();
+        if (args != null && args.length > 0) {
+            params = argsArrayToString(args);
         }
-        submitKey = DoloresEncrypt.md5(submitKey + ":" + params);
-        String cacheRepeatKey = Constants.REPEAT_SUBMIT_KEY + submitKey;
-        String key = DoloresRedis.getHCache(Constants.REPEAT_SUBMIT, cacheRepeatKey);
+        String uri = request.getRequestURI();
+        String userSessionId = request.getSession().getId();
+        String repeatKey = Constants.REPEAT_SUBMIT_KEY + userSessionId + ":" + uri;
+        if (StringUtils.isNotBlank(params)) {
+            repeatKey += params;
+        }
+        String key = DoloresRedis.getHCache(Constants.REPEAT_SUBMIT, repeatKey);
+        System.out.println("key ===> " + key);
         if (key == null) {
+            System.out.println("进入");
             //TimeUnit.MILLISECONDS.toSeconds(interval) 时间单位转换 毫秒 -> 秒
-            DoloresRedis.setHCacheByTime(Constants.REPEAT_SUBMIT, cacheRepeatKey, "", TimeUnit.MILLISECONDS.toSeconds(interval));
+            DoloresRedis.setHCacheByTime(Constants.REPEAT_SUBMIT, repeatKey, "LOCK", TimeUnit.MILLISECONDS.toSeconds(interval));
         } else {
             throw new RuntimeException("操作过于频发，请稍后尝试");
         }
@@ -66,6 +71,9 @@ public class RepeatSubmitAspect {
         if (paramsArr != null) {
             for (Object obj : paramsArr) {
                 try {
+                    if (obj instanceof HttpServletRequest || obj instanceof HttpServletResponse) {
+                        continue;
+                    }
                     params.append(JsonParser.toJsonString(obj)).append(" ");
                 } catch (Exception e) {
                     e.printStackTrace();

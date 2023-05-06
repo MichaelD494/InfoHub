@@ -28,4 +28,9 @@ public class CookieServiceImpl implements CookieService {
         }
         return null;
     }
+
+    @Override
+    public void deleteCookie(HttpServletResponse response, String cookieName) {
+        response.addCookie(new Cookie(cookieName, null));
+    }
 }

@@ -1,8 +1,13 @@
 function getCaptcha() {
     get(captchaUrl, null, function (resp) {
-        loginObj.uuid = resp.uuid;
-        $("[name='code']").val('');
-        $("#captcha").attr("src", resp.img);
+        console.log(resp)
+        if (resp.code === 200) {
+            loginObj.uuid = resp.uuid;
+            $("[name='code']").val('');
+            $("#captcha").attr("src", resp.img);
+        } else {
+            warning("提示", resp.msg);
+        }
     })
 }
 

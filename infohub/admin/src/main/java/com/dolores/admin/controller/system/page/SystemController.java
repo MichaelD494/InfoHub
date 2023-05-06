@@ -18,10 +18,11 @@ import java.util.List;
 @RequestMapping("/sys")
 public class SystemController extends BaseController {
     private final ISysMenuService sysMenuService;
+    private final String prefix = "system";
 
     @GetMapping("/login")
     public String loginPage() {
-        return "system/login";
+        return prefix + "/login";
     }
 
 
@@ -30,7 +31,11 @@ public class SystemController extends BaseController {
         String userId = getUserId();
         List<SysMenuVo> sysMenuList = sysMenuService.queryMenuList(userId);
         modelMap.put("sysMenuList", sysMenuList);
-        return "system/home";
+        return prefix + "/home";
     }
 
+    @GetMapping("/account")
+    public String account() {
+        return prefix + "/account";
+    }
 }

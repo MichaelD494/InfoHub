@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * 自定义注解防止表单重复提交
  */
-//@Documented 该注解表明这个注释是由JavaDoc记录的,如果一个类型被注释了文档化,它的注释成为公共Api的一部分
 @Documented
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

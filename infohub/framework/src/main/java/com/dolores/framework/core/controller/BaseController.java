@@ -3,8 +3,12 @@ package com.dolores.framework.core.controller;
 import com.dolores.framework.core.domain.AjaxResult;
 import com.dolores.framework.utils.DoloresUtils;
 import com.dolores.system.domain.SysUser;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author dolores
@@ -84,6 +88,11 @@ public class BaseController {
 
     protected String getUserToken() {
         return DoloresUtils.getUserToken();
+    }
+
+    protected String getUserSessionId() {
+        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+        return request.getSession().getId();
     }
 
     protected SysUser getUser() {
