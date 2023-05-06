@@ -22,119 +22,120 @@ import java.util.List;
 @SpringBootApplication(scanBasePackages = "com.dolores.**")
 public class InfohubApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(InfohubApplication.class, args);
-		 /*String path = "D:\\IdeaProject\\InfoHub\\infohub\\admin\\src\\main\\resources\\templates\\system\\home.html";
+    public static void main(String[] args) {
+        SpringApplication.run(InfohubApplication.class, args);
+        /*String path = "D:\\IdeaProject\\InfoHub\\infohub\\admin\\src\\main\\resources\\templates\\system\\status\\503.html";
         String html = getHtml(path);
         parseHtml(html, path);*/
-	}
-	public static void parseHtml(String html, String path) {
-		Document doc = Jsoup.parse(html);
-		List<JsoupResolver> jsoupResolverList = prepareResolverList();
-		modifyAttr(doc, jsoupResolverList);
+    }
+
+    public static void parseHtml(String html, String path) {
+        Document doc = Jsoup.parse(html);
+        List<JsoupResolver> jsoupResolverList = prepareResolverList();
+        modifyAttr(doc, jsoupResolverList);
 //        printfHtml(doc, "link");
-		String rebuildHtml = doc.html();
-		try (FileWriter writer = new FileWriter(path, false)) {
-			writer.write(rebuildHtml);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+        String rebuildHtml = doc.html();
+        try (FileWriter writer = new FileWriter(path, false)) {
+            writer.write(rebuildHtml);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-	public static List<JsoupResolver> prepareResolverList() {
-		List<JsoupResolver> resolverList = new ArrayList<>();
-		JsoupResolver thLinkResolver = new JsoupResolver()
-				.setQuery("link")
-				.setAttr("th:href")
-				.setRemoveAttr("href");
-		JsoupResolver thScriptResolver = new JsoupResolver()
-				.setQuery("script")
-				.setAttr("th:src")
-				.setRemoveAttr("src");
-		JsoupResolver thImgResolver = new JsoupResolver()
-				.setQuery("img")
-				.setAttr("th:src")
-				.setRemoveAttr("src");
+    public static List<JsoupResolver> prepareResolverList() {
+        List<JsoupResolver> resolverList = new ArrayList<>();
+        JsoupResolver thLinkResolver = new JsoupResolver()
+                .setQuery("link")
+                .setAttr("th:href")
+                .setRemoveAttr("href");
+        JsoupResolver thScriptResolver = new JsoupResolver()
+                .setQuery("script")
+                .setAttr("th:src")
+                .setRemoveAttr("src");
+        JsoupResolver thImgResolver = new JsoupResolver()
+                .setQuery("img")
+                .setAttr("th:src")
+                .setRemoveAttr("src");
 
-		resolverList.add(thLinkResolver);
-		resolverList.add(thScriptResolver);
-		resolverList.add(thImgResolver);
+        resolverList.add(thLinkResolver);
+        resolverList.add(thScriptResolver);
+        resolverList.add(thImgResolver);
 
-		JsoupResolver linkResolver = new JsoupResolver()
-				.setQuery("link")
-				.setAttr("th:href")
-				.setRemoveVal("../assets")
-				.setAppendStart("@{/static")
-				.setAppendEnd("}");
-		JsoupResolver scriptResolver = new JsoupResolver()
-				.setQuery("script")
-				.setAttr("th:src")
-				.setRemoveVal("../assets")
-				.setAppendStart("@{/static")
-				.setAppendEnd("}");
-		JsoupResolver imgResolver = new JsoupResolver()
-				.setQuery("img")
-				.setAttr("th:src")
-				.setRemoveVal("../assets")
-				.setAppendStart("@{/static")
-				.setAppendEnd("}");
-		resolverList.add(linkResolver);
-		resolverList.add(scriptResolver);
-		resolverList.add(imgResolver);
-		return resolverList;
-	}
+        JsoupResolver linkResolver = new JsoupResolver()
+                .setQuery("link")
+                .setAttr("th:href")
+                .setRemoveVal("../assets")
+                .setAppendStart("@{/static")
+                .setAppendEnd("}");
+        JsoupResolver scriptResolver = new JsoupResolver()
+                .setQuery("script")
+                .setAttr("th:src")
+                .setRemoveVal("../assets")
+                .setAppendStart("@{/static")
+                .setAppendEnd("}");
+        JsoupResolver imgResolver = new JsoupResolver()
+                .setQuery("img")
+                .setAttr("th:src")
+                .setRemoveVal("../assets")
+                .setAppendStart("@{/static")
+                .setAppendEnd("}");
+        resolverList.add(linkResolver);
+        resolverList.add(scriptResolver);
+        resolverList.add(imgResolver);
+        return resolverList;
+    }
 
-	public static void modifyAttr(Document doc, List<JsoupResolver> jsoupResolverList) {
-		jsoupResolverList.forEach(item -> {
-			String query = item.getQuery();
-			String attr = item.getAttr();
-			String appendStart = item.getAppendStart();
-			String appendEnd = item.getAppendEnd();
-			String removeAttr = item.getRemoveAttr();
-			String removeVal = item.getRemoveVal();
-			Elements links = doc.select(query);
-			for (Element link : links) {
-				String href;
-				if (StringUtils.isNotBlank(removeAttr)) {
-					href = link.attr(removeAttr);
-				} else {
-					href = link.attr(attr);
-				}
-				if (StringUtils.isNotBlank(removeAttr)) {
-					link.removeAttr(removeAttr);
-					link.attr(attr, href);
-				}
-				if (StringUtils.isNotBlank(removeVal)) {
-					href = href.replaceAll(removeVal, "");
-					String rebuild = appendStart + href + appendEnd;
-					link.attr(attr, rebuild);
-				}
-			}
-		});
-	}
+    public static void modifyAttr(Document doc, List<JsoupResolver> jsoupResolverList) {
+        jsoupResolverList.forEach(item -> {
+            String query = item.getQuery();
+            String attr = item.getAttr();
+            String appendStart = item.getAppendStart();
+            String appendEnd = item.getAppendEnd();
+            String removeAttr = item.getRemoveAttr();
+            String removeVal = item.getRemoveVal();
+            Elements links = doc.select(query);
+            for (Element link : links) {
+                String href;
+                if (StringUtils.isNotBlank(removeAttr)) {
+                    href = link.attr(removeAttr);
+                } else {
+                    href = link.attr(attr);
+                }
+                if (StringUtils.isNotBlank(removeAttr)) {
+                    link.removeAttr(removeAttr);
+                    link.attr(attr, href);
+                }
+                if (StringUtils.isNotBlank(removeVal)) {
+                    href = href.replaceAll(removeVal, "");
+                    String rebuild = appendStart + href + appendEnd;
+                    link.attr(attr, rebuild);
+                }
+            }
+        });
+    }
 
-	public static void printfHtml(Document doc, String query) {
-		Elements links = doc.select(query);
-		for (Element link : links) {
-			String attr = link.attr("href");
-			System.out.println(attr);
-		}
-	}
+    public static void printfHtml(Document doc, String query) {
+        Elements links = doc.select(query);
+        for (Element link : links) {
+            String attr = link.attr("href");
+            System.out.println(attr);
+        }
+    }
 
-	public static String getHtml(String path) {
-		StringBuilder sb = new StringBuilder();
-		try {
-			RandomAccessFile file = new RandomAccessFile(path, "r");
-			String line;
-			while ((line = file.readLine()) != null) {
-				sb.append(line);
-			}
-			file.close();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return sb.toString();
-	}
+    public static String getHtml(String path) {
+        StringBuilder sb = new StringBuilder();
+        try {
+            RandomAccessFile file = new RandomAccessFile(path, "r");
+            String line;
+            while ((line = file.readLine()) != null) {
+                sb.append(line);
+            }
+            file.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return sb.toString();
+    }
 
     /*public static void modifyPage() throws Exception {
         String path = "D:\\IdeaProject\\InfoHub\\infohub\\admin\\src\\main\\resources\\templates\\system\\home.html";

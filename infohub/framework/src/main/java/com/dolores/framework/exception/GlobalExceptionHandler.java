@@ -12,6 +12,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.ModelAndView;
 
 
 /**
@@ -25,23 +26,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     /**
-     * 权限校验异常
-     */
-    @ExceptionHandler(AccessDeniedException.class)
-    public AjaxResult handleAccessDeniedException(AccessDeniedException e, HttpServletRequest request) {
-        String uri = request.getRequestURI();
-        log.error("请求地址'{}',权限校验失败'{}'", uri, e.getMessage());
-        return AjaxResult.forbidden("权限不足");
-    }
-
-    /**
      * 拦截未知运行时异常
      */
     @ExceptionHandler(RuntimeException.class)
-    public AjaxResult handleRuntimeException(RuntimeException e, HttpServletRequest request) {
+    public String handleRuntimeException(RuntimeException e, HttpServletRequest request) {
         String uri = request.getRequestURI();
         log.error("请求地址'{}',发生未知异常", uri, e);
-        return AjaxResult.error(e.getMessage());
+        return "redirect:/500";
     }
 
     /**

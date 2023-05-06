@@ -1,14 +1,17 @@
 function getCaptcha() {
-    get(captchaUrl, null, function (resp) {
-        console.log(resp)
-        if (resp.code === 200) {
-            loginObj.uuid = resp.uuid;
-            $("[name='code']").val('');
-            $("#captcha").attr("src", resp.img);
-        } else {
-            warning("提示", resp.msg);
+    $.ajax({
+        url: captchaUrl,
+        type: 'GET',
+        success: function (resp) {
+            if (resp.code === 200) {
+                loginObj.uuid = resp.uuid;
+                $("[name='code']").val('');
+                $("#captcha").attr("src", resp.img);
+            } else {
+                warning("提示", resp.msg);
+            }
         }
-    })
+    });
 }
 
 function login() {
@@ -30,12 +33,19 @@ function login() {
         return;
     }
     loginObj.code = code;
-    post(loginUrl, loginObj, function (resp) {
-        success('提示', resp.msg);
-        if (resp.code === 200) {
-            delayJump(homePage);
-        } else {
-            getCaptcha();
+    $.ajax({
+        url: loginUrl,
+        type: 'POST',
+        data: JSON.stringify(loginObj),
+        dataType: 'JSON',
+        contentType: "application/json; charset=utf-8",
+        success: function (resp) {
+            success('提示', resp.msg);
+            if (resp.code === 200) {
+                delayJump(homePage);
+            } else {
+                getCaptcha();
+            }
         }
     });
 }

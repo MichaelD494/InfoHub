@@ -4,8 +4,6 @@ import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.ShearCaptcha;
 import cn.hutool.captcha.generator.MathGenerator;
 import cn.hutool.core.util.IdUtil;
-import com.dolores.common.constants.Constants;
-import com.dolores.framework.annotation.RepeatSubmit;
 import com.dolores.framework.config.UserInfo;
 import com.dolores.framework.core.controller.BaseController;
 import com.dolores.framework.core.domain.AjaxResult;
@@ -117,5 +115,19 @@ public class LoginController extends BaseController {
         cookieService.deleteCookie(response, "token");
         SecurityContextHolder.clearContext();
         return isTokenDel && isOnlineDel ? success("注销成功") : error("注销失败");
+    }
+
+    @GetMapping("/verify")
+    public AjaxResult verify(HttpServletRequest request) {
+        try {
+            String token = cookieService.getCookieValue(request, "token");
+            String cache = DoloresRedis.hGetUserCache(token);
+            if (StringUtils.isBlank(token) || StringUtils.isBlank(cache)) {
+                return error("身份验证已过期，请重新登录");
+            }
+            return success();
+        } catch (Exception e) {
+            return error("身份验证已过期，请重新登录");
+        }
     }
 }

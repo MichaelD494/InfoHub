@@ -1,28 +1,20 @@
 package com.dolores.framework.config;
 
+import com.dolores.framework.config.auth.DoloresAccessDeniedHandler;
+import com.dolores.framework.config.auth.DoloresAuthenticationEntryPoint;
 import com.dolores.framework.security.filter.XssFilter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 /**
@@ -42,13 +34,16 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/sys/login", "/login", "/logout")
+                .requestMatchers("/", "/sys/login", "/login", "/logout", "/verify")
                 .permitAll()
                 .and()
                 .addFilterBefore(xssFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin().disable()
-                .logout().disable();
+                .logout().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(doloresAuthenticationEntryPoint())
+                .accessDeniedHandler(doloresAccessDeniedHandler());
 
         http
                 .authorizeHttpRequests()
@@ -57,6 +52,16 @@ public class SecurityConfig {
                 .anyRequest()
                 .authenticated();
         return http.build();
+    }
+
+    @Bean
+    public DoloresAuthenticationEntryPoint doloresAuthenticationEntryPoint() {
+        return new DoloresAuthenticationEntryPoint();
+    }
+
+    @Bean
+    public DoloresAccessDeniedHandler doloresAccessDeniedHandler() {
+        return new DoloresAccessDeniedHandler();
     }
 
     @Bean

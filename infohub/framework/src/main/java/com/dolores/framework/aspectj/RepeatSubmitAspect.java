@@ -3,7 +3,6 @@ package com.dolores.framework.aspectj;
 import com.dolores.common.constants.Constants;
 import com.dolores.framework.annotation.RepeatSubmit;
 import com.dolores.framework.domain.json.JsonParser;
-import com.dolores.framework.properties.RepeatProperties;
 import com.dolores.framework.utils.DoloresRedis;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,12 +27,11 @@ import java.util.concurrent.TimeUnit;
 @Component
 @RequiredArgsConstructor
 public class RepeatSubmitAspect {
-    private final RepeatProperties repeatProperties;
 
     //args()切入点函数
     @Before(value = "@annotation(repeatSubmit)")
     public void doBefore(JoinPoint point, RepeatSubmit repeatSubmit) {
-        long interval = repeatProperties.getInterval();
+        long interval = repeatSubmit.interval();
         if (repeatSubmit.interval() > 0) {
             interval = repeatSubmit.timeUnit().toMillis(repeatSubmit.interval());
         }
