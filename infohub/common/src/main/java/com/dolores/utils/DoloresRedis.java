@@ -40,7 +40,6 @@ public class DoloresRedis {
     private static long day = 86400;
 
 
-
     @Autowired
     public void setRedisUtil(RedisUtil redisUtil) {
         DoloresRedis.redisUtil = redisUtil;
@@ -77,10 +76,10 @@ public class DoloresRedis {
      *              3600 秒 = 1 小时
      *              86400 秒 = 1 天
      */
-    public static void hSetUserCache(String userId, Object obj) {
+    public static void hSetUserCache(String token, Object obj) {
         try {
             ObjectMapper mapper = new ObjectMapper();
-            redisUtil.hset(RedisConstant.SYSUSERLIST, RedisConstant.USERKEY + userId, mapper.writeValueAsString(obj),
+            redisUtil.hset(RedisConstant.SYSUSERLIST, RedisConstant.USERKEY + token, mapper.writeValueAsString(obj),
                     day);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
@@ -116,7 +115,7 @@ public class DoloresRedis {
      * @return
      */
     public static boolean isHExists(String key, String item) {
-        return redisUtil.hHasKey(key, item);
+        return !redisUtil.hHasKey(key, item);
     }
 
     /**

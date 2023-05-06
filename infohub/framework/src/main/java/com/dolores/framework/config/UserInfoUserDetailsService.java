@@ -2,6 +2,7 @@ package com.dolores.framework.config;
 
 import com.dolores.system.domain.LoginUser;
 import com.dolores.system.service.ISysUserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

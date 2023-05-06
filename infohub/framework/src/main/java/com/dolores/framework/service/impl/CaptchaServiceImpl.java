@@ -1,12 +1,13 @@
-package com.dolores.framework.service;
+package com.dolores.framework.service.impl;
 
 import cn.hutool.core.convert.Convert;
 import com.dolores.framework.properties.CaptchaProperties;
+import com.dolores.framework.service.CaptchaService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CaptchaServiceImpl implements ICaptchaService {
+public class CaptchaServiceImpl implements CaptchaService {
 
     private final CaptchaProperties captchaProperties;
 

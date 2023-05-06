@@ -20,7 +20,7 @@ public class InfoHubConfig {
     public void init() {
         contentPath = environment.getProperty("server.servlet.context-path");
         pathList = SystemPathResource.PATH_RESOURCE.getPathList();
-        loginPagePath = contentPath + "/system/login";
+        loginPagePath = "/sys/login";
     }
 
     public List<String> getPathList() {

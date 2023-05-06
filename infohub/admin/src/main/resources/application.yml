@@ -1,31 +1,3 @@
-mybatis-plus:
-  mapper-locations: classpath*:mapper/**/*.xml
-  type-aliases-package: com.dolores.**.domain
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
-#缓存数据库   116.62.223.237 Michael494326901
-redis:
-  host: 101.33.208.213
-  password: Michael494326901
-  timeout: 5000
-  database: 0
-  port: 6379
-  jedis:
-    pool:
-      max-active: 16
-      max-wait: 5000
-      max-idle: 8
-      min-idle: 2
-
-#图形验证码
-captcha:
-  # 页面 <参数设置> 可开启关闭 验证码校验
-  # 验证码类型 math 数组计算 char 字符验证
-  type: MATH
-  # line 线段干扰 circle 圆圈干扰 shear 扭曲干扰
-  category: CIRCLE
-  # 数字验证码位数
-  numberLength: 1
-  # 字符验证码长度
-  charLength: 4
+spring:
+  profiles:
+    active: prod

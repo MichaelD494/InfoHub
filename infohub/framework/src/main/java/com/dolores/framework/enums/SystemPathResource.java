@@ -24,7 +24,8 @@ public enum SystemPathResource {
 
     SystemPathResource() {
         pathList = new ArrayList<>();
-        pathList.add("/system/login");
+        pathList.add("/login");
+        pathList.add("/sys/login");
         pathList.add("/captcha");
         pathList.add("/static/**");
     }

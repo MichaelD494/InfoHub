@@ -18,6 +18,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("forward:/system/login");
+        registry.addViewController("/").setViewName("forward:/sys/login");
     }
 }

@@ -5,6 +5,15 @@ package com.dolores.common.constants;
  */
 public interface Constants {
     /**
+     * http请求
+     */
+    String HTTP = "http://";
+
+    /**
+     * https请求
+     */
+    String HTTPS = "https://";
+    /**
      * 重复提交
      */
     String REPEAT_SUBMIT = "repeat_submit";

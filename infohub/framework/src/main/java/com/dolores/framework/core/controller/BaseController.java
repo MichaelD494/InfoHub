@@ -82,6 +82,10 @@ public class BaseController {
         return DoloresUtils.getUserId();
     }
 
+    protected String getUserToken() {
+        return DoloresUtils.getUserToken();
+    }
+
     protected SysUser getUser() {
         return DoloresUtils.getUser();
     }

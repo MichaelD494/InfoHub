@@ -3319,29 +3319,27 @@
     <!-- JQUERY JS -->
     <script th:src="@{/static/js/jquery.min.js}"></script><!-- BOOTSTRAP JS -->
     <script th:src="@{/static/js/ajax/ajax.js}"></script>
-    <script th:src="@{/static/js/dolores/dolores-strutil.js}"></script>
-    <script th:src="@{/static/js/dolores/dolores-notify.js}"></script>
-    <script th:src="@{/static/js/dolores/dolores-cookie.js}"></script>
+    <script th:src="@{/static/js/dolores/strutil.js}"></script>
+    <script th:src="@{/static/js/dolores/notify.js}"></script>
+    <script th:src="@{/static/js/dolores/common.js}"></script>
+
     <script>
-        const logoutUrl = '/logout';
-        const loginPage = "/system/login";
+        const logoutUrl = "/logout";
+        const loginPage = "/sys/login";
+
+        $(function () {
+
+        })
 
         function logout() {
-            const token = getCookieValue("Authorization");
-            if (!isNotEmpty(token)) {
-                window.location.href = loginPage;
-                warning("提示", "身份验证过期，请重新登录");
-                return;
-            }
             get(logoutUrl, null, function (resp) {
                 if (resp.code === 200) {
                     success("提示", resp.msg);
-                    // window.location.href = contextPath + loginPage;
+                    delayJump(loginPage);
                 } else {
-                    window.location.href = loginPage;
                     error("提示", resp.msg);
                 }
-            }, token);
+            });
         }
     </script>
     <script th:src="@{/static/plugins/bootstrap/js/popper.min.js}"></script>

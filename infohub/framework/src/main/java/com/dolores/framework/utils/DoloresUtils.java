@@ -19,8 +19,6 @@ import java.io.PrintWriter;
 public class DoloresUtils {
     /**
      * 获取当前系统用户对象
-     *
-     * @return
      */
     public static SysUser getUser() {
         UserInfo userInfo = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -53,16 +51,6 @@ public class DoloresUtils {
      */
     public static String getCurrentUserName() {
         return getUser().getUserName();
-    }
-
-    /**
-     * 获取当前系统用户sessionId
-     *
-     * @return
-     */
-    public static String getUserSessionId() {
-        UserInfo userInfo = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userInfo.getSessionId();
     }
 
     /**

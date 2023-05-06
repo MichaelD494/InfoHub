@@ -1,6 +1,7 @@
 package com.dolores.admin.controller.system.page;
 
 import com.dolores.framework.core.controller.BaseController;
+import com.dolores.framework.core.domain.AjaxResult;
 import com.dolores.system.domain.vo.SysMenuVo;
 import com.dolores.system.service.ISysMenuService;
 import lombok.RequiredArgsConstructor;
@@ -11,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
+
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/system")
+@RequestMapping("/sys")
 public class SystemController extends BaseController {
-
     private final ISysMenuService sysMenuService;
 
     @GetMapping("/login")
