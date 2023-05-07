@@ -60,24 +60,45 @@
 </div>
 
 <script>
-    const getSysUserListUrl = "/sysUser/list";
-    let sysUserList = [];
+    const sysUserListUrl = "/sysUser/list";
     $(function () {
         loading();
         getSysUserList();
     })
 
     function getSysUserList() {
-        const userName = $("#userName").val();
-        let obj = {};
-        if (isNotEmpty(userName)) {
-            obj.userName = userName;
+        let option = {
+            columnList: [
+                {
+                    comment: "用户名",
+                    name: "userName"
+                },
+                {
+                    comment: "邮箱",
+                    name: "email"
+                },
+                {
+                    comment: "性别",
+                    name: "gender"
+                },
+                {
+                    comment: "登录ip",
+                    name: "loginIp"
+                },
+                {
+                    comment: "登录日期",
+                    name: "loginDate"
+                }
+            ]
         }
-        list.forEach(item => {
-            let row = `<tr>
-            <td>${item.userName}</td>`;
-            tbody.append(row);
-        });
+        let queryParam = {};
+        const userName = $("#userName").val();
+        if (isNotEmpty(userName)) {
+            queryParam.userName = userName;
+        }
+        option.url = sysUserListUrl;
+        option.queryParam = queryParam;
+        init(option);
     }
 </script>
 </body>

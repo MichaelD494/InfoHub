@@ -1,24 +1,19 @@
 <!doctype html>
-<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" dir="ltr">
 <body>
 <div class="table-responsive">
     <div>
-        <table class="table border text-nowrap text-md-nowrap mg-b-0">
-            <thead>
+        <table id="dolores-table" class="table border text-nowrap text-md-nowrap mg-b-0">
+            <thead id="dolores-thead">
             <tr>
-                <th>用户名</th>
-                <th>密码</th>
-                <th>邮箱</th>
-                <th>性别</th>
-                <th>登录ip</th>
-                <th>登录日期</th>
+                <th></th>
             </tr>
             </thead>
-            <tbody id="table" th:each="item:${sysUserList}">
+            <!--<tbody id="dolores-tbody" th:each="item:${column.dataList}">
             <tr>
-                <td th:text="${item.userName}"></td>
+                <td th:text="${item}"></td>
             </tr>
-            </tbody>
+            </tbody>-->
         </table>
         <div class="d-flex justify-content-center">
             <div id="data-loading" class="spinner-border" role="status">
@@ -29,51 +24,147 @@
 </div>
 <script>
 
+    //初始化
     function init(option) {
-        option.column
+        loadTable(option);
+        initTable();
+        initThead(option.columnList);
+        initTbody(option.parentList);
     }
 
+    //加载表单
+    function loadTable(option) {
+        //获取数据地址
+        const url = option.url;
+        //获取查询参数
+        const queryParam = option.queryParam;
+        $.ajax({
+            url: url,
+            type: 'POST',
+            async: false,
+            data: queryParam == null ? null : JSON.stringify(queryParam),
+            dataType: 'JSON',
+            contentType: 'application/json; charset=utf-8',
+            success: function (resp) {
+                //获取资源
+                const resourceList = resp.data;
+                //展示数据加载层
+                showLoading();
+                //动态插入标签
+                let tbody = $('tbody');
+                resourceList.forEach(item => {
+                    let row = `<tr>
+            <td>${item.userName}</td>`;
+                    tbody.append(row);
+                });
+                tbody.empty();
+                matchData(option, resourceList);
+                hideLoading();
+            }
+        })
+    }
+
+    //匹配表格数据
+    function matchData(option, resourceList) {
+        //获取列数据
+        let columnList = option.columnList;
+        //父级
+        let parentList = [];
+        //资源数据遍历
+        resourceList.forEach(item => {
+            //子级
+            let childList = [];
+            //遍历子级对象
+            $.each(item, function (key, value) {
+                //查找目标信息
+                const match = columnList.findIndex(item => item.name === key);
+                if (match >= 0) {
+                    //如果存在则子级创建对象并注入
+                    let obj = {};
+                    obj.name = key;
+                    obj.value = value;
+                    childList.push(obj);
+                }
+            });
+            //注入子级
+            parentList.push(childList);
+        });
+        //重新赋值
+        option.parentList = parentList;
+    }
+
+    //初始化表格
+    function initTable() {
+        const table = $("#dolores-table");
+        table.html('');
+    }
+
+    //初始化表格头部
+    function initThead(columnList) {
+        //创建表格头部
+        let thead = document.createElement('thead');
+        //设置元素属性
+        thead.setAttribute('id', 'dolores-tbody');
+        //创建行
+        const tr = document.createElement('tr');
+        columnList.forEach(column => {
+            //创建列
+            let td = document.createElement('td');
+            //设置文本
+            td.innerText = column.comment;
+            //行追加
+            tr.appendChild(td);
+        });
+        //头部追加
+        thead.appendChild(tr);
+        //表格追加
+        document
+            .getElementById("dolores-table")
+            .appendChild(thead);
+    }
+
+    //初始化主体
+    function initTbody(parentList) {
+        let tbody = document.createElement('tbody');
+        tbody.setAttribute('id', 'dolores-tbody');
+        parentList.forEach(child => {
+            const tr = document.createElement('tr');
+            const childList = child;
+            if (childList != null && childList.length > 0) {
+                childList.forEach(data => {
+                    let td = document.createElement('td');
+                    td.innerText = data == null ? null : data.value;
+                    tr.appendChild(td);
+                });
+            }
+            tbody.appendChild(tr);
+        });
+        document
+            .getElementById("dolores-table")
+            .appendChild(tbody);
+    }
+
+    //数据加载层
     function loading() {
         // 模拟异步加载数据
         setTimeout(function () {
             $('#data-loading').hide(); // 隐藏 loading 效果
-            $('#table').show(); // 显示表格
+            $('#dolores-tbody').show(); // 显示表格
         }, 500);
     }
 
+    //展示加载层
     function showLoading() {
         $('#data-loading').show();
-        $('#table').hide();
     }
 
+    //隐藏加载层
     function hideLoading() {
         // 模拟异步加载数据
         setTimeout(function () {
             $('#data-loading').hide(); // 隐藏 loading 效果
-            $('#table').show(); // 显示表格
+            $('#dolores-tbody').show(); // 显示表格
         }, 500);
-    }
-
-    function updateTable(option) {
-        const url = option.url;
-        const type = option.type;
-        const obj = option.obj;
-        const dataType = option.dataType;
-        const contentType = option.contentType;
-        $.ajax({
-            url: url,
-            type: type,
-            data: JSON.stringify(obj),
-            dataType: dataType,
-            contentType: contentType,
-            success: function (resp) {
-                sysUserList = resp.data;
-                showLoading();
-                let tbody = $('tbody');
-                tbody.empty();
-                hideLoading();
-            }
-        })
     }
 </script>
 </body>

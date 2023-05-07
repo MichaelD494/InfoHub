@@ -38,9 +38,7 @@ public class SystemController extends BaseController {
     }
 
     @GetMapping("/account")
-    public String account(ModelMap modelMap) {
-        List<SysUser> sysUserList = sysUserService.querySysUserList(new SysUser());
-        modelMap.put("sysUserList", sysUserList);
+    public String account() {
         return prefix + "account";
     }
 }
