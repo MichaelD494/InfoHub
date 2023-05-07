@@ -1,46 +1,81 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!doctype html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div class="table-responsive">
-    <table class="table  border text-nowrap text-md-nowrap mg-b-0">
-        <thead>
-        <tr>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>1</td>
-            <td>Joan Powell</td>
-            <td>Associate Developer</td>
-            <td>$450,870</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Gavin Gibson</td>
-            <td>Account manager</td>
-            <td>$230,540</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Julian Kerr</td>
-            <td>Senior Javascript Developer</td>
-            <td>$55,300</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>Cedric Kelly</td>
-            <td>Accountant</td>
-            <td>$234,100</td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>Samantha May</td>
-            <td>Junior Technical Author</td>
-            <td>$43,198</td>
-        </tr>
-        </tbody>
-    </table>
+    <div>
+        <table class="table border text-nowrap text-md-nowrap mg-b-0">
+            <thead>
+            <tr>
+                <th>用户名</th>
+                <th>密码</th>
+                <th>邮箱</th>
+                <th>性别</th>
+                <th>登录ip</th>
+                <th>登录日期</th>
+            </tr>
+            </thead>
+            <tbody id="table" th:each="item:${sysUserList}">
+            <tr>
+                <td th:text="${item.userName}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center">
+            <div id="data-loading" class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
 </div>
+<script>
+
+    function init(option) {
+        option.column
+    }
+
+    function loading() {
+        // 模拟异步加载数据
+        setTimeout(function () {
+            $('#data-loading').hide(); // 隐藏 loading 效果
+            $('#table').show(); // 显示表格
+        }, 500);
+    }
+
+    function showLoading() {
+        $('#data-loading').show();
+        $('#table').hide();
+    }
+
+    function hideLoading() {
+        // 模拟异步加载数据
+        setTimeout(function () {
+            $('#data-loading').hide(); // 隐藏 loading 效果
+            $('#table').show(); // 显示表格
+        }, 500);
+    }
+
+    function updateTable(option) {
+        const url = option.url;
+        const type = option.type;
+        const obj = option.obj;
+        const dataType = option.dataType;
+        const contentType = option.contentType;
+        $.ajax({
+            url: url,
+            type: type,
+            data: JSON.stringify(obj),
+            dataType: dataType,
+            contentType: contentType,
+            success: function (resp) {
+                sysUserList = resp.data;
+                showLoading();
+                let tbody = $('tbody');
+                tbody.empty();
+                hideLoading();
+            }
+        })
+    }
+</script>
 </body>
 </html>
+

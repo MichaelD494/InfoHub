@@ -7,9 +7,7 @@ import com.dolores.system.service.ISysUserService;
 import com.dolores.utils.DoloresEncrypt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,8 +17,8 @@ import java.util.List;
 public class SysUserController extends BaseController {
     private final ISysUserService sysUserService;
 
-    @GetMapping("/list")
-    public AjaxResult list(SysUser sysUser) {
+    @PostMapping("/list")
+    public AjaxResult list(@RequestBody SysUser sysUser) {
         List<SysUser> sysUserList = sysUserService.querySysUserList(sysUser);
         return success(sysUserList);
     }

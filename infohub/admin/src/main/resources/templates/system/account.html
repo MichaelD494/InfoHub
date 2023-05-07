@@ -1,7 +1,37 @@
-﻿<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<body>
+﻿<!doctype html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        .marAuto {
+            margin: auto 0;
+        }
 
+        .flex {
+            display: flex;
+        }
+
+        .wrap {
+            flex-wrap: wrap;
+        }
+
+        .nowrap {
+            white-space: nowrap;
+            width: auto;
+            margin-right: 5px;
+            font-size: 12px;
+        }
+
+        .aic {
+            align-items: center;
+        }
+
+        .marginR {
+            margin-right: 10px;
+        }
+
+    </style>
+</head>
+<body>
 <div class="page-header">
     <h1 class="page-title">Data Table</h1>
 </div>
@@ -11,9 +41,46 @@
         <h3 class="card-title">Basic Datatable</h3>
     </div>
     <div class="card-body">
-        <div th:replace="common/table "></div>
+        <div class="row marAuto wrap" style="height: 100px;margin-bottom: 30px">
+            <div class="flex marginR aic">
+                <div class="nowrap">用户名:</div>
+                <div>
+                    <input type="text" name="userName" class="form-control form-control-sm" id="userName"/>
+                </div>
+            </div>
+            <div>
+                <button type="button" class="btn btn-primary btn-sm" th:onclick="getSysUserList()">搜索</button>
+                <button type="button" class="btn btn-secondary btn-sm">重置</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="common-table" th:replace="common/table"></div>
+        </div>
     </div>
 </div>
 
+<script>
+    const getSysUserListUrl = "/sysUser/list";
+    let sysUserList = [];
+    $(function () {
+        loading();
+        getSysUserList();
+    })
+
+    function getSysUserList() {
+        const userName = $("#userName").val();
+        let obj = {};
+        if (isNotEmpty(userName)) {
+            obj.userName = userName;
+        }
+        list.forEach(item => {
+            let row = `<tr>
+            <td>${item.userName}</td>`;
+            tbody.append(row);
+        });
+    }
+</script>
 </body>
 </html>
+
+

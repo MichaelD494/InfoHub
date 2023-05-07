@@ -19,9 +19,6 @@
     <link rel="stylesheet" th:href="@{/static/switcher/css/switcher.css}">
     <link rel="stylesheet" th:href="@{/static/switcher/demo.css}">
     <link rel="stylesheet" th:href="@{/static/css/scrollbar.css}">
-    <link rel="stylesheet" th:href="@{/static/scss/plugins/_dataTables.bootstrap.scss}">
-    <link rel="stylesheet" th:href="@{/static/scss/plugins/_buttons.bootstrap5.scss}">
-    <link rel="stylesheet" th:href="@{/static/scss/plugins/_responsive.bootstrap.scss}">
 </head>
 <body class="app sidebar-mini ltr light-mode">
 <!-- GLOBAL-LOADER -->
@@ -73,19 +70,46 @@
                                         <a class="nav-link icon full-screen-link nav-link-bg"> <i
                                                 class="fe fe-minimize fullscreen-button"></i> </a>
                                     </div><!-- FULL-SCREEN -->
+                                    <div class="dropdown d-flex profile-1">
+                                        <a href="javascript:void(0)" data-bs-toggle="dropdown" class="nav-link leading-none d-flex">
+                                            <img th:src="@{/static/images/users/21.jpg}" alt="profile-user"
+                                                 class="avatar  profile-user brround cover-image">
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                            <div class="drop-heading">
+                                                <div class="text-center">
+                                                    <h5 class="text-dark mb-0 fs-14 fw-semibold">Percy Kewshun</h5>
+                                                    <small class="text-muted">Senior Admin</small>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-divider m-0"></div>
+                                            <a class="dropdown-item" href="profile.html">
+                                                <i class="dropdown-icon fe fe-user"></i> Profile
+                                            </a>
+                                            <a class="dropdown-item" href="lockscreen.html">
+                                                <i class="dropdown-icon fe fe-lock"></i> Lockscreen
+                                            </a>
+                                            <a class="dropdown-item" href="login.html">
+                                                <i class="dropdown-icon fe fe-alert-circle"></i> Sign out
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
+
         </div><!-- /app-Header --> <!--APP-SIDEBAR-->
         <div class="sticky">
             <div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
             <div class="app-sidebar">
                 <div class="side-header">
-                    <a class="header-brand1" th:href="@{/sys/home}"> <img class="header-brand-img desktop-logo" alt="logo"
-                                                                    th:src="@{/static/images/brand/logo.png}">
+                    <a class="header-brand1" th:href="@{/sys/home}"> <img class="header-brand-img desktop-logo"
+                                                                          alt="logo"
+                                                                          th:src="@{/static/images/brand/logo.png}">
                         <img class="header-brand-img toggle-logo" alt="logo"
                              th:src="@{/static/images/brand/logo.png}"> <img class="header-brand-img light-logo"
                                                                              alt="logo"
@@ -163,6 +187,12 @@
         const loginPage = "/sys/login";
 
         $(function () {
+            //从缓存中获取当前页面
+            const currentPage = localStorage.getItem("currentPage");
+            if (isNotEmpty(currentPage)) {
+                //如果存在则加载当前页面
+                loadMenu(currentPage);
+            }
         })
 
         function loadMenu(url) {
@@ -172,7 +202,9 @@
                 header: {
                     'X-Api-Request': 'false'
                 },
-                success: function (resp) {
+                success: function () {
+                    //将当前页面放入缓存
+                    localStorage.setItem("currentPage", url);
                     $("#page-content").load(url);
                 }
             });
@@ -182,6 +214,7 @@
             get(logoutUrl, null, function (resp) {
                 if (resp.code === 200) {
                     success("提示", resp.msg);
+                    localStorage.setItem("currentPage", "");
                     delayJump(loginPage);
                 } else {
                     error("提示", resp.msg);
@@ -207,6 +240,8 @@
     <script th:src="@{/static/js/themeColors.js}"></script><!-- CUSTOM JS -->
     <script th:src="@{/static/js/custom-swicher.js}"></script><!-- Switcher js -->
     <script th:src="@{/static/switcher/js/switcher.js}"></script>
+    <!-- INTERNAL SELECT2 JS -->
+    <script th:src="@{/static/plugins/select2/select2.full.min.js}"></script>
     <!-- INTERNAL Notifications js -->
     <script th:src="@{/static/plugins/notify/js/rainbow.js}"></script>
     <script th:src="@{/static/plugins/notify/js/sample.js}"></script>

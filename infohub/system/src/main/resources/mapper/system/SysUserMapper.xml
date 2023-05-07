@@ -34,8 +34,8 @@
         select * from sys_user
         <where>
             <if test="sysUser!=null">
-                <if test="sysUser.username!=null and sysUser.username!=''">
-                    and user_name like concat('%',#{sysUser.username},'%')
+                <if test="sysUser.userName!=null and sysUser.userName!=''">
+                    and user_name like concat('%',#{sysUser.userName},'%')
                 </if>
                 <if test="sysUser.phone!=null and sysUser.phone!=''">
                     and user_phone like concat('%',#{sysUser.phone},'%')

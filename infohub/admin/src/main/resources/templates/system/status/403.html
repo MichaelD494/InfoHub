@@ -63,6 +63,7 @@
         verify(function (resp) {
             if (resp.code === 200) {
                 window.location.href = "/sys/home";
+                localStorage.setItem("currentPage", "");
             } else {
                 warning("提示", resp.msg);
                 delayJump("/sys/login");
