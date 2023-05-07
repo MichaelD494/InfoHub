@@ -19,6 +19,7 @@ import com.dolores.framework.utils.DoloresRedis;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,6 +34,7 @@ import static com.dolores.common.constants.RedisConstant.*;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class LoginController extends BaseController {
 
     private final AuthenticationProvider authenticationProvider;
@@ -83,7 +85,8 @@ public class LoginController extends BaseController {
         //记录用户登录信息
         sysLoginRecordService.loginRecord(sysUserId, dto.getUsername(), request);
         AjaxResult ajaxResult = success("登录成功");
-        ajaxResult.put("sysUserId", sysUserId);
+        ajaxResult.put("sysUser", sysUser);
+        ajaxResult.put("token", token);
         return ajaxResult;
     }
 
@@ -101,6 +104,8 @@ public class LoginController extends BaseController {
         DoloresRedis.setSecurityCode(uuid, codeResult);
         ajaxResult.put("uuid", uuid);
         ajaxResult.put("img", "data:image/png;base64," + captcha.getImageBase64());
+        log.info("uuid = " + uuid);
+        log.info("验证码 = " + codeResult);
         return ajaxResult;
     }
 

@@ -41,6 +41,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         VerifyRequest verifyRequest = (VerifyRequest) FactoryUtil.getFactory("VerifyRequestFactory", "VerifyRequestTool");
         //从cookie中获取token
         String token = cookieService.getCookieValue(request, "token");
+        //专门为了使用测试Api工具开放的
+        if (StringUtils.isBlank(token)) {
+            //从请求头中获取是为Api标识
+            String isApi = request.getHeader("X-Api-Request");
+            if (StringUtils.isNotBlank(isApi) && isApi.equals("true")) {
+                //获取token
+                token = request.getHeader("Authorization");
+            }
+        }
         //从缓存中获取token,以缓存中的token为校准核心
         String cache = DoloresRedis.hGetUserCache(token);
         //获取uri

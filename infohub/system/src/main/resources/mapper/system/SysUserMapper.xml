@@ -22,7 +22,7 @@
         where srm.role_id = #{role_id}
     </select>
     <select id="queryUserByName" resultMap="queryUserByNameMap">
-        select su.sys_user_id,su.sys_user_id, user_name, password, salt,role_id
+        select su.sys_user_id, su.sys_user_id, user_name, password, salt, role_id
         from sys_user su
                  left join sys_user_role sur
                            on su.sys_user_id = sur.sys_user_id
@@ -33,17 +33,19 @@
     <select id="querySysUserList" resultType="com.dolores.system.domain.SysUser">
         select * from sys_user
         <where>
-            <if test="userName!=null and userName!=''">
-                and user_name like concat('%',#{userName},'%')
-            </if>
-            <if test="userPhone!=null and userPhone!=''">
-                and user_phone like concat('%',#{userPhone},'%')
-            </if>
-            <if test="gender!=null">
-                and gender = #{gender}
-            </if>
-            <if test="loginDate!=null">
-                and login_date &gt;= cast(#{loginDate} as date)
+            <if test="sysUser!=null">
+                <if test="sysUser.username!=null and sysUser.username!=''">
+                    and user_name like concat('%',#{sysUser.username},'%')
+                </if>
+                <if test="sysUser.phone!=null and sysUser.phone!=''">
+                    and user_phone like concat('%',#{sysUser.phone},'%')
+                </if>
+                <if test="sysUser.gender!=null">
+                    and gender = #{sysUser.gender}
+                </if>
+                <if test="sysUser.loginDate!=null">
+                    and login_date &gt;= cast(#{sysUser.loginDate} as date)
+                </if>
             </if>
         </where>
     </select>

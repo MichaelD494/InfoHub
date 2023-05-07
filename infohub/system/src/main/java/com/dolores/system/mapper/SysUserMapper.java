@@ -3,6 +3,7 @@ package com.dolores.system.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.dolores.system.domain.SysUser;
 import com.dolores.system.domain.LoginUser;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,5 +20,6 @@ import java.util.Optional;
 @Repository
 public interface SysUserMapper extends BaseMapper<SysUser> {
     LoginUser queryUserByName(String name);
-    List<SysUser> querySysUserList(SysUser sysUser);
+
+    List<SysUser> querySysUserList(@Param("sysUser") SysUser sysUser);
 }

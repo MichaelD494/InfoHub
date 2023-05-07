@@ -283,9 +283,9 @@ $('.off-canvas').on('click', function () {
     $('body').addClass('pe-0');
 });
 // FOOTER
-if (!document.querySelector('.login-img')) {
-    document.getElementById("year").innerHTML = new Date().getFullYear();
-}
+// if (!document.querySelector('.login-img')) {
+//     document.getElementById("year").innerHTML = new Date().getFullYear().toString();
+// }
 
 
 

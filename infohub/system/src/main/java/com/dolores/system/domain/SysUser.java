@@ -47,12 +47,12 @@ public class SysUser implements Serializable {
     /**
      * 性别(0.女 1.男)
      */
-    private Byte gender;
+    private Integer gender;
 
     /**
      * 账号状态(0.未启用 1.已启用)
      */
-    private Byte status;
+    private Integer status;
     /**
      * 头像地址
      */
