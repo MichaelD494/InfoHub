@@ -12,7 +12,14 @@
 	<description>generator</description>
 
 	<dependencies>
-
+		<dependency>
+			<groupId>com.dolores</groupId>
+			<artifactId>common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.dolores</groupId>
+			<artifactId>framework</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>

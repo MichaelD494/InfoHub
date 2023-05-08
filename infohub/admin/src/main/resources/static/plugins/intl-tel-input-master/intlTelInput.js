@@ -746,11 +746,11 @@
                         e.preventDefault();
                         // up and down to navigate
                         if (e.key === "ArrowUp" || e.key === "Up" || e.key === "ArrowDown" || e.key === "Down") _this9._handleUpDownKey(e.key); else if (e.key === "Enter") _this9._handleEnterKey(); else if (e.key === "Escape") _this9._closeDropdown(); else if (/^[a-zA-ZÀ-ÿ ]$/.test(e.key)) {
-                            // jump to countries that start with the query string
+                            // jump to countries that start with the query.css string
                             if (queryTimer) clearTimeout(queryTimer);
                             query += e.key.toLowerCase();
                             _this9._searchForCountry(query);
-                            // if the timer hits 1 second, reset the query
+                            // if the timer hits 1 second, reset the query.css
                             queryTimer = setTimeout(function() {
                                 query = "";
                             }, 1e3);

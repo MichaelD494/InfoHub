@@ -1,0 +1,105 @@
+﻿<!doctype html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="page-header">
+    <h1 class="page-title">用户管理</h1>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form id="searchForm">
+            <div class="row marAuto wrap" style="height: 100px;margin-bottom: 30px">
+                <div class="flex marginR aic">
+                    <div class="nowrap">用户名:</div>
+                    <div>
+                        <input type="text" name="userName" class="form-control form-control-sm" id="userName"/>
+                    </div>
+                   <!-- <div class="col-sm-6 col-md-6 col-xl-3">
+                        <a class="modal-effect btn btn-primary-light d-grid mb-3" data-bs-effect="effect-flip-vertical"
+                           data-bs-toggle="modal">Flip Vertical</a>
+                    </div>-->
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary btn-sm" th:onclick="list()">搜索</button>
+                    <button type="button" class="btn btn-secondary btn-sm" th:onclick="reset()">重置</button>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="common-table" th:replace="common/table"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //查询url
+    const listUrl = "/sysUser/list";
+    const editUrl = '/sysUser/edit';
+    const editSaveUrl = '/sysUser/editSave';
+    const deleteUrl = '/sysUser/delete';
+    //查询对象
+    let searchObj = {};
+
+    $(function () {
+        //数据加载层
+        loading();
+        //获取数据
+        list();
+    })
+
+    //重置
+    function reset() {
+        initObj(searchObj);
+        $('#searchForm input').val('');
+        list();
+    }
+
+    //加载表单
+    function loadForm() {
+        const form = document.querySelector('#searchForm');
+        searchObj = buildQueryObj(new FormData(form));
+    }
+
+    //获取数据
+    function list() {
+        loadForm();
+        //配置加载表格选项
+        let option = {
+            columnList: [
+                {
+                    comment: "用户名",
+                    name: "userName"
+                },
+                {
+                    comment: "邮箱",
+                    name: "email"
+                },
+                {
+                    comment: "性别",
+                    name: "gender"
+                },
+                {
+                    comment: "登录ip",
+                    name: "loginIp"
+                },
+                {
+                    comment: "登录日期",
+                    name: "loginDate"
+                }
+            ]
+        }
+        option.url = listUrl;
+        option.queryParam = searchObj;
+        init(option);
+    }
+
+    function edit(userId) {
+        get(editUrl, userId, function (resp) {
+            console.log(resp)
+        });
+    }
+</script>
+</body>
+</html>
+
+

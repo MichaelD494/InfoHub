@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dolores.generator.mapper.GenTableMapper">
+    <select id="queryTableList" resultType="com.dolores.generator.entity.DBTable">
+        select *
+        from information_schema.TABLES
+        where TABLE_SCHEMA = (select database())
+        order by CREATE_TIME desc
+    </select>
+    <select id="queryTableListByName" resultType="com.dolores.generator.entity.DBTable">
+        select *
+        from information_schema.TABLES
+        where TABLE_SCHEMA = (select database()) and TABLE_NAME in
+        <foreach collection="tableNameList" open="(" close=")" item="item" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="queryGenTableByDetail" resultType="com.dolores.generator.entity.GenTable">
+        select
+        table_name,
+        table_comment,
+        update_time,
+        create_time
+        from (
+        select
+        * from information_schema.TABLES
+        where TABLE_SCHEMA = (select database()) and TABLE_NAME in
+        <foreach collection="reduce" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+        order by create_time desc
+        ) as tmp
+        <where>
+            <if test="tableName!=null and tableName!=''">
+                and table_name like concat('%',#{tableName},'%')
+            </if>
+            <if test="tableComment!=null and tableComment!=''">
+                and table_comment like concat('%',#{tableComment},'%')
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="queryGenTableByNamesMap" type="com.dolores.generator.entity.vo.GenTableVo">
+        <collection property="genColumnVoList"
+                    ofType="com.dolores.generator.entity.vo.GenColumnVo"
+                    column="{table_name=table_name}"
+                    select="genColumnVoListSelect"
+        />
+    </resultMap>
+    <select id="genColumnVoListSelect" resultType="com.dolores.generator.entity.vo.GenColumnVo">
+        select
+               table_name,
+               column_name,
+               is_nullable,
+               column_type,
+               column_key,
+               column_comment,
+               entity_column_type
+        from gen_column
+        where table_name = #{table_name}
+    </select>
+    <select id="queryGenTableByNames" resultMap="queryGenTableByNamesMap">
+        select
+        table_name,
+        table_comment,
+        entity_name,
+        author,
+        module_name
+        from gen_table
+        where table_name in
+        <foreach collection="tableNames" open="(" close=")" item="item" separator=",">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

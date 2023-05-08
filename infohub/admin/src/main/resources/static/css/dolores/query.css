@@ -1,0 +1,37 @@
+.marAuto {
+    margin: auto 0;
+}
+
+.flex {
+    display: flex;
+}
+
+.wrap {
+    flex-wrap: wrap;
+}
+
+.nowrap {
+    white-space: nowrap;
+    width: auto;
+    margin-right: 5px;
+    font-size: 12px;
+}
+
+.aic {
+    align-items: center;
+}
+
+.marginR {
+    margin-right: 10px;
+}
+
+#dolores-table td {
+    /* 设置单元格宽度 */
+    width: 150px;
+    /* 设置单元格内容自动换行 */
+    white-space: normal;
+    /* 在单词边界处换行 */
+    word-break: break-word;
+    /* 设置单元格内边距，以便内容更易于阅读 */
+    padding: 8px;
+}

@@ -1377,13 +1377,13 @@
           this._initEventHandlers();
       },
 
-      // This method is exposed to the widget API and allows to query
+      // This method is exposed to the widget API and allows to query.css
       // the number of active uploads:
       active: function () {
           return this._active;
       },
 
-      // This method is exposed to the widget API and allows to query
+      // This method is exposed to the widget API and allows to query.css
       // the widget upload progress.
       // It returns an object with loaded, total and bitrate properties
       // for the running uploads:

@@ -24,6 +24,13 @@ public class BaseController {
     }
 
     /**
+     * 返回成功
+     */
+    public AjaxResult success(Object obj) {
+        return AjaxResult.success(obj);
+    }
+
+    /**
      * 返回失败消息
      */
     public AjaxResult error() {

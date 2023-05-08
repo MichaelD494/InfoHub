@@ -1,0 +1,12 @@
+package ${packageName}.service.impl;
+
+import org.springframework.stereotype.Service;
+
+/**
+ * @author ${author}
+ * @since ${createTime}
+ */
+@Service
+public class ${entityName}ServiceImpl extends ServiceImpl<${entityName}Mapper, ${entityName}> implements I${entityName}Service {
+
+}

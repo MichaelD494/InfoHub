@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dolores.generator.mapper.GenColumnMapper">
+
+
+    <select id="queryDBColumnListByName" resultType="com.dolores.generator.entity.GenColumn">
+        select TABLE_NAME as tableName, COLUMN_NAME as columnName, IS_NULLABLE as isNullable, COLUMN_TYPE as columnType, COLUMN_KEY as columnKey,
+        COLUMN_COMMENT as columnComment
+        from information_schema.COLUMNS
+        where TABLE_SCHEMA = (select database())
+        and TABLE_NAME in
+        <foreach collection="tableNameList" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="queryTableListByDetail" resultType="com.dolores.generator.entity.DBTable">
+        select *
+        from information_schema.TABLES
+        <where>
+            and TABLE_SCHEMA = (select database())
+            <if test="tableName!=null and tableName!=''">
+                and TABLE_NAME like concat('%',#{tableName},'%')
+            </if>
+            <if test="createDateMap!=null">
+                <if test="createDateMap.startDate!=null">
+                    and date_format(CREATE_TIME,'%y%m%d') &gt;= date_format(#{createDateMap.startDate},'%y%m%d')
+                </if>
+                <if test="createDateMap.endDate!=null">
+                    and date_format(CREATE_TIME,'%y%m%d') &lt;= date_format(#{createDateMap.endDate},'%y%m%d')
+                </if>
+            </if>
+            <if test="updateDateMap!=null">
+                <if test="updateDateMap.startDate!=null">
+                    and date_format(CREATE_TIME,'%y%m%d') &gt;= date_format(#{updateDateMap.startDate},'%y%m%d')
+                </if>
+                <if test="updateDateMap.endDate!=null">
+                    and date_format(CREATE_TIME,'%y%m%d') &lt;= date_format(#{updateDateMap.endDate},'%y%m%d')
+                </if>
+            </if>
+            <if test="tableName!=null and tableName!=''">
+                and TABLE_NAME like concat('%',#{tableName},'%')
+            </if>
+        </where>
+        order by CREATE_TIME desc
+    </select>
+</mapper>

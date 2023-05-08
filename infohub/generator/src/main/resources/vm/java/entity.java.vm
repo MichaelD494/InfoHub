@@ -1,0 +1,33 @@
+package ${packageName}.entity;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Set;
+
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
+/**
+ * @author ${author}
+ * @since ${createTime}
+ */
+@Data
+@TableName("${tableName}")
+public class ${entityName} implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+#foreach($item in $propertyList)
+    /**
+     * $item.columnComment
+     */
+    #if($foreach.index==0)
+    @TableId(value = "$item.genPrimaryKey", type = IdType.AUTO)
+    #end
+    private $item.entityColumnType $item.columnName;
+#end
+}

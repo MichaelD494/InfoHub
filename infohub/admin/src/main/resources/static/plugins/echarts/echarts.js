@@ -17327,7 +17327,7 @@ function mappingToExists(exists, newCptOptions) {
     // new option) in merge mode. Because we should ensure
     // some specified index (like xAxisIndex) is consistent with
     // original option, which is easy to understand, espatially in
-    // media query. And in most case, merge option is used to
+    // media query.css. And in most case, merge option is used to
     // update partial option but not be expected to change order.
     newCptOptions = (newCptOptions || []).slice();
 
@@ -18271,7 +18271,7 @@ function sizeCalculable(option, hvIdx) {
 /**
  * Consider Case:
  * When defulat option has {left: 0, width: 100}, and we set {right: 0}
- * through setOption or media query, using normal zrUtil.merge will cause
+ * through setOption or media query.css, using normal zrUtil.merge will cause
  * {right: 0} does not take effect.
  *
  * @example
@@ -18755,7 +18755,7 @@ var GlobalModel = Model.extend({
      * @param {string} type null/undefined: reset all.
      *                      'recreate': force recreate all.
      *                      'timeline': only reset timeline option
-     *                      'media': only reset media query option
+     *                      'media': only reset media query.css option
      * @return {boolean} Whether option changed.
      */
     resetOption: function (type) {
@@ -18960,7 +18960,7 @@ var GlobalModel = Model.extend({
      * If none of index and id and name used, return all components with mainType.
      * @param {Object} condition
      * @param {string} condition.mainType
-     * @param {string} [condition.subType] If ignore, only query by mainType
+     * @param {string} [condition.subType] If ignore, only query.css by mainType
      * @param {number|Array.<number>} [condition.index] Either input index or id or name.
      * @param {string|Array.<string>} [condition.id] Either input index or id or name.
      * @param {string|Array.<string>} [condition.name] Either input index or id or name.
@@ -19022,10 +19022,10 @@ var GlobalModel = Model.extend({
      *
      * @usage
      * var result = findComponents(
-     *     {mainType: 'dataZoom', query: {dataZoomId: 'abc'}}
+     *     {mainType: 'dataZoom', query.css: {dataZoomId: 'abc'}}
      * );
      * var result = findComponents(
-     *     {mainType: 'series', subType: 'pie', query: {seriesName: 'uio'}}
+     *     {mainType: 'series', subType: 'pie', query.css: {seriesName: 'uio'}}
      * );
      * var result = findComponents(
      *     {mainType: 'series'},
@@ -19036,10 +19036,10 @@ var GlobalModel = Model.extend({
      * @param {Object} condition
      * @param {string} condition.mainType Mandatory.
      * @param {string} [condition.subType] Optional.
-     * @param {Object} [condition.query] like {xxxIndex, xxxId, xxxName},
+     * @param {Object} [condition.query.css] like {xxxIndex, xxxId, xxxName},
      *        where xxx is mainType.
-     *        If query attribute is null/undefined or has no index/id/name,
-     *        do not filtering by query conditions, which is convenient for
+     *        If query.css attribute is null/undefined or has no index/id/name,
+     *        do not filtering by query.css conditions, which is convenient for
      *        no-payload situations or when target of action is global.
      * @param {Function} [condition.filter] parameter: component, return boolean.
      * @return {Array.<module:echarts/model/Component>}
@@ -19091,11 +19091,11 @@ var GlobalModel = Model.extend({
      *     // (componentType is 'xxx' but not 'xxx.aa')
      * });
      * eachComponent(
-     *     {mainType: 'dataZoom', query: {dataZoomId: 'abc'}},
+     *     {mainType: 'dataZoom', query.css: {dataZoomId: 'abc'}},
      *     function (model, index) {...}
      * );
      * eachComponent(
-     *     {mainType: 'series', subType: 'pie', query: {seriesName: 'uio'}},
+     *     {mainType: 'series', subType: 'pie', query.css: {seriesName: 'uio'}},
      *     function (model, index) {...}
      * );
      *
@@ -19496,11 +19496,11 @@ var QUERY_REG = /^(min|max)?(.+)$/;
  *         ],
  *         media: [
  *             {
- *                 query: {maxWidth: 320},
+ *                 query.css: {maxWidth: 320},
  *                 option: {series: {x: 20}, visualMap: {show: false}}
  *             },
  *             {
- *                 query: {minWidth: 320, maxWidth: 720},
+ *                 query.css: {minWidth: 320, maxWidth: 720},
  *                 option: {series: {x: 500}, visualMap: {show: true}}
  *             },
  *             {
@@ -19726,7 +19726,7 @@ function parseRawOption(rawOption, optionPreprocessorFuncs, isNew) {
         timelineOptions = (rawOption.options || []).slice();
     }
 
-    // For media query
+    // For media query.css
     if (rawOption.media) {
         baseOption = baseOption || {};
         var media = rawOption.media;

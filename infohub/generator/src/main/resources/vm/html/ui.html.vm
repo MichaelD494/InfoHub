@@ -1,39 +1,8 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <style>
-        .marAuto {
-            margin: auto 0;
-        }
-
-        .flex {
-            display: flex;
-        }
-
-        .wrap {
-            flex-wrap: wrap;
-        }
-
-        .nowrap {
-            white-space: nowrap;
-            width: auto;
-            margin-right: 5px;
-            font-size: 12px;
-        }
-
-        .aic {
-            align-items: center;
-        }
-
-        .marginR {
-            margin-right: 10px;
-        }
-
-    </style>
-</head>
 <body>
 <div class="page-header">
-    <h1 class="page-title">Data Table</h1>
+    <h1 class="page-title">${pageTitle}</h1>
 </div>
 
 <div class="card">
@@ -42,15 +11,16 @@
     </div>
     <div class="card-body">
         <div class="row marAuto wrap" style="height: 100px;margin-bottom: 30px">
-            <div class="flex marginR aic">
-                <div class="nowrap">用户名:</div>
-                <div>
-                    <input type="text" name="userName" class="form-control form-control-sm" id="userName"/>
+            #foreach($item in $propertyList)
+                <div class="flex marginR aic">
+                    <div class="nowrap">$item.columnComment</div>
+                    <input type="text" name="searchForm.$item.columnName" placeholder="请输入$item.columnComment"
+                           class="form-control form-control-sm"/>
                 </div>
-            </div>
+            #end
             <div>
-                <button type="button" class="btn btn-primary btn-sm" th:onclick="getSysUserList()">搜索</button>
-                <button type="button" class="btn btn-secondary btn-sm">重置</button>
+                <button type="button" class="btn btn-primary btn-sm" th:onclick="list()">搜索</button>
+                <button type="button" class="btn btn-secondary btn-sm" th:onclick="reset()">重置</button>
             </div>
         </div>
         <div class="row">
@@ -60,13 +30,48 @@
 </div>
 
 <script>
-    const sysUserListUrl = "/sysUser/list";
+
+    const sysUserListUrl = "/${humpEntityName}";
+
+    let searchForm = {
+        #set($size = $propertyList.size())
+        #foreach($item in $propertyList)
+            #if($foreach.count==${size})
+                    $item.columnName : ''
+            #end
+            #if($foreach.count!=${size})
+                    $item.columnName : '',
+            #end
+        #end
+    };
+
+    let form = {
+        #foreach($item in $propertyList)
+            #if($foreach.count==${size})
+                    $item.columnName : ''
+            #end
+            #if($foreach.count!=${size})
+                    $item.columnName : '',
+            #end
+        #end
+    };
+
+    let page = {
+        nextPage: '',
+        prePage: ''
+    };
+
     $(function () {
         loading();
-        getSysUserList();
+        list();
     })
 
-    function getSysUserList() {
+    function reset() {
+        initObj(searchForm);
+        list();
+    }
+
+    function list() {
         let option = {
             columnList: [
                 {

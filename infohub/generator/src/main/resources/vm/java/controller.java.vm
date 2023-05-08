@@ -1,0 +1,79 @@
+package ${packageName}.controller.system;
+
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.dolores.common.core.controller.BaseController;
+import com.dolores.common.core.domain.AjaxResult;
+import com.dolores.system.entity.PageDetail;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * ${tableComment}
+ *
+ * @author ${author}
+ * @since ${createTime}
+ */
+@RestController
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequestMapping("/${humpEntityName}" )
+public class ${entityName}Controller extends BaseController {
+
+    private final I${entityName}Service ${humpEntityName}Service;
+
+    /**
+     * 查询${tableComment}数据
+     * @param pageDetail 分页详情
+     */
+    @PostMapping("/list" )
+    public AjaxResult list(PageDetail pageDetail,${entityName} ${humpEntityName}) {
+        PageHelper.startPage(pageDetail.getPageNum(), pageDetail.getPageSize());
+        List<${entityName}> list = ${humpEntityName}Service.list();
+        PageInfo<${entityName}> page = new PageInfo<>(list);
+        AjaxResult ajaxResult = success();
+        ajaxResult.put("page", page);
+        return ajaxResult;
+    }
+
+    /**
+    * 添加${tableComment}
+    */
+    @PostMapping("/addSave" )
+    public AjaxResult addSave(${entityName} ${humpEntityName}) {
+        return toAjax(${humpEntityName}Service.save(${humpEntityName}));
+    }
+
+    /**
+     * 获取编辑${tableComment}实体类
+     */
+    @GetMapping("/edit/{id}" )
+    public AjaxResult edit(@PathVariable Long id) {
+        AjaxResult ajaxResult = success();
+        ${entityName} ${humpEntityName} =${humpEntityName}Service.getById(id);
+        ajaxResult.put("${humpEntityName}",${humpEntityName});
+        return ajaxResult;
+    }
+
+    /**
+     * 编辑${tableComment}
+     */
+    @PostMapping("/editSave" )
+    public AjaxResult editSave(${entityName} ${humpEntityName}) {
+        return toAjax(${humpEntityName}Service.updateById(${humpEntityName}));
+    }
+
+    /**
+     * 删除${tableComment}
+     */
+    @PostMapping("/remove/{ids}" )
+    public AjaxResult remove(@PathVariable String ids) {
+        List<String> idList = Arrays.asList(ids.split("," ));
+        return toAjax(${humpEntityName}Service.removeByIds(idList));
+    }
+}

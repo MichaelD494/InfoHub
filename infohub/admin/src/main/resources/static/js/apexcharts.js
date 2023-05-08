@@ -28405,7 +28405,7 @@
     SVG.get = function (id) {
       var node = document.getElementById(idFromReference(id) || id);
       return SVG.adopt(node);
-    }; // Select elements by query string
+    }; // Select elements by query.css string
 
 
     SVG.select = function (query, parent) {

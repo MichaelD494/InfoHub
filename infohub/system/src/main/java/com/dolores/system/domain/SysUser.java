@@ -72,6 +72,10 @@ public class SysUser implements Serializable {
      * 密码更新日期
      */
     private Date pwdUpdateDate;
+    /**
+     * 逻辑删除(0.未删除 1.已删除)
+     */
+    private Integer isDelete;
 
     /**
      * 创建者

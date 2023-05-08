@@ -1,0 +1,308 @@
+<template>
+  <div>
+    <el-card class="box-card searchCard">
+      <div class="flex marAuto wrap" style="height: 100px">
+          #foreach($item in $propertyList)
+            <div class="flex marginR">
+              <div class="nowrap">$item.columnComment</div>
+              <el-input placeholder="请输入内容" size="mini" v-model="searchForm.$item.columnName"/>
+            </div>
+          #end
+        <div class="flex btn-group">
+          <el-button size="mini" class="search" icon="el-icon-search" type="primary" @click="search">搜索</el-button>
+          <el-button size="mini" class="search" icon="el-icon-refresh" type="warning" @click="refresh">重置</el-button>
+        </div>
+      </div>
+    </el-card>
+
+    <el-card class="box-card">
+      <el-row>
+        <div class="flex">
+          <el-button icon="el-icon-plus" size="mini" type="primary" @click="add">新增</el-button>
+          <el-button icon="el-icon-edit" size="mini" ref="modify" @click="edit" type="success" :disabled="editFlag">编辑</el-button>
+          <el-button icon="el-icon-delete" size="mini" type="danger" @click="remove" :disabled="removeFlag">删除</el-button>
+        </div>
+      </el-row>
+      <el-table
+          :data="dataList"
+          v-loading="loading"
+          ref="multipleTable"
+          class="pageHelper"
+          tooltip-effect="dark"
+          @selection-change="handleSelectionChange"
+          style="width: 100%;border-radius: 10px">
+        <el-table-column
+            type="selection"
+            width="55"
+        >
+        </el-table-column>
+          #foreach($item in $propertyList)
+            <el-table-column
+                prop="$item.columnName"
+                label="$item.columnComment"
+                #if($foreach.index==0)
+                v-if="show"
+                #end
+              #if($item.columnName.contains("Time"))
+                sortable
+                width="160"
+                :formatter="convertDate"
+              #end
+            >
+            </el-table-column>
+          #end
+        <el-table-column
+            label="操作"
+            width="180px"
+        >
+          <slot slot-scope="scope">
+            <el-button type="success" size="mini" @click="edit(scope.row.${primaryKey})">编辑</el-button>
+            <el-button type="danger" size="mini" @click="remove(scope.row.${primaryKey})">删除</el-button>
+          </slot>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+          background
+          class="pageHelper"
+          layout="prev,pager,next"
+          :page-count="page.pages"
+          @prev-click="prevBtn"
+          @next-click="nextBtn"
+          @current-change="currentBtn"
+      >
+      </el-pagination>
+      <el-dialog
+          :title="this.dialogTitle"
+          :visible.sync="dialogVisible"
+          width="30%">
+        <el-form ref="formRef" :rules="formRules" :model="form" label-width="80px">
+          <el-input v-model="form.${primaryKey}" type="hidden"/>
+            #foreach($item in $propertyList)
+              <el-form-item prop="$item.columnName" label="$item.columnComment" size="mini">
+                <el-input v-model="form.$item.columnName"/>
+              </el-form-item>
+            #end
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+    <el-button @click="closeDialog">取 消</el-button>
+    <el-button type="primary" @click="confirm">确 定</el-button>
+  </span>
+      </el-dialog>
+    </el-card>
+  </div>
+</template>
+
+<script>
+  import {dealStrToDate, initObj, isNotEmpty, setFormData} from "@/utils/dolores";
+  import {aGet, aPost} from "@/components/request/request";
+
+  export default {
+    name: '${entityName}',
+    data() {
+      return {
+        prefix: '/${humpEntityName}',
+        loading: true,
+        option: [],
+        show: false,
+        dataList: [],
+        multipleSelection: [],
+        dialogVisible: false,
+        searchForm: {
+            #set($size = $propertyList.size())
+            #foreach($item in $propertyList)
+                #if($foreach.count==${size})
+        $item.columnName : ''
+                #end
+                #if($foreach.count!=${size})
+        $item.columnName : '',
+                #end
+            #end
+        },
+        form: {
+            #foreach($item in $propertyList)
+                #if($foreach.count==${size})
+        $item.columnName : ''
+                #end
+                #if($foreach.count!=${size})
+        $item.columnName : '',
+                #end
+            #end
+        },
+        formRules: {},
+        editFlag: true,
+        removeFlag: true,
+        page: {
+          nextPage: '',
+          prePage: ''
+        },
+        pageDetail: {
+          pageNum: 1,
+          pageSize: 5
+        },
+        dialogTitle: '',
+      }
+    },
+    created() {
+      this.getDataList();
+    },
+    methods: {
+      resetForm() {
+        this.$nextTick(() => {
+          this.$refs.formRef.resetFields();
+        })
+      },
+      closeDialog() {
+        this.resetForm();
+        this.dialogVisible = false;
+      },
+      search() {
+        this.getDataList();
+      },
+      getDataList(type, val) {
+        let action = '';
+        if (1 == type) {
+          action = this.page.nextPage
+        } else if (0 == type) {
+          action = this.page.prePage;
+        } else if (3 == type) {
+          action = val;
+        }
+        let formData = new FormData();
+        if (isNotEmpty(action)) {
+          formData.append('pageNum', action);
+        }
+        aPost(this.prefix + '/list', formData).then(resp => {
+          if (resp.code == 500) return this.$message.error("数据加载失败");
+          this.dataList = resp.page.list;
+          this.page = resp.page;
+          this.loading = false;
+        });
+      },
+      currentBtn(val) {
+        this.getDataList(3, val);
+      },
+      prevBtn() {
+        this.getDataList(0);
+      },
+      nextBtn() {
+        this.getDataList(1);
+      },
+      remove(data) {
+        let ids = '';
+        if (this.multipleSelection.length > 0) {
+          data = this.multipleSelection;
+          for (let i = 0; i < data.length; i++) {
+            ids += data[i].${primaryKey};
+            if (i < data.length) {
+              ids += ',';
+            }
+          }
+          if (ids.length == 2) {
+            ids = ids.substring(0, 1);
+          } else {
+            ids = ids.substring(0, ids.lastIndexOf(','));
+          }
+        } else {
+          ids = data;
+        }
+        this.$confirm('确认删除?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          aPost(this.prefix + '/remove', ids).then(resp => {
+            if (resp.code == 200) {
+              this.$message({
+                type: 'success',
+                message: '删除成功'
+              });
+              return this.getDataList();
+            }
+            return this.$message.error('删除失败');
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },
+      confirm() {
+        #[[this.$refs.formRef.validate(valid => {
+          if (!valid) return;
+          let obj = this.form;
+          let title = this.dialogTitle;
+          if (title == '添加') {
+            this.addSave(obj);
+          } else if (title == '编辑') {
+            this.editSave(obj);
+          }
+        })]]#
+      },
+      add() {
+        this.dialogTitle = '添加';
+        this.dialogVisible = true;
+        this.resetForm();
+        this.option = [];
+        aGet('/add').then(resp => {
+
+        });
+      },
+      addSave() {
+        let form = this.form;
+        aPost(this.prefix + '/addSave', setFormData(form)).then(resp => {
+          if (resp.code == 200) {
+            this.$message.success('添加成功');
+            this.dialogVisible = false;
+            return this.queryUserList();
+          }
+          return this.$message.error('添加失败');
+        })
+      },
+      edit(${primaryKey}) {
+        this.dialogTitle = '编辑';
+        this.dialogVisible = true;
+        this.option = [];
+        aGet('/edit').then(resp => {
+
+        });
+      },
+      editSave() {
+        let form = this.form;
+        aPost(this.prefix + '/editSave', setFormData(form)).then(resp => {
+          if (resp.code == 200) {
+            this.$message.success('更新成功');
+            this.dialogVisible = false;
+            return this.getDataList();
+          }
+          return this.$message.error('更新失败');
+        })
+      },
+      handleSelectionChange(val) {
+        this.multipleSelection = val;
+        let length = this.multipleSelection.length;
+        if (length > 0) {
+          this.removeFlag = false;
+        } else {
+          this.removeFlag = true;
+        }
+        if (length == 1) {
+          this.editFlag = false;
+        } else {
+          this.editFlag = true;
+        }
+      },
+      convertDate(row, column, cellValue, index) {
+        return dealStrToDate(row[column.property]);
+      },
+      refresh() {
+        initObj(this.searchForm);
+        this.getDataList();
+      }
+    }
+  }
+</script>
+
+<style lang="less" scoped>
+
+</style>

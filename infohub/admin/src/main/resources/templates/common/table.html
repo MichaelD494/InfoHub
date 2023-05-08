@@ -3,17 +3,8 @@
 <body>
 <div class="table-responsive">
     <div>
-        <table id="dolores-table" class="table border text-nowrap text-md-nowrap mg-b-0">
-            <thead id="dolores-thead">
-            <tr>
-                <th></th>
-            </tr>
-            </thead>
-            <!--<tbody id="dolores-tbody" th:each="item:${column.dataList}">
-            <tr>
-                <td th:text="${item}"></td>
-            </tr>
-            </tbody>-->
+        <table id="dolores-table"
+               class="table table-bordered border text-nowrap text-md-nowrap mg-b-0 table-striped table-hover">
         </table>
         <div class="d-flex justify-content-center">
             <div id="data-loading" class="spinner-border" role="status">
@@ -23,13 +14,34 @@
     </div>
 </div>
 <script>
+    //数据遮盖层时间
+    const timeout = 500;
+
+    let dolores_option = {
+        isNeedOperate: true,   //是否需要操作按钮
+        columnList: []          //列集合
+    };
 
     //初始化
     function init(option) {
-        loadTable(option);
-        initTable();
-        initThead(option.columnList);
-        initTbody(option.parentList);
+        rebuildOption(option, dolores_option);
+        //加载表格数据
+        loadTable(dolores_option);
+        //初始化表格
+        initTable(dolores_option);
+        //初始化表格头部
+        initThead(dolores_option);
+        //初始化表格主体
+        initTbody(dolores_option);
+        //隐藏数据加载层
+        hideLoading();
+        //追加
+        appendTbody(dolores_option);
+    }
+
+    //重构表格选项对象
+    function rebuildOption(option) {
+        rewriteObj(option, dolores_option);
     }
 
     //加载表单
@@ -50,16 +62,7 @@
                 const resourceList = resp.data;
                 //展示数据加载层
                 showLoading();
-                //动态插入标签
-                let tbody = $('tbody');
-                resourceList.forEach(item => {
-                    let row = `<tr>
-            <td>${item.userName}</td>`;
-                    tbody.append(row);
-                });
-                tbody.empty();
                 matchData(option, resourceList);
-                hideLoading();
             }
         })
     }
@@ -91,6 +94,15 @@
         });
         //重新赋值
         option.parentList = parentList;
+        const isNeedOperate = option.isNeedOperate;
+        //判断是否需要操作头
+        if (isNeedOperate) {
+            appendOperate(option);
+        }
+    }
+
+    function appendOperate(option) {
+        option.columnList.push({comment: '操作', name: 'operate'});
     }
 
     //初始化表格
@@ -100,11 +112,12 @@
     }
 
     //初始化表格头部
-    function initThead(columnList) {
+    function initThead(option) {
+        let columnList = option.columnList;
         //创建表格头部
         let thead = document.createElement('thead');
         //设置元素属性
-        thead.setAttribute('id', 'dolores-tbody');
+        thead.setAttribute('id', 'dolores-thead');
         //创建行
         const tr = document.createElement('tr');
         columnList.forEach(column => {
@@ -124,7 +137,8 @@
     }
 
     //初始化主体
-    function initTbody(parentList) {
+    function initTbody(option) {
+        let parentList = option.parentList;
         let tbody = document.createElement('tbody');
         tbody.setAttribute('id', 'dolores-tbody');
         parentList.forEach(child => {
@@ -136,12 +150,34 @@
                     td.innerText = data == null ? null : data.value;
                     tr.appendChild(td);
                 });
+                //判断是否需要操作按钮
+                if (option.isNeedOperate) {
+                    let operateTd = document.createElement('td');
+                    let modifyBtn = document.createElement('button');
+                    let removeBtn = document.createElement('button');
+                    modifyBtn.innerText = '编辑';
+                    removeBtn.innerText = '删除';
+                    modifyBtn.classList.add('btn', 'btn-success', 'btn-sm');
+                    modifyBtn.style.marginRight = '10px';
+                    removeBtn.classList.add('btn', 'btn-danger', 'btn-sm');
+                    operateTd.append(modifyBtn);
+                    operateTd.append(removeBtn);
+                    tr.appendChild(operateTd);
+                }
             }
             tbody.appendChild(tr);
         });
-        document
-            .getElementById("dolores-table")
-            .appendChild(tbody);
+        option.tbody = tbody;
+    }
+
+    //追加主体
+    function appendTbody(option) {
+        setTimeout(function () {
+            const tbody = option.tbody;
+            document
+                .getElementById("dolores-table")
+                .appendChild(tbody);
+        }, timeout)
     }
 
     //数据加载层
@@ -149,8 +185,7 @@
         // 模拟异步加载数据
         setTimeout(function () {
             $('#data-loading').hide(); // 隐藏 loading 效果
-            $('#dolores-tbody').show(); // 显示表格
-        }, 500);
+        }, timeout);
     }
 
     //展示加载层
@@ -163,8 +198,7 @@
         // 模拟异步加载数据
         setTimeout(function () {
             $('#data-loading').hide(); // 隐藏 loading 效果
-            $('#dolores-tbody').show(); // 显示表格
-        }, 500);
+        }, timeout);
     }
 </script>
 </body>

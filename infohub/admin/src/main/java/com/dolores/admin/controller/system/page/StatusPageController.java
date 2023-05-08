@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class StatusController {
+public class StatusPageController {
     private final String prefix = "system/status/";
 
     @GetMapping("/404")
