@@ -56,9 +56,11 @@ public class UserInfo implements UserDetails, Serializable {
             return authorityList;
         }
         List<String> roleList = roles.stream().map(SysUserPerms::getPerms).filter(StringUtils::isNotBlank).toList();
-        List<SimpleGrantedAuthority> authorities = roleList.stream().map(SimpleGrantedAuthority::new).toList();
-        if (authorities.size() > 0) {
-            authorityList = roleList.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        if (roleList.size() > 0) {
+            authorityList = new ArrayList<>();
+            roleList.forEach(item -> {
+                authorityList.add(new SimpleGrantedAuthority(item));
+            });
         }
         return authorityList;
     }

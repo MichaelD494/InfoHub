@@ -14,10 +14,6 @@
                     <div>
                         <input type="text" name="userName" class="form-control form-control-sm" id="userName"/>
                     </div>
-                   <!-- <div class="col-sm-6 col-md-6 col-xl-3">
-                        <a class="modal-effect btn btn-primary-light d-grid mb-3" data-bs-effect="effect-flip-vertical"
-                           data-bs-toggle="modal">Flip Vertical</a>
-                    </div>-->
                 </div>
                 <div>
                     <button type="button" class="btn btn-primary btn-sm" th:onclick="list()">搜索</button>
@@ -26,20 +22,35 @@
             </div>
         </form>
         <div class="row">
-            <div class="common-table" th:replace="common/table"></div>
+            <div class="dolores-btn-group" style="margin-bottom: 10px">
+                <button type="button"
+                        class="modal-effect btn btn-default btn-sm"
+                        id="addBtn"
+                        data-bs-effect="effect-flip-vertical"
+                        data-bs-toggle="modal"
+                        href="#dolores-add-modal"
+                        th:onclick="openSaveModal()">添加
+                </button>
+                <button type="button" class="btn btn-success btn-sm" id="editBtn" th:onclick="openSaveModal()">编辑
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" id="deleteBtn" th:onclick="openSaveModal()">删除
+                </button>
+            </div>
+            <div class="common-table" th:replace="~{common/table}"></div>
         </div>
     </div>
 </div>
-
+<div th:replace="~{system/user/add}"></div>
+<div th:replace="~{system/user/edit}"></div>
 <script>
     //查询url
     const listUrl = "/sysUser/list";
+    const saveUrl = '/sysUser/save';
     const editUrl = '/sysUser/edit';
     const editSaveUrl = '/sysUser/editSave';
     const deleteUrl = '/sysUser/delete';
     //查询对象
     let searchObj = {};
-
     $(function () {
         //数据加载层
         loading();
@@ -97,6 +108,16 @@
         get(editUrl, userId, function (resp) {
             console.log(resp)
         });
+    }
+
+    function openSaveModal() {
+        openModal('#addBtn', '#dolores-add-modal');
+    }
+
+    function save() {
+        const form = document.querySelector('#addForm');
+        let addObj = buildQueryObj(new FormData(form));
+        console.log(addObj)
     }
 </script>
 </body>

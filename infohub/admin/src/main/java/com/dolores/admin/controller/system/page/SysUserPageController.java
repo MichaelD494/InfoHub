@@ -16,9 +16,4 @@ public class SysUserPageController extends BaseController {
     public String account() {
         return prefix + "account";
     }
-
-    @GetMapping("/add")
-    public String add() {
-        return prefix + "add";
-    }
 }

@@ -35,3 +35,7 @@
     /* 设置单元格内边距，以便内容更易于阅读 */
     padding: 8px;
 }
+
+.dolores-btn-group button {
+    margin-right: 5px;
+}
