@@ -4,7 +4,7 @@ function get(url, data, successCallback) {
         type: 'GET',
         data: data,
         success: successCallback,
-        header: {
+        headers: {
             'X-Api-Request': 'false'
         }
     });
@@ -19,7 +19,7 @@ function post(url, data, successCallback) {
         dataType: 'JSON',
         contentType: "application/json; charset=utf-8",
         success: successCallback,
-        header: {
+        headers: {
             'X-Api-Request': 'false'
         }
     });
@@ -33,7 +33,7 @@ function put(url, data, successCallback) {
         dataType: 'JSON',
         contentType: "application/json; charset=utf-8",
         success: successCallback,
-        header: {
+        headers: {
             'X-Api-Request': 'false'
         }
     });
@@ -46,7 +46,7 @@ function remove(url, data, successCallback) {
         dataType: 'JSON',
         contentType: "application/json; charset=utf-8",
         success: successCallback,
-        header: {
+        headers: {
             'X-Api-Request': 'false'
         }
     });

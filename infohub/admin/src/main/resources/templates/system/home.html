@@ -155,7 +155,6 @@
                                 </li>
                             </ul>
                         </li>
-
                     </ul>
                     <div class="slide-right" id="slide-right">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24"
@@ -170,7 +169,6 @@
             <div class="side-app">
                 <!-- CONTAINER -->
                 <div class="main-container container-fluid" id="page-content">
-
                 </div>
             </div>
         </div><!--app-content close-->
@@ -185,9 +183,10 @@
     <script th:src="@{/static/js/dolores/common.js}"></script>
     <script th:src="@{/static/js/dolores/table.js}"></script>
     <script th:src="@{/static/js/dolores/modal.js}"></script>
+
     <script>
-        const logoutUrl = "/logout";
-        const loginPage = "/sys/login";
+        var logoutUrl = "/logout";
+        var loginPage = "/sys/login";
         $(function () {
             //从缓存中获取当前页面
             const currentPage = localStorage.getItem("currentPage");
@@ -197,18 +196,18 @@
             }
         });
 
-
         function loadMenu(url) {
             $.ajax({
                 url: url,
                 type: 'GET',
                 async: false,
-                header: {
+                headers: {
                     'X-Api-Request': 'false'
                 },
-                success: function () {
+                success: function (resp) {
                     //将当前页面放入缓存
                     localStorage.setItem("currentPage", url);
+                    $("#page-content").empty();
                     $("#page-content").load(url);
                 }
             });
@@ -245,8 +244,6 @@
     <script th:src="@{/static/js/themeColors.js}"></script><!-- CUSTOM JS -->
     <script th:src="@{/static/js/custom-swicher.js}"></script><!-- Switcher js -->
     <script th:src="@{/static/switcher/js/switcher.js}"></script>
-    <!-- INTERNAL SELECT2 JS -->
-    <script th:src="@{/static/plugins/select2/select2.full.min.js}"></script>
     <!-- INTERNAL Notifications js -->
     <script th:src="@{/static/plugins/notify/js/rainbow.js}"></script>
     <script th:src="@{/static/plugins/notify/js/sample.js}"></script>
@@ -266,6 +263,9 @@
     <script th:src="@{/static/plugins/datatable/dataTables.responsive.min.js}"></script>
     <script th:src="@{/static/plugins/datatable/responsive.bootstrap5.min.js}"></script>
     <script th:src="@{/static/js/table-data.js}"></script>
+    <!-- INTERNAL SELECT2 JS -->
+    <script th:src="@{/static/plugins/select2/select2.full.min.js}"></script>
+    <script th:src="@{/static/js/select2.js}"></script>
 </div>
 </body>
 </html>

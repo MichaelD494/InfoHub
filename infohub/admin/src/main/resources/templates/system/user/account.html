@@ -42,15 +42,16 @@
 </div>
 <div th:replace="~{system/user/add}"></div>
 <div th:replace="~{system/user/edit}"></div>
+
 <script>
     //查询url
-    const listUrl = "/sysUser/list";
-    const saveUrl = '/sysUser/save';
-    const editUrl = '/sysUser/edit';
-    const editSaveUrl = '/sysUser/editSave';
-    const deleteUrl = '/sysUser/delete';
+    var listUrl = "/sysUser/list";
+    var saveUrl = '/sysUser/save';
+    var editUrl = '/sysUser/edit';
+    var editSaveUrl = '/sysUser/editSave';
+    var deleteUrl = '/sysUser/delete';
     //查询对象
-    let searchObj = {};
+    var searchObj = {};
     $(function () {
         //数据加载层
         loading();
@@ -120,6 +121,7 @@
         console.log(addObj)
     }
 </script>
+
 </body>
 </html>
 
