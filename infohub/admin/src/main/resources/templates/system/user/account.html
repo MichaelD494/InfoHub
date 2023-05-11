@@ -4,7 +4,6 @@
 <div class="page-header">
     <h1 class="page-title">用户管理</h1>
 </div>
-
 <div class="card">
     <div class="card-body">
         <form id="searchForm">
@@ -22,7 +21,7 @@
             </div>
         </form>
         <div class="row">
-            <div class="dolores-btn-group" style="margin-bottom: 10px">
+            <div class="dolores-btn-group" style="margin-bottom: 10px;display: flex">
                 <button type="button"
                         class="modal-effect btn btn-default btn-sm"
                         id="addBtn"
@@ -37,12 +36,10 @@
                 </button>
             </div>
             <div class="common-table" th:replace="~{common/table}"></div>
+            <div id="add-modal"></div>
         </div>
     </div>
 </div>
-<div th:replace="~{system/user/add}"></div>
-<div th:replace="~{system/user/edit}"></div>
-
 <script>
     //查询url
     var listUrl = "/sysUser/list";
@@ -53,14 +50,28 @@
     //查询对象
     var searchObj = {};
     $(function () {
+        console.log('account作用域')
         //数据加载层
         loading();
         //获取数据
         list();
+        $.ajax({
+            url: '/sysUserPage/add',
+            type: 'GET',
+            async: false,
+            success: function (resp) {
+                $('#add-modal').append(resp);
+                // openModal('#addBtn', '#dolores-add-modal');
+            },
+            headers: {
+                'X-Api-Request': 'false'
+            }
+        });
     })
 
     //重置
     function reset() {
+        console.log('account rest()')
         initObj(searchObj);
         $('#searchForm input').val('');
         list();
@@ -107,21 +118,26 @@
 
     function edit(userId) {
         get(editUrl, userId, function (resp) {
-            console.log(resp)
+            // console.log(resp)
         });
     }
 
     function openSaveModal() {
+        // $.ajax({
+        //     url: '/sysUserPage/add',
+        //     type: 'GET',
+        //     async: false,
+        //     success: function (resp) {
+        //         $('#add-modal').append(resp);
+        //
+        //     },
+        //     headers: {
+        //         'X-Api-Request': 'false'
+        //     }
+        // });
         openModal('#addBtn', '#dolores-add-modal');
     }
-
-    function save() {
-        const form = document.querySelector('#addForm');
-        let addObj = buildQueryObj(new FormData(form));
-        console.log(addObj)
-    }
 </script>
-
 </body>
 </html>
 

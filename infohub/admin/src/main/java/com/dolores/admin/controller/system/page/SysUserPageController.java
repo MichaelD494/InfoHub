@@ -8,12 +8,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/sys/user")
+@RequestMapping("/sysUserPage")
 public class SysUserPageController extends BaseController {
     private final String prefix = "system/user/";
 
-    @GetMapping("/account")
-    public String account() {
+    @GetMapping("/index")
+    public String index() {
         return prefix + "account";
     }
+
+    @GetMapping("/add")
+    public String add() {
+        return prefix + "add";
+    }
+
 }

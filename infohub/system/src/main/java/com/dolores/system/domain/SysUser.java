@@ -52,7 +52,7 @@ public class SysUser implements Serializable {
     /**
      * 账号状态(0.未启用 1.已启用)
      */
-    private Integer status;
+    private Integer isEnable;
     /**
      * 头像地址
      */

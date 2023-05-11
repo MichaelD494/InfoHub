@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="common/include :: select2-css"/>
+    <style>
+        .form-switch .form-check-input[type="checkbox"] {
+            transform: scale(150%);
+        }
+    </style>
+</head>
+<body>
 <div class="modal fade" id="dolores-add-modal">
     <div class="modal-dialog modal-dialog-centered text-center" role="document">
         <div class="modal-content modal-content-demo">
@@ -8,57 +19,89 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" id="addForm">
+                <form class="form-horizontal" id="addForm" novalidate>
                     <div class="row mb-3">
                         <label class="col-md-3 form-label text-end">用户名：</label>
                         <div class="col-md-7">
-                            <input type="text" class="form-control" name="userName"/>
+                            <input type="text"
+                                   class="form-control"
+                                   name="userName"
+                                   minlength="1"
+                                   th:autocomplete="off"
+                                   required/>
                         </div>
                     </div>
                     <div class="row mb-4">
                         <label class="col-md-3 form-label text-end">密码：</label>
                         <div class="col-md-7">
-                            <input type="password" class="form-control" name="password"/>
+                            <input type="password" class="form-control" minlength="8" name="password" required/>
                         </div>
                     </div>
                     <div class="row mb-4">
                         <label class="col-md-3 form-label text-end">邮箱：</label>
                         <div class="col-md-7">
-                            <input type="text" class="form-control" name="email"/>
+                            <input type="text" class="form-control" name="email" th:autocomplete="off"/>
                         </div>
                     </div>
                     <div class="row mb-4">
                         <label class="col-md-3 form-label text-end">手机号：</label>
                         <div class="col-md-7">
-                            <input type="text" class="form-control" name="phone"/>
+                            <input type="text" class="form-control" name="phone" th:autocomplete="off"/>
                         </div>
                     </div>
                     <div class="row mb-4">
                         <label class="col-md-3 form-label text-end">性别：</label>
-                        <div class="col-md-7 d-flex align-items-center">
-                            <div class="form-group select2-sm">
-                                <select name="gender"
-                                        class="form-control form-select select2"
-                                        data-bs-placeholder="请选择">
-                                    <option value="1">男</option>
-                                    <option value="0">女</option>
-                                    <option value="2">武装直升飞机</option>
-                                </select>
+                        <div class="col-md-7">
+                            <select name="gender"
+                                    class="form-control form-select select2"
+                            >
+                                <option value="" selected>请选择</option>
+                                <option value="1">男</option>
+                                <option value="0">女</option>
+                                <option value="2">武装直升飞机</option>
+                                <option value="3">未知</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <label class="col-md-3 form-label text-end">用户角色：</label>
+                        <div class="col-md-7">
+                            <select name="roleId"
+                                    class="form-control form-select select2"
+                                    multiple
+                            >
+                            </select>
+                            <div id="roleId-error" class="invalid-feedback">请选择角色</div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <label class="col-md-3 form-label text-end">是否启用：</label>
+                        <div class="col-md-7 d-flex">
+                            <div class="form-check form-switch form-check-inline">
+                                <input class="form-check-input" name="isEnable" type="checkbox" checked>
                             </div>
                         </div>
                     </div>
                     <div class="row mb-4">
                         <label class="col-md-3 form-label text-end">备注：</label>
                         <div class="col-md-7">
-                            <input type="text" class="form-control" name="remark"/>
+                            <textarea name="remark" class="form-control mb-4"
+                                      placeholder=""
+                                      rows="3"></textarea>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" th:onclick="save()">保存</button>
-                <button class="btn btn-light" data-bs-dismiss="modal">关闭</button>
+                <button class="btn btn-primary" id="saveBtn" th:onclick="save()">保存</button>
+                <button class="btn btn-light" id="closeBtn" data-bs-dismiss="modal" th:onclick="reset()">清除关闭
+                </button>
             </div>
         </div>
     </div>
 </div>
+<th:block th:include="common/include :: select2-js"/>
+<th:block th:include="common/include :: validate-js"/>
+<script th:src="@{/static/js/system/account/add.js}"></script>
+</body>
+</html>
