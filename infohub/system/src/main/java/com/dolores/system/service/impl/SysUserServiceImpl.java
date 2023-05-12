@@ -37,12 +37,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public void updateLoginLoginInfo(String sysUserId, String ip) {
+    public void updateLoginLoginInfo(String userId, String ip) {
         LambdaUpdateWrapper<SysUser> update = Wrappers.lambdaUpdate(SysUser.class);
         update
                 .set(SysUser::getLoginIp, ip)
                 .set(SysUser::getLoginDate, new Date())
-                .eq(SysUser::getSysUserId, sysUserId);
+                .eq(SysUser::getUserId, userId);
         update(update);
     }
 }

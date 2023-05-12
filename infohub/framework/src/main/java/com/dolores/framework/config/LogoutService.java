@@ -30,7 +30,7 @@ public class LogoutService implements LogoutHandler {
         } else {
             UserInfo userInfo = JsonParser.parseJson(userCache, UserInfo.class);
             DoloresRedis.hDelUserCache(SYSUSERLIST, jwt);
-            DoloresRedis.hDelCache(ONLINE_LIST, ONLINE + userInfo.getSysUser().getSysUserId());
+            DoloresRedis.hDelCache(ONLINE_LIST, ONLINE + userInfo.getSysUser().getUserId());
             SecurityContextHolder.clearContext();
         }
     }

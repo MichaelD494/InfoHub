@@ -76,14 +76,14 @@ public class LoginController extends BaseController {
         //获取用户信息
         UserInfo userInfo = (UserInfo) auth.getPrincipal();
         SysUser sysUser = userInfo.getSysUser();
-        String sysUserId = sysUser.getSysUserId();
+        String userId = sysUser.getUserId();
         LoginUser loginUser = new LoginUser(sysUser, userInfo.getRoles());
-        String token = jwtService.generateToken(sysUserId);
+        String token = jwtService.generateToken(userId);
         cookieService.setHttpOnlyCookie(response, token);
         DoloresRedis.hSetUserCache(token, loginUser);
-        DoloresRedis.setHCacheByTime(ONLINE_LIST, ONLINE + sysUserId, sysUserId, DoloresRedis.getDay());
+        DoloresRedis.setHCacheByTime(ONLINE_LIST, ONLINE + userId, userId, DoloresRedis.getDay());
         //记录用户登录信息
-        sysLoginRecordService.loginRecord(sysUserId, dto.getUsername(), request);
+        sysLoginRecordService.loginRecord(userId, dto.getUsername(), request);
         AjaxResult ajaxResult = success("登录成功");
         ajaxResult.put("sysUser", sysUser);
         ajaxResult.put("token", token);

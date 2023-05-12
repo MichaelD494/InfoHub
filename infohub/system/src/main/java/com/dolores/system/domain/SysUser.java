@@ -19,7 +19,7 @@ public class SysUser implements Serializable {
      * 系统用户id
      */
     @TableId(type = IdType.ASSIGN_UUID)
-    private String sysUserId;
+    private String userId;
 
     /**
      * 系统用户名

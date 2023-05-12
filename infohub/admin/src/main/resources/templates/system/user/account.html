@@ -30,13 +30,20 @@
                         href="#dolores-add-modal"
                         th:onclick="openSaveModal()">添加
                 </button>
-                <button type="button" class="btn btn-success btn-sm" id="editBtn" th:onclick="openSaveModal()">编辑
+                <button type="button"
+                        class="modal-effect btn btn-success btn-sm"
+                        id="editBtn"
+                        data-bs-effect="effect-flip-vertical"
+                        href="#dolores-edit-modal"
+                        th:onclick="openEditModal()">编辑
                 </button>
+
                 <button type="button" class="btn btn-danger btn-sm" id="deleteBtn" th:onclick="openSaveModal()">删除
                 </button>
             </div>
             <div class="common-table" th:replace="~{common/table}"></div>
             <div id="add-modal"></div>
+            <div id="edit-modal"></div>
         </div>
     </div>
 </div>
@@ -54,18 +61,8 @@
         loading();
         //获取数据
         list();
-        $.ajax({
-            url: '/sysUserPage/add',
-            type: 'GET',
-            async: false,
-            success: function (resp) {
-                $('#add-modal').append(resp);
-                // openModal('#addBtn', '#dolores-add-modal');
-            },
-            headers: {
-                'X-Api-Request': 'false'
-            }
-        });
+        //获取添加页面
+        addPage();
     })
 
     //重置
@@ -87,6 +84,12 @@
         //配置加载表格选项
         let option = {
             columnList: [
+                {
+                    idColumn: true,
+                    hidden: true,
+                    comment: 'id',
+                    name: 'userId',
+                },
                 {
                     comment: "用户名",
                     name: "userName"
@@ -114,26 +117,56 @@
         init(option);
     }
 
-    function edit(userId) {
-        get(editUrl, userId, function (resp) {
-            // console.log(resp)
+    function addPage() {
+        $.ajax({
+            url: '/sysUserPage/add',
+            type: 'GET',
+            async: false,
+            success: function (resp) {
+                $('#add-modal').append(resp);
+            },
+            headers: {
+                'X-Api-Request': 'false'
+            }
         });
     }
 
     function openSaveModal() {
-        // $.ajax({
-        //     url: '/sysUserPage/add',
-        //     type: 'GET',
-        //     async: false,
-        //     success: function (resp) {
-        //         $('#add-modal').append(resp);
-        //
-        //     },
-        //     headers: {
-        //         'X-Api-Request': 'false'
-        //     }
-        // });
         openModal('#addBtn', '#dolores-add-modal');
+    }
+
+    function openEditModal() {
+        const checkBoxList = $('.checkbox-item');
+        const selectedCheckboxes = checkBoxList.filter(':checked')
+        let userId;
+        if (selectedCheckboxes.length <= 0) {
+            warning('提示', '请选择编辑数据');
+            return;
+        }
+        if (selectedCheckboxes.length !== 1) {
+            warning('提示', '只能选择一行编辑数据');
+            return;
+        }
+        selectedCheckboxes.each(function () {
+            const row = $(this).closest('tr');
+            userId = row.find('#idColumn').text();
+        });
+        $.ajax({
+            url: '/sysUserPage/edit/' + userId,
+            type: 'GET',
+            async: false,
+            success: function (resp) {
+                $('#edit-modal').empty();
+                $('#edit-modal').append(resp);
+                $('#dolores-edit-modal').on('show.bs.modal', function () {
+                    openModal('#editBtn', '#dolores-edit-modal');
+                });
+                $('#dolores-edit-modal').modal('show');
+            },
+            headers: {
+                'X-Api-Request': 'false'
+            }
+        });
     }
 </script>
 </body>

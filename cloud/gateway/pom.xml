@@ -13,7 +13,7 @@
     <artifactId>gateway</artifactId>
     <name>gateway</name>
     <description>gateway</description>
-
+    <packaging>jar</packaging>
 
     <dependencies>
 

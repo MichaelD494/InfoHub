@@ -38,6 +38,7 @@ function loadTable(option) {
             const resourceList = resp.data;
             //展示数据加载层
             showLoading();
+            //数据装配
             matchData(option, resourceList);
         }
     })
@@ -56,10 +57,16 @@ function matchData(option, resourceList) {
         //遍历子级对象
         $.each(item, function (key, value) {
             //查找目标信息
-            const match = columnList.findIndex(item => item.name === key);
-            if (match >= 0) {
+            const match = columnList.find(item => item.name === key);
+            if (match != null) {
                 //如果存在则子级创建对象并注入
                 let obj = {};
+                if (match.idColumn != null) {
+                    obj.idColumn = match.idColumn;
+                }
+                if (match.hidden != null) {
+                    obj.hidden = match.hidden;
+                }
                 obj.name = key;
                 obj.value = value;
                 childList.push(obj);
@@ -96,11 +103,23 @@ function initThead(option) {
     thead.setAttribute('id', 'dolores-thead');
     //创建行
     const tr = document.createElement('tr');
-    columnList.forEach(column => {
+    //判断是否需要首列
+    if (option.isNeedCheckbox) {
+        let checkboxTd = document.createElement('td');
+        checkboxTd.innerText = '#';
+        checkboxTd.classList.add('first-column');
+        tr.appendChild(checkboxTd);
+    }
+    columnList.forEach(header => {
         //创建列
         let td = document.createElement('td');
+        //是否隐藏列
+        const hidden = header.hidden;
+        if (hidden) {
+            td.style.display = 'none';
+        }
         //设置文本
-        td.innerText = column.comment;
+        td.innerText = header.comment;
         //行追加
         tr.appendChild(td);
     });
@@ -121,11 +140,35 @@ function initTbody(option) {
         const tr = document.createElement('tr');
         const childList = child;
         if (childList != null && childList.length > 0) {
-            childList.forEach(data => {
+            let checkboxTd = document.createElement('td');
+            checkboxTd.classList.add('first-column');
+            let label = document.createElement('label');
+            label.classList.add('custom-control', 'custom-checkbox');
+            let input = document.createElement('input');
+            input.setAttribute('type', 'checkbox');
+            input.classList.add('custom-control-input', 'checkbox-item');
+            let span = document.createElement('span');
+            span.classList.add('custom-control-label');
+            label.appendChild(input);
+            label.appendChild(span);
+            checkboxTd.appendChild(label);
+            tr.appendChild(checkboxTd);
+
+            childList.forEach(cell => {
                 let td = document.createElement('td');
-                td.innerText = data == null ? null : data.value;
+                const idCol = cell.idColumn;
+                const hidden = cell.hidden;
+                if (idCol) {
+                    td.setAttribute('id', 'idColumn');
+                }
+                // console.log(hidden)
+                if (hidden) {
+                    td.style.display = 'none';
+                }
+                td.innerText = cell == null ? null : cell.value;
                 tr.appendChild(td);
             });
+
             //判断是否需要操作按钮
             if (option.isNeedOperate) {
                 let operateTd = document.createElement('td');

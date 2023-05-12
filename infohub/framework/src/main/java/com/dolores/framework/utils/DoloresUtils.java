@@ -41,7 +41,7 @@ public class DoloresUtils {
      * @return
      */
     public static String getUserId() {
-        return getUser().getSysUserId();
+        return getUser().getUserId();
     }
 
     /**

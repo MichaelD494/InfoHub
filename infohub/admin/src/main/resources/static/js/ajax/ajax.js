@@ -11,7 +11,6 @@ function get(url, data, successCallback) {
 }
 
 function post(url, data, successCallback) {
-
     $.ajax({
         url: url,
         type: 'POST',

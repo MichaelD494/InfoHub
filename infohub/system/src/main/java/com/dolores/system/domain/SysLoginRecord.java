@@ -26,7 +26,7 @@ public class SysLoginRecord implements Serializable {
     /**
      * 系统用户id
      */
-    private String sysUserId;
+    private String userId;
     /**
      * 系统用户名
      */
@@ -54,8 +54,8 @@ public class SysLoginRecord implements Serializable {
      */
     private Date createTime;
 
-    public SysLoginRecord(String sysUserId, String sysUserName, String loginIp, String os, String browser, String address) {
-        this.sysUserId = sysUserId;
+    public SysLoginRecord(String userId, String sysUserName, String loginIp, String os, String browser, String address) {
+        this.userId = userId;
         this.sysUserName = sysUserName;
         this.loginIp = loginIp;
         this.os = os;

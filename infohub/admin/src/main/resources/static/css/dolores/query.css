@@ -39,3 +39,7 @@
 .dolores-btn-group button {
     margin-right: 5px;
 }
+
+.first-column {
+    width: 0% !important;
+}

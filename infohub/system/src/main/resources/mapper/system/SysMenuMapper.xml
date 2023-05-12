@@ -5,14 +5,14 @@
     <resultMap id="queryMenuListMap" type="com.dolores.system.domain.vo.SysMenuVo">
         <collection property="children"
                     ofType="com.dolores.system.domain.vo.SysMenuVo"
-                    column="{id=id,sys_user_id=sys_user_id}"
+                    column="{id=id,user_id=user_id}"
                     select="menuListSelect"
         />
     </resultMap>
     <resultMap id="menuListSelectMap" type="com.dolores.system.domain.vo.SysMenuVo">
         <collection property="children"
                     ofType="com.dolores.system.domain.vo.SysMenuVo"
-                    column="{id=id,sys_user_id=sys_user_id}"
+                    column="{id=id,user_id=user_id}"
                     select="menuListSelectMapSelect"
         />
     </resultMap>
@@ -25,7 +25,7 @@
                            on srm.role_id = sur.role_id
         where pid = #{id}
           and type = 3
-          and sys_user_id = #{sys_user_id}
+          and user_id = #{user_id}
         order by sort
     </select>
     <select id="menuListSelect" resultType="com.dolores.system.domain.vo.SysMenuVo">
@@ -37,11 +37,11 @@
                            on srm.role_id = sur.role_id
         where pid = #{id}
           and type = 2
-          and sys_user_id = #{sys_user_id}
+          and user_id = #{user_id}
         order by sort
     </select>
     <select id="queryMenuList" resultMap="queryMenuListMap">
-        select sm.id, title, pid, sys_user_id, path,icon
+        select sm.id, title, pid, user_id, path,icon
         from sys_menu sm
                  left join sys_role_menu srm
                            on sm.id = srm.menu_id
@@ -49,7 +49,7 @@
                            on srm.role_id = sur.role_id
         where pid = 0
           and type = 1
-          and sys_user_id = #{userId}
+          and user_id = #{userId}
         order by sort
     </select>
 

@@ -28,7 +28,7 @@ public class SysUserRole implements Serializable {
     /**
      * 系统用户id
      */
-    private Long sysUserId;
+    private Long userId;
 
     /**
      * 角色id

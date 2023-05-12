@@ -154,7 +154,7 @@ INSERT INTO `gen_column` VALUES (35, 'sys_role', 'create_by', 'YES', 'varchar(64
 INSERT INTO `gen_column` VALUES (36, 'sys_role', 'update_time', 'YES', 'datetime', '', '更新时间', NULL, '2022-01-22 10:51:12');
 INSERT INTO `gen_column` VALUES (37, 'sys_role', 'remark', 'YES', 'varchar(32)', '', '备注', NULL, '2022-01-22 10:51:12');
 INSERT INTO `gen_column` VALUES (38, 'sys_role', 'create_time', 'YES', 'datetime', '', '生成时间', NULL, '2022-01-22 10:51:12');
-INSERT INTO `gen_column` VALUES (39, 'sys_user', 'sys_user_id', 'NO', 'bigint', 'PRI', '系统用户id', NULL, '2022-01-22 10:51:12');
+INSERT INTO `gen_column` VALUES (39, 'sys_user', 'user_id', 'NO', 'bigint', 'PRI', '系统用户id', NULL, '2022-01-22 10:51:12');
 INSERT INTO `gen_column` VALUES (40, 'sys_user', 'user_name', 'YES', 'varchar(15)', '', '系统用户名', NULL, '2022-01-22 10:51:12');
 INSERT INTO `gen_column` VALUES (41, 'sys_user', 'user_phone', 'YES', 'varchar(15)', '', '系统用户手机号', NULL, '2022-01-22 10:51:12');
 INSERT INTO `gen_column` VALUES (42, 'sys_user', 'salt', 'YES', 'varchar(255)', '', '盐', NULL, '2022-01-22 10:51:12');
@@ -196,7 +196,7 @@ INSERT INTO `gen_column` VALUES (77, 'sys_role_menu', 'role_id', 'YES', 'bigint'
 INSERT INTO `gen_column` VALUES (78, 'sys_role_menu', 'menu_id', 'YES', 'bigint', '', '菜单id', NULL, '2022-01-22 10:51:17');
 INSERT INTO `gen_column` VALUES (79, 'sys_role_menu', 'create_time', 'YES', 'datetime', '', '生成时间', NULL, '2022-01-22 10:51:17');
 INSERT INTO `gen_column` VALUES (80, 'sys_user_role', 'id', 'NO', 'bigint', 'PRI', '表id', NULL, '2022-01-22 10:51:17');
-INSERT INTO `gen_column` VALUES (81, 'sys_user_role', 'sys_user_id', 'YES', 'bigint', '', '系统用户id', NULL, '2022-01-22 10:51:17');
+INSERT INTO `gen_column` VALUES (81, 'sys_user_role', 'user_id', 'YES', 'bigint', '', '系统用户id', NULL, '2022-01-22 10:51:17');
 INSERT INTO `gen_column` VALUES (82, 'sys_user_role', 'role_id', 'YES', 'bigint', '', '角色id', NULL, '2022-01-22 10:51:17');
 INSERT INTO `gen_column` VALUES (83, 'sys_user_role', 'role_name', 'YES', 'varchar(255)', '', '角色名', NULL, '2022-01-22 10:51:17');
 INSERT INTO `gen_column` VALUES (84, 'sys_user_role', 'create_time', 'YES', 'datetime', '', '生成时间', NULL, '2022-01-22 10:51:17');
@@ -374,7 +374,7 @@ INSERT INTO `sys_dict_type` VALUES (1, '用户性别', 'sys_user_gender', 1, 'ad
 DROP TABLE IF EXISTS `sys_login_record`;
 CREATE TABLE `sys_login_record`  (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '表id',
-  `sys_user_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '系统用户id',
+  `user_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '系统用户id',
   `sys_user_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '系统用户名',
   `login_ip` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登录ip',
   `os` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作系统',
@@ -831,7 +831,7 @@ INSERT INTO `sys_role_menu` VALUES (42, 1, 55, '2023-05-03 09:50:13');
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user`  (
-  `sys_user_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '系统用户id',
+  `user_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '系统用户id',
   `user_name` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '系统用户名',
   `phone` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '系统用户手机号',
   `salt` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '盐',
@@ -859,7 +859,7 @@ INSERT INTO `sys_user` VALUES ('62a199a1713c91a33ecc8d1d14a0789e', 'admin', NULL
 DROP TABLE IF EXISTS `sys_user_role`;
 CREATE TABLE `sys_user_role`  (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '表id',
-  `sys_user_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '系统用户id',
+  `user_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '系统用户id',
   `role_id` bigint NULL DEFAULT NULL COMMENT '角色id',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
   PRIMARY KEY (`id`) USING BTREE

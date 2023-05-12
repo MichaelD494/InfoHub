@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="common/include :: select2-css"/>
+    <th:block th:insert="~{common/include :: select2-css}"/>
     <style>
         .form-switch .form-check-input[type="checkbox"] {
             transform: scale(150%);
@@ -100,8 +100,8 @@
         </div>
     </div>
 </div>
-<th:block th:include="common/include :: select2-js"/>
-<th:block th:include="common/include :: validate-js"/>
+<th:block th:insert="~{common/include :: select2-js}"/>
+<th:block th:insert="~{common/include :: validate-js}"/>
 <script>
     $(function () {
         reset();
@@ -149,8 +149,10 @@
             post('/sysUser/save', addObj, function (resp) {
                 if (resp.code === 200) {
                     success('提示', '添加成功');
+                    //重置表单
                     reset();
                     $('#dolores-add-modal #closeBtn').trigger('click');
+                    list();
                 } else {
                     error('提示', '添加失败');
                 }
@@ -162,7 +164,7 @@
 
     function reset() {
         $('#addForm input').val('');
-        $('#addForm select').val('');
+        $('#addForm .select2').val(null).trigger('change');
     }
 </script>
 </body>

@@ -47,22 +47,12 @@ public class SysUserController extends BaseController {
         return success();
     }
 
-    @GetMapping("/edit")
-    @PreAuthorize("hasAuthority('dolores:sysUser:edit')")
-    public AjaxResult edit(@RequestParam String userId) {
-        if (StringUtils.isBlank(userId)) {
-            return error("用户id不能为空");
-        }
-        LambdaQueryWrapper<SysUser> query = Wrappers.lambdaQuery(SysUser.class);
-        query.eq(SysUser::getSysUserId, userId).last("limit 1");
-        SysUser sysUser = sysUserService.getOne(query);
-        return success(sysUser);
-    }
+
 
     @PutMapping("/editSave")
     @PreAuthorize("hasAuthority('dolores:sysUser:edit')")
     public AjaxResult editSave(@RequestBody SysUser sysUser) {
-        if (sysUser != null && sysUser.getSysUserId() == null) {
+        if (sysUser != null && sysUser.getUserId() == null) {
             return error("用户id不能为空");
         }
         if (sysUser != null) {
@@ -89,7 +79,7 @@ public class SysUserController extends BaseController {
         LambdaUpdateWrapper<SysUser> update = Wrappers.lambdaUpdate(SysUser.class);
         update
                 .set(SysUser::getIsDelete, 1)
-                .in(SysUser::getSysUserId, idList);
+                .in(SysUser::getUserId, idList);
         sysUserService.update(update);
         return success();
     }
