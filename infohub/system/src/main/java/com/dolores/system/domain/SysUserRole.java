@@ -2,7 +2,11 @@ package com.dolores.system.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -16,6 +20,7 @@ import java.util.Date;
  * @since 2021-09-09
  */
 @Data
+@Accessors(chain = true)
 public class SysUserRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,7 +33,7 @@ public class SysUserRole implements Serializable {
     /**
      * 系统用户id
      */
-    private Long userId;
+    private String userId;
 
     /**
      * 角色id

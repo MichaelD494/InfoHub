@@ -144,8 +144,11 @@
     function save() {
         if (validate()) {
             const form = document.querySelector('#addForm');
-            let addObj = buildQueryObj(new FormData(form));
-            addObj.isEnable = addObj.isEnable !== 'on' ? 0 : 1;
+            let user = buildQueryObj(new FormData(form));
+            user.isEnable = user.isEnable !== 'on' ? 0 : 1;
+            let addObj = {};
+            addObj.sysUser = user;
+            addObj.roleId = user.roleId;
             post('/sysUser/save', addObj, function (resp) {
                 if (resp.code === 200) {
                     success('提示', '添加成功');
@@ -164,7 +167,8 @@
 
     function reset() {
         $('#addForm input').val('');
-        $('#addForm .select2').val(null).trigger('change');
+        $('#addForm [name=gender]').val('').trigger('change');
+        $('#addForm [name=roleId]').val(null).trigger('change');
     }
 </script>
 </body>
