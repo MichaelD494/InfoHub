@@ -1,17 +1,17 @@
 /*
  Navicat MySQL Data Transfer
 
- Source Server         : tx
+ Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 80026 (8.0.26)
- Source Host           : 101.33.208.213:3306
+ Source Server Version : 80027 (8.0.27)
+ Source Host           : localhost:3306
  Source Schema         : infohub
 
  Target Server Type    : MySQL
- Target Server Version : 80026 (8.0.26)
+ Target Server Version : 80027 (8.0.27)
  File Encoding         : 65001
 
- Date: 03/05/2023 09:53:28
+ Date: 13/05/2023 18:17:31
 */
 
 SET NAMES utf8mb4;
@@ -30,7 +30,7 @@ CREATE TABLE `black_jack_record`  (
   `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '记录生成者',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '21点数据记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '21点数据记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of black_jack_record
@@ -86,7 +86,7 @@ CREATE TABLE `black_jack_round_record`  (
   `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '记录生成者',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '21点场数记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '21点场数记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of black_jack_round_record
@@ -110,7 +110,7 @@ CREATE TABLE `gen_column`  (
   `entity_column_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '实体类数据类型',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 106 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '生成列信息' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 106 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '生成列信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of gen_column
@@ -153,7 +153,7 @@ INSERT INTO `gen_column` VALUES (35, 'sys_role', 'create_by', 'YES', 'varchar(64
 INSERT INTO `gen_column` VALUES (36, 'sys_role', 'update_time', 'YES', 'datetime', '', '更新时间', NULL, '2022-01-22 10:51:12');
 INSERT INTO `gen_column` VALUES (37, 'sys_role', 'remark', 'YES', 'varchar(32)', '', '备注', NULL, '2022-01-22 10:51:12');
 INSERT INTO `gen_column` VALUES (38, 'sys_role', 'create_time', 'YES', 'datetime', '', '生成时间', NULL, '2022-01-22 10:51:12');
-INSERT INTO `gen_column` VALUES (39, 'sys_user', 'user_id', 'NO', 'bigint', 'PRI', '系统用户id', NULL, '2022-01-22 10:51:12');
+INSERT INTO `gen_column` VALUES (39, 'sys_user', 'sys_user_id', 'NO', 'bigint', 'PRI', '系统用户id', NULL, '2022-01-22 10:51:12');
 INSERT INTO `gen_column` VALUES (40, 'sys_user', 'user_name', 'YES', 'varchar(15)', '', '系统用户名', NULL, '2022-01-22 10:51:12');
 INSERT INTO `gen_column` VALUES (41, 'sys_user', 'user_phone', 'YES', 'varchar(15)', '', '系统用户手机号', NULL, '2022-01-22 10:51:12');
 INSERT INTO `gen_column` VALUES (42, 'sys_user', 'salt', 'YES', 'varchar(255)', '', '盐', NULL, '2022-01-22 10:51:12');
@@ -195,7 +195,7 @@ INSERT INTO `gen_column` VALUES (77, 'sys_role_menu', 'role_id', 'YES', 'bigint'
 INSERT INTO `gen_column` VALUES (78, 'sys_role_menu', 'menu_id', 'YES', 'bigint', '', '菜单id', NULL, '2022-01-22 10:51:17');
 INSERT INTO `gen_column` VALUES (79, 'sys_role_menu', 'create_time', 'YES', 'datetime', '', '生成时间', NULL, '2022-01-22 10:51:17');
 INSERT INTO `gen_column` VALUES (80, 'sys_user_role', 'id', 'NO', 'bigint', 'PRI', '表id', NULL, '2022-01-22 10:51:17');
-INSERT INTO `gen_column` VALUES (81, 'sys_user_role', 'user_id', 'YES', 'bigint', '', '系统用户id', NULL, '2022-01-22 10:51:17');
+INSERT INTO `gen_column` VALUES (81, 'sys_user_role', 'sys_user_id', 'YES', 'bigint', '', '系统用户id', NULL, '2022-01-22 10:51:17');
 INSERT INTO `gen_column` VALUES (82, 'sys_user_role', 'role_id', 'YES', 'bigint', '', '角色id', NULL, '2022-01-22 10:51:17');
 INSERT INTO `gen_column` VALUES (83, 'sys_user_role', 'role_name', 'YES', 'varchar(255)', '', '角色名', NULL, '2022-01-22 10:51:17');
 INSERT INTO `gen_column` VALUES (84, 'sys_user_role', 'create_time', 'YES', 'datetime', '', '生成时间', NULL, '2022-01-22 10:51:17');
@@ -229,6 +229,7 @@ CREATE TABLE `gen_table`  (
   `table_id` bigint NOT NULL AUTO_INCREMENT COMMENT '表id',
   `table_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表名称',
   `table_comment` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表注释',
+  `page_title` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '页面标题',
   `author` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '作者',
   `entity_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '实体类名称',
   `module_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '模块名',
@@ -238,23 +239,23 @@ CREATE TABLE `gen_table`  (
   `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建者',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`table_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '代码生成器基础信息' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '代码生成器基础信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of gen_table
 -- ----------------------------
-INSERT INTO `gen_table` VALUES (1, 'gen_column', '生成列信息', NULL, 'GenColumn', '生成列信息', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:12');
-INSERT INTO `gen_table` VALUES (2, 'gen_table', '代码生成器基础信息', NULL, 'GenTable', '代码生成器基础信息', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:12');
-INSERT INTO `gen_table` VALUES (3, 'sys_menu', '系统菜单表', NULL, 'SysMenu', '系统菜单表', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:12');
-INSERT INTO `gen_table` VALUES (4, 'sys_role', '系统角色表', NULL, 'SysRole', '系统角色表', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:12');
-INSERT INTO `gen_table` VALUES (5, 'sys_user', '系统用户表', NULL, 'SysUser', '系统用户表', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:12');
-INSERT INTO `gen_table` VALUES (6, 'm_user', '用户表', NULL, 'User', '用户表', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:17');
-INSERT INTO `gen_table` VALUES (7, 'schedule_job', '定时任务', NULL, 'ScheduleJob', '定时任务', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:17');
-INSERT INTO `gen_table` VALUES (8, 'sys_dict_type', '字典类型表', NULL, 'SysDictType', '字典类型表', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:17');
-INSERT INTO `gen_table` VALUES (9, 'sys_role_menu', '系统角色菜单关联表', NULL, 'SysRoleMenu', '系统角色菜单关联表', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:17');
-INSERT INTO `gen_table` VALUES (10, 'sys_user_role', '系统用户角色表', NULL, 'SysUserRole', '系统用户角色表', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:17');
-INSERT INTO `gen_table` VALUES (11, 'schedule_job_log', '定时任务日志', NULL, 'ScheduleJobLog', '定时任务日志', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:21');
-INSERT INTO `gen_table` VALUES (12, 'sys_dict_data', '字典数据表', NULL, 'SysDictData', '字典数据表', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:21');
+INSERT INTO `gen_table` VALUES (1, 'gen_column', '生成列信息', NULL, NULL, 'GenColumn', '生成列信息', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:12');
+INSERT INTO `gen_table` VALUES (2, 'gen_table', '代码生成器基础信息', NULL, NULL, 'GenTable', '代码生成器基础信息', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:12');
+INSERT INTO `gen_table` VALUES (3, 'sys_menu', '系统菜单表', NULL, NULL, 'SysMenu', '系统菜单表', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:12');
+INSERT INTO `gen_table` VALUES (4, 'sys_role', '系统角色表', NULL, NULL, 'SysRole', '系统角色表', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:12');
+INSERT INTO `gen_table` VALUES (5, 'sys_user', '系统用户表', '用户管理', NULL, 'SysUser', '系统用户表', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:12');
+INSERT INTO `gen_table` VALUES (6, 'm_user', '用户表', NULL, NULL, 'User', '用户表', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:17');
+INSERT INTO `gen_table` VALUES (7, 'schedule_job', '定时任务', NULL, NULL, 'ScheduleJob', '定时任务', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:17');
+INSERT INTO `gen_table` VALUES (8, 'sys_dict_type', '字典类型表', NULL, NULL, 'SysDictType', '字典类型表', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:17');
+INSERT INTO `gen_table` VALUES (9, 'sys_role_menu', '系统角色菜单关联表', NULL, NULL, 'SysRoleMenu', '系统角色菜单关联表', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:17');
+INSERT INTO `gen_table` VALUES (10, 'sys_user_role', '系统用户角色表', NULL, NULL, 'SysUserRole', '系统用户角色表', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:17');
+INSERT INTO `gen_table` VALUES (11, 'schedule_job_log', '定时任务日志', NULL, NULL, 'ScheduleJobLog', '定时任务日志', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:21');
+INSERT INTO `gen_table` VALUES (12, 'sys_dict_data', '字典数据表', NULL, NULL, 'SysDictData', '字典数据表', NULL, NULL, NULL, 'admin', '2022-01-22 10:51:21');
 
 -- ----------------------------
 -- Table structure for m_user
@@ -267,7 +268,7 @@ CREATE TABLE `m_user`  (
   `user_email` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户邮箱',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of m_user
@@ -288,7 +289,7 @@ CREATE TABLE `schedule_job`  (
   `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`job_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of schedule_job
@@ -312,7 +313,7 @@ CREATE TABLE `schedule_job_log`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`log_id`) USING BTREE,
   INDEX `job_id`(`job_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of schedule_job_log
@@ -337,7 +338,7 @@ CREATE TABLE `sys_dict_data`  (
   `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`dict_code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典数据表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典数据表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dict_data
@@ -360,7 +361,7 @@ CREATE TABLE `sys_dict_type`  (
   `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`dict_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典类型表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典类型表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dict_type
@@ -381,12 +382,375 @@ CREATE TABLE `sys_login_record`  (
   `address` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登录地',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 81 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统登录记录表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 444 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统登录记录表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_login_record
 -- ----------------------------
 INSERT INTO `sys_login_record` VALUES (80, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 09:52:14');
+INSERT INTO `sys_login_record` VALUES (81, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Unknown', 'Unknown', '内网IP', '2023-05-03 10:14:25');
+INSERT INTO `sys_login_record` VALUES (82, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Unknown', 'Unknown', '内网IP', '2023-05-03 10:21:03');
+INSERT INTO `sys_login_record` VALUES (83, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Unknown', 'Unknown', '内网IP', '2023-05-03 10:23:38');
+INSERT INTO `sys_login_record` VALUES (84, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Unknown', 'Unknown', '内网IP', '2023-05-03 10:24:43');
+INSERT INTO `sys_login_record` VALUES (85, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Unknown', 'Unknown', '内网IP', '2023-05-03 10:24:44');
+INSERT INTO `sys_login_record` VALUES (86, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Unknown', 'Unknown', '内网IP', '2023-05-03 10:25:27');
+INSERT INTO `sys_login_record` VALUES (87, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 13:16:27');
+INSERT INTO `sys_login_record` VALUES (88, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 13:17:09');
+INSERT INTO `sys_login_record` VALUES (89, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 13:18:19');
+INSERT INTO `sys_login_record` VALUES (90, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 16:55:14');
+INSERT INTO `sys_login_record` VALUES (91, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 16:55:45');
+INSERT INTO `sys_login_record` VALUES (92, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 16:57:24');
+INSERT INTO `sys_login_record` VALUES (93, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 17:04:32');
+INSERT INTO `sys_login_record` VALUES (94, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 17:04:32');
+INSERT INTO `sys_login_record` VALUES (95, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 17:04:36');
+INSERT INTO `sys_login_record` VALUES (96, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 17:04:37');
+INSERT INTO `sys_login_record` VALUES (97, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 17:04:38');
+INSERT INTO `sys_login_record` VALUES (98, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 17:04:38');
+INSERT INTO `sys_login_record` VALUES (99, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 17:09:55');
+INSERT INTO `sys_login_record` VALUES (100, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 17:10:05');
+INSERT INTO `sys_login_record` VALUES (101, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 17:10:05');
+INSERT INTO `sys_login_record` VALUES (102, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 17:10:05');
+INSERT INTO `sys_login_record` VALUES (103, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 17:10:05');
+INSERT INTO `sys_login_record` VALUES (104, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 17:10:33');
+INSERT INTO `sys_login_record` VALUES (105, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 17:42:09');
+INSERT INTO `sys_login_record` VALUES (106, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 17:42:10');
+INSERT INTO `sys_login_record` VALUES (107, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 17:42:10');
+INSERT INTO `sys_login_record` VALUES (108, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:19:02');
+INSERT INTO `sys_login_record` VALUES (109, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:19:09');
+INSERT INTO `sys_login_record` VALUES (110, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:19:11');
+INSERT INTO `sys_login_record` VALUES (111, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:19:56');
+INSERT INTO `sys_login_record` VALUES (112, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:19:56');
+INSERT INTO `sys_login_record` VALUES (113, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:19:56');
+INSERT INTO `sys_login_record` VALUES (114, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:21:57');
+INSERT INTO `sys_login_record` VALUES (115, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:21:57');
+INSERT INTO `sys_login_record` VALUES (116, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:21:57');
+INSERT INTO `sys_login_record` VALUES (117, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:21:58');
+INSERT INTO `sys_login_record` VALUES (118, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:21:58');
+INSERT INTO `sys_login_record` VALUES (119, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:21:59');
+INSERT INTO `sys_login_record` VALUES (120, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:22:11');
+INSERT INTO `sys_login_record` VALUES (121, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:22:13');
+INSERT INTO `sys_login_record` VALUES (122, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:22:14');
+INSERT INTO `sys_login_record` VALUES (123, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:22:14');
+INSERT INTO `sys_login_record` VALUES (124, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:22:14');
+INSERT INTO `sys_login_record` VALUES (125, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:22:16');
+INSERT INTO `sys_login_record` VALUES (126, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:22:19');
+INSERT INTO `sys_login_record` VALUES (127, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:22:19');
+INSERT INTO `sys_login_record` VALUES (128, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:22:20');
+INSERT INTO `sys_login_record` VALUES (129, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:23:22');
+INSERT INTO `sys_login_record` VALUES (130, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:23:23');
+INSERT INTO `sys_login_record` VALUES (131, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:23:24');
+INSERT INTO `sys_login_record` VALUES (132, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:23:24');
+INSERT INTO `sys_login_record` VALUES (133, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:23:24');
+INSERT INTO `sys_login_record` VALUES (134, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:23:24');
+INSERT INTO `sys_login_record` VALUES (135, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:23:26');
+INSERT INTO `sys_login_record` VALUES (136, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:23:26');
+INSERT INTO `sys_login_record` VALUES (137, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:23:28');
+INSERT INTO `sys_login_record` VALUES (138, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:23:28');
+INSERT INTO `sys_login_record` VALUES (139, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:23:29');
+INSERT INTO `sys_login_record` VALUES (140, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:23:29');
+INSERT INTO `sys_login_record` VALUES (141, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:23:35');
+INSERT INTO `sys_login_record` VALUES (142, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:24:28');
+INSERT INTO `sys_login_record` VALUES (143, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:24:29');
+INSERT INTO `sys_login_record` VALUES (144, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:24:30');
+INSERT INTO `sys_login_record` VALUES (145, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:24:40');
+INSERT INTO `sys_login_record` VALUES (146, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:24:47');
+INSERT INTO `sys_login_record` VALUES (147, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:25:11');
+INSERT INTO `sys_login_record` VALUES (148, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:25:19');
+INSERT INTO `sys_login_record` VALUES (149, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:25:35');
+INSERT INTO `sys_login_record` VALUES (150, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:27:11');
+INSERT INTO `sys_login_record` VALUES (151, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:27:24');
+INSERT INTO `sys_login_record` VALUES (152, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:27:26');
+INSERT INTO `sys_login_record` VALUES (153, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:27:27');
+INSERT INTO `sys_login_record` VALUES (154, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:27:34');
+INSERT INTO `sys_login_record` VALUES (155, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:28:48');
+INSERT INTO `sys_login_record` VALUES (156, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:30:26');
+INSERT INTO `sys_login_record` VALUES (157, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:31:45');
+INSERT INTO `sys_login_record` VALUES (158, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:31:50');
+INSERT INTO `sys_login_record` VALUES (159, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:33:13');
+INSERT INTO `sys_login_record` VALUES (160, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:33:14');
+INSERT INTO `sys_login_record` VALUES (161, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:33:14');
+INSERT INTO `sys_login_record` VALUES (162, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:33:16');
+INSERT INTO `sys_login_record` VALUES (163, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:33:19');
+INSERT INTO `sys_login_record` VALUES (164, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:34:26');
+INSERT INTO `sys_login_record` VALUES (165, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:34:27');
+INSERT INTO `sys_login_record` VALUES (166, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:35:50');
+INSERT INTO `sys_login_record` VALUES (167, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:37:49');
+INSERT INTO `sys_login_record` VALUES (168, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:41:23');
+INSERT INTO `sys_login_record` VALUES (169, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:42:14');
+INSERT INTO `sys_login_record` VALUES (170, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:42:51');
+INSERT INTO `sys_login_record` VALUES (171, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:43:42');
+INSERT INTO `sys_login_record` VALUES (172, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:43:46');
+INSERT INTO `sys_login_record` VALUES (173, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:43:54');
+INSERT INTO `sys_login_record` VALUES (174, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:43:57');
+INSERT INTO `sys_login_record` VALUES (175, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:44:03');
+INSERT INTO `sys_login_record` VALUES (176, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:44:06');
+INSERT INTO `sys_login_record` VALUES (177, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:54:39');
+INSERT INTO `sys_login_record` VALUES (178, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:54:39');
+INSERT INTO `sys_login_record` VALUES (179, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:54:39');
+INSERT INTO `sys_login_record` VALUES (180, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:54:39');
+INSERT INTO `sys_login_record` VALUES (181, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:54:39');
+INSERT INTO `sys_login_record` VALUES (182, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:54:39');
+INSERT INTO `sys_login_record` VALUES (183, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:54:43');
+INSERT INTO `sys_login_record` VALUES (184, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:54:44');
+INSERT INTO `sys_login_record` VALUES (185, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:54:45');
+INSERT INTO `sys_login_record` VALUES (186, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:57:22');
+INSERT INTO `sys_login_record` VALUES (187, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:57:26');
+INSERT INTO `sys_login_record` VALUES (188, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:57:39');
+INSERT INTO `sys_login_record` VALUES (189, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:57:40');
+INSERT INTO `sys_login_record` VALUES (190, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:57:42');
+INSERT INTO `sys_login_record` VALUES (191, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:57:42');
+INSERT INTO `sys_login_record` VALUES (192, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:57:43');
+INSERT INTO `sys_login_record` VALUES (193, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 18:59:59');
+INSERT INTO `sys_login_record` VALUES (194, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 19:01:43');
+INSERT INTO `sys_login_record` VALUES (195, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 19:01:56');
+INSERT INTO `sys_login_record` VALUES (196, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 19:02:05');
+INSERT INTO `sys_login_record` VALUES (197, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 19:02:07');
+INSERT INTO `sys_login_record` VALUES (198, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 19:02:09');
+INSERT INTO `sys_login_record` VALUES (199, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 19:02:16');
+INSERT INTO `sys_login_record` VALUES (200, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 19:02:43');
+INSERT INTO `sys_login_record` VALUES (201, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 19:03:17');
+INSERT INTO `sys_login_record` VALUES (202, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 19:03:23');
+INSERT INTO `sys_login_record` VALUES (203, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 19:05:19');
+INSERT INTO `sys_login_record` VALUES (204, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 19:05:22');
+INSERT INTO `sys_login_record` VALUES (205, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 19:05:32');
+INSERT INTO `sys_login_record` VALUES (206, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 19:06:03');
+INSERT INTO `sys_login_record` VALUES (207, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 19:06:28');
+INSERT INTO `sys_login_record` VALUES (208, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 19:06:57');
+INSERT INTO `sys_login_record` VALUES (209, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 19:07:03');
+INSERT INTO `sys_login_record` VALUES (210, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 19:07:06');
+INSERT INTO `sys_login_record` VALUES (211, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 19:07:13');
+INSERT INTO `sys_login_record` VALUES (212, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 19:07:41');
+INSERT INTO `sys_login_record` VALUES (213, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 19:07:48');
+INSERT INTO `sys_login_record` VALUES (214, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 21:10:45');
+INSERT INTO `sys_login_record` VALUES (215, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 21:10:45');
+INSERT INTO `sys_login_record` VALUES (216, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 21:11:43');
+INSERT INTO `sys_login_record` VALUES (217, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 21:11:46');
+INSERT INTO `sys_login_record` VALUES (218, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 21:11:56');
+INSERT INTO `sys_login_record` VALUES (219, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 21:11:58');
+INSERT INTO `sys_login_record` VALUES (220, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 21:12:01');
+INSERT INTO `sys_login_record` VALUES (221, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 21:12:21');
+INSERT INTO `sys_login_record` VALUES (222, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 21:12:29');
+INSERT INTO `sys_login_record` VALUES (223, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 21:13:41');
+INSERT INTO `sys_login_record` VALUES (224, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 21:14:25');
+INSERT INTO `sys_login_record` VALUES (225, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 22:32:45');
+INSERT INTO `sys_login_record` VALUES (226, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 22:32:45');
+INSERT INTO `sys_login_record` VALUES (227, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 22:33:09');
+INSERT INTO `sys_login_record` VALUES (228, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 22:51:36');
+INSERT INTO `sys_login_record` VALUES (229, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 22:51:39');
+INSERT INTO `sys_login_record` VALUES (230, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 23:03:39');
+INSERT INTO `sys_login_record` VALUES (231, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 23:34:04');
+INSERT INTO `sys_login_record` VALUES (232, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 23:34:16');
+INSERT INTO `sys_login_record` VALUES (233, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 23:34:29');
+INSERT INTO `sys_login_record` VALUES (234, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 23:34:50');
+INSERT INTO `sys_login_record` VALUES (235, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 23:40:55');
+INSERT INTO `sys_login_record` VALUES (236, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-03 23:41:02');
+INSERT INTO `sys_login_record` VALUES (237, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 10:57:05');
+INSERT INTO `sys_login_record` VALUES (238, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 10:57:54');
+INSERT INTO `sys_login_record` VALUES (239, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 10:59:39');
+INSERT INTO `sys_login_record` VALUES (240, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 11:05:50');
+INSERT INTO `sys_login_record` VALUES (241, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 11:06:07');
+INSERT INTO `sys_login_record` VALUES (242, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 11:06:51');
+INSERT INTO `sys_login_record` VALUES (243, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 11:07:39');
+INSERT INTO `sys_login_record` VALUES (244, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 11:15:49');
+INSERT INTO `sys_login_record` VALUES (245, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 11:15:54');
+INSERT INTO `sys_login_record` VALUES (246, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 11:16:10');
+INSERT INTO `sys_login_record` VALUES (247, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 11:16:17');
+INSERT INTO `sys_login_record` VALUES (248, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 11:20:29');
+INSERT INTO `sys_login_record` VALUES (249, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 11:28:25');
+INSERT INTO `sys_login_record` VALUES (250, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 11:28:34');
+INSERT INTO `sys_login_record` VALUES (251, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 11:32:43');
+INSERT INTO `sys_login_record` VALUES (252, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 11:33:30');
+INSERT INTO `sys_login_record` VALUES (253, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '127.0.0.1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 11:36:29');
+INSERT INTO `sys_login_record` VALUES (254, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 18:44:25');
+INSERT INTO `sys_login_record` VALUES (255, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 18:44:46');
+INSERT INTO `sys_login_record` VALUES (256, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 18:44:59');
+INSERT INTO `sys_login_record` VALUES (257, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 18:45:53');
+INSERT INTO `sys_login_record` VALUES (258, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 18:46:25');
+INSERT INTO `sys_login_record` VALUES (259, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 18:46:44');
+INSERT INTO `sys_login_record` VALUES (260, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 18:50:35');
+INSERT INTO `sys_login_record` VALUES (261, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 18:51:27');
+INSERT INTO `sys_login_record` VALUES (262, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 18:52:17');
+INSERT INTO `sys_login_record` VALUES (263, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 18:55:17');
+INSERT INTO `sys_login_record` VALUES (264, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 18:57:10');
+INSERT INTO `sys_login_record` VALUES (265, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 18:59:52');
+INSERT INTO `sys_login_record` VALUES (266, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 19:00:38');
+INSERT INTO `sys_login_record` VALUES (267, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 19:01:27');
+INSERT INTO `sys_login_record` VALUES (268, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 20:04:15');
+INSERT INTO `sys_login_record` VALUES (269, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 20:04:18');
+INSERT INTO `sys_login_record` VALUES (270, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 20:13:37');
+INSERT INTO `sys_login_record` VALUES (271, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 20:13:43');
+INSERT INTO `sys_login_record` VALUES (272, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 20:14:00');
+INSERT INTO `sys_login_record` VALUES (273, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 20:16:15');
+INSERT INTO `sys_login_record` VALUES (274, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 20:17:49');
+INSERT INTO `sys_login_record` VALUES (275, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 20:18:31');
+INSERT INTO `sys_login_record` VALUES (276, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 20:18:42');
+INSERT INTO `sys_login_record` VALUES (277, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 20:19:45');
+INSERT INTO `sys_login_record` VALUES (278, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 20:20:27');
+INSERT INTO `sys_login_record` VALUES (279, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 20:20:45');
+INSERT INTO `sys_login_record` VALUES (280, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 20:21:15');
+INSERT INTO `sys_login_record` VALUES (281, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 20:21:31');
+INSERT INTO `sys_login_record` VALUES (282, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 20:36:10');
+INSERT INTO `sys_login_record` VALUES (283, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 20:39:59');
+INSERT INTO `sys_login_record` VALUES (284, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 20:41:11');
+INSERT INTO `sys_login_record` VALUES (285, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 20:42:21');
+INSERT INTO `sys_login_record` VALUES (286, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 20:48:05');
+INSERT INTO `sys_login_record` VALUES (287, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 20:53:42');
+INSERT INTO `sys_login_record` VALUES (288, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 20:57:36');
+INSERT INTO `sys_login_record` VALUES (289, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 20:58:59');
+INSERT INTO `sys_login_record` VALUES (290, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 21:00:01');
+INSERT INTO `sys_login_record` VALUES (291, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 21:27:06');
+INSERT INTO `sys_login_record` VALUES (292, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 21:27:17');
+INSERT INTO `sys_login_record` VALUES (293, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 21:29:51');
+INSERT INTO `sys_login_record` VALUES (294, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 21:29:58');
+INSERT INTO `sys_login_record` VALUES (295, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 21:38:06');
+INSERT INTO `sys_login_record` VALUES (296, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 22:18:59');
+INSERT INTO `sys_login_record` VALUES (297, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-04 22:20:33');
+INSERT INTO `sys_login_record` VALUES (298, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 10:49:29');
+INSERT INTO `sys_login_record` VALUES (299, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 10:51:16');
+INSERT INTO `sys_login_record` VALUES (300, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 10:52:29');
+INSERT INTO `sys_login_record` VALUES (301, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 10:52:42');
+INSERT INTO `sys_login_record` VALUES (302, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 10:54:37');
+INSERT INTO `sys_login_record` VALUES (303, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 10:55:03');
+INSERT INTO `sys_login_record` VALUES (304, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 10:55:38');
+INSERT INTO `sys_login_record` VALUES (305, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 10:56:33');
+INSERT INTO `sys_login_record` VALUES (306, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 10:58:13');
+INSERT INTO `sys_login_record` VALUES (307, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 10:59:19');
+INSERT INTO `sys_login_record` VALUES (308, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 10:59:52');
+INSERT INTO `sys_login_record` VALUES (309, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 11:03:58');
+INSERT INTO `sys_login_record` VALUES (310, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 11:04:16');
+INSERT INTO `sys_login_record` VALUES (311, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 11:07:54');
+INSERT INTO `sys_login_record` VALUES (312, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 11:11:06');
+INSERT INTO `sys_login_record` VALUES (313, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 11:11:25');
+INSERT INTO `sys_login_record` VALUES (314, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 11:13:24');
+INSERT INTO `sys_login_record` VALUES (315, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 11:13:31');
+INSERT INTO `sys_login_record` VALUES (316, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 11:13:47');
+INSERT INTO `sys_login_record` VALUES (317, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 11:14:19');
+INSERT INTO `sys_login_record` VALUES (318, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 11:15:21');
+INSERT INTO `sys_login_record` VALUES (319, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 11:16:19');
+INSERT INTO `sys_login_record` VALUES (320, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 11:18:47');
+INSERT INTO `sys_login_record` VALUES (321, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 11:19:14');
+INSERT INTO `sys_login_record` VALUES (322, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 11:20:43');
+INSERT INTO `sys_login_record` VALUES (323, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 11:21:06');
+INSERT INTO `sys_login_record` VALUES (324, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 11:22:51');
+INSERT INTO `sys_login_record` VALUES (325, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 11:23:03');
+INSERT INTO `sys_login_record` VALUES (326, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 11:24:24');
+INSERT INTO `sys_login_record` VALUES (327, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:11:21');
+INSERT INTO `sys_login_record` VALUES (328, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:12:15');
+INSERT INTO `sys_login_record` VALUES (329, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:12:38');
+INSERT INTO `sys_login_record` VALUES (330, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:26:50');
+INSERT INTO `sys_login_record` VALUES (331, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:27:24');
+INSERT INTO `sys_login_record` VALUES (332, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:33:22');
+INSERT INTO `sys_login_record` VALUES (333, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:33:44');
+INSERT INTO `sys_login_record` VALUES (334, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:33:58');
+INSERT INTO `sys_login_record` VALUES (335, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:48:27');
+INSERT INTO `sys_login_record` VALUES (336, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:49:14');
+INSERT INTO `sys_login_record` VALUES (337, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:50:48');
+INSERT INTO `sys_login_record` VALUES (338, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:50:57');
+INSERT INTO `sys_login_record` VALUES (339, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:51:16');
+INSERT INTO `sys_login_record` VALUES (340, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:52:18');
+INSERT INTO `sys_login_record` VALUES (341, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:52:30');
+INSERT INTO `sys_login_record` VALUES (342, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:52:51');
+INSERT INTO `sys_login_record` VALUES (343, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:53:16');
+INSERT INTO `sys_login_record` VALUES (344, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:53:40');
+INSERT INTO `sys_login_record` VALUES (345, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:53:57');
+INSERT INTO `sys_login_record` VALUES (346, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:54:39');
+INSERT INTO `sys_login_record` VALUES (347, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:57:20');
+INSERT INTO `sys_login_record` VALUES (348, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:58:13');
+INSERT INTO `sys_login_record` VALUES (349, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:58:21');
+INSERT INTO `sys_login_record` VALUES (350, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:58:48');
+INSERT INTO `sys_login_record` VALUES (351, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 21:59:02');
+INSERT INTO `sys_login_record` VALUES (352, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 22:06:19');
+INSERT INTO `sys_login_record` VALUES (353, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 22:10:02');
+INSERT INTO `sys_login_record` VALUES (354, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 22:10:52');
+INSERT INTO `sys_login_record` VALUES (355, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 22:11:05');
+INSERT INTO `sys_login_record` VALUES (356, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 22:11:14');
+INSERT INTO `sys_login_record` VALUES (357, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 22:21:22');
+INSERT INTO `sys_login_record` VALUES (358, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 22:21:47');
+INSERT INTO `sys_login_record` VALUES (359, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 22:22:02');
+INSERT INTO `sys_login_record` VALUES (360, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 22:23:38');
+INSERT INTO `sys_login_record` VALUES (361, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 22:23:48');
+INSERT INTO `sys_login_record` VALUES (362, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 22:24:12');
+INSERT INTO `sys_login_record` VALUES (363, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 22:24:41');
+INSERT INTO `sys_login_record` VALUES (364, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 22:26:44');
+INSERT INTO `sys_login_record` VALUES (365, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 22:31:30');
+INSERT INTO `sys_login_record` VALUES (366, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 22:32:33');
+INSERT INTO `sys_login_record` VALUES (367, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 22:35:39');
+INSERT INTO `sys_login_record` VALUES (368, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 22:36:10');
+INSERT INTO `sys_login_record` VALUES (369, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-05 22:36:22');
+INSERT INTO `sys_login_record` VALUES (370, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 10:32:07');
+INSERT INTO `sys_login_record` VALUES (371, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 10:32:36');
+INSERT INTO `sys_login_record` VALUES (372, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 10:50:31');
+INSERT INTO `sys_login_record` VALUES (373, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 10:51:28');
+INSERT INTO `sys_login_record` VALUES (374, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 10:53:06');
+INSERT INTO `sys_login_record` VALUES (375, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '127.0.0.1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 10:53:37');
+INSERT INTO `sys_login_record` VALUES (376, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 11:02:10');
+INSERT INTO `sys_login_record` VALUES (377, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 11:02:38');
+INSERT INTO `sys_login_record` VALUES (378, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 11:08:30');
+INSERT INTO `sys_login_record` VALUES (379, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 11:09:44');
+INSERT INTO `sys_login_record` VALUES (380, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 11:11:08');
+INSERT INTO `sys_login_record` VALUES (381, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 11:13:23');
+INSERT INTO `sys_login_record` VALUES (382, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 11:18:36');
+INSERT INTO `sys_login_record` VALUES (383, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 11:19:10');
+INSERT INTO `sys_login_record` VALUES (384, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 11:22:27');
+INSERT INTO `sys_login_record` VALUES (385, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 11:24:21');
+INSERT INTO `sys_login_record` VALUES (386, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 11:25:18');
+INSERT INTO `sys_login_record` VALUES (387, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 11:40:56');
+INSERT INTO `sys_login_record` VALUES (388, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 11:46:01');
+INSERT INTO `sys_login_record` VALUES (389, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 11:46:46');
+INSERT INTO `sys_login_record` VALUES (390, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 11:59:05');
+INSERT INTO `sys_login_record` VALUES (391, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 11:59:46');
+INSERT INTO `sys_login_record` VALUES (392, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 12:02:07');
+INSERT INTO `sys_login_record` VALUES (393, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 12:32:37');
+INSERT INTO `sys_login_record` VALUES (394, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 12:34:37');
+INSERT INTO `sys_login_record` VALUES (395, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 12:34:48');
+INSERT INTO `sys_login_record` VALUES (396, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 12:35:53');
+INSERT INTO `sys_login_record` VALUES (397, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 12:36:28');
+INSERT INTO `sys_login_record` VALUES (398, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 12:40:57');
+INSERT INTO `sys_login_record` VALUES (399, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 12:57:10');
+INSERT INTO `sys_login_record` VALUES (400, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 17:24:58');
+INSERT INTO `sys_login_record` VALUES (401, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 18:06:59');
+INSERT INTO `sys_login_record` VALUES (402, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-06 18:09:06');
+INSERT INTO `sys_login_record` VALUES (403, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-07 11:27:18');
+INSERT INTO `sys_login_record` VALUES (404, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-07 11:32:22');
+INSERT INTO `sys_login_record` VALUES (405, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Unknown', 'Unknown', '内网IP', '2023-05-07 12:56:24');
+INSERT INTO `sys_login_record` VALUES (406, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Unknown', 'Unknown', '内网IP', '2023-05-07 12:57:19');
+INSERT INTO `sys_login_record` VALUES (407, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Unknown', 'Unknown', '内网IP', '2023-05-07 12:57:53');
+INSERT INTO `sys_login_record` VALUES (408, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-08 10:49:39');
+INSERT INTO `sys_login_record` VALUES (409, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-08 13:25:33');
+INSERT INTO `sys_login_record` VALUES (410, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-08 19:12:07');
+INSERT INTO `sys_login_record` VALUES (411, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-09 09:58:19');
+INSERT INTO `sys_login_record` VALUES (412, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-09 12:15:32');
+INSERT INTO `sys_login_record` VALUES (413, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-09 17:19:11');
+INSERT INTO `sys_login_record` VALUES (414, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-09 17:23:15');
+INSERT INTO `sys_login_record` VALUES (415, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-09 17:30:57');
+INSERT INTO `sys_login_record` VALUES (416, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-09 20:03:07');
+INSERT INTO `sys_login_record` VALUES (417, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-09 20:37:16');
+INSERT INTO `sys_login_record` VALUES (418, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-10 10:02:10');
+INSERT INTO `sys_login_record` VALUES (419, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-10 10:18:18');
+INSERT INTO `sys_login_record` VALUES (420, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-10 14:42:42');
+INSERT INTO `sys_login_record` VALUES (421, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-10 17:35:55');
+INSERT INTO `sys_login_record` VALUES (422, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-10 18:05:30');
+INSERT INTO `sys_login_record` VALUES (423, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-11 10:39:17');
+INSERT INTO `sys_login_record` VALUES (424, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-11 15:03:55');
+INSERT INTO `sys_login_record` VALUES (425, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-11 15:38:56');
+INSERT INTO `sys_login_record` VALUES (426, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-11 17:27:48');
+INSERT INTO `sys_login_record` VALUES (427, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-11 17:28:12');
+INSERT INTO `sys_login_record` VALUES (428, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-12 09:48:35');
+INSERT INTO `sys_login_record` VALUES (429, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-12 13:03:49');
+INSERT INTO `sys_login_record` VALUES (430, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '127.0.0.1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-12 14:04:07');
+INSERT INTO `sys_login_record` VALUES (431, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-12 16:17:59');
+INSERT INTO `sys_login_record` VALUES (432, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-12 16:18:39');
+INSERT INTO `sys_login_record` VALUES (433, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-12 16:19:10');
+INSERT INTO `sys_login_record` VALUES (434, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-13 17:25:47');
+INSERT INTO `sys_login_record` VALUES (435, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-13 17:36:29');
+INSERT INTO `sys_login_record` VALUES (436, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-13 17:37:46');
+INSERT INTO `sys_login_record` VALUES (437, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-13 17:54:14');
+INSERT INTO `sys_login_record` VALUES (438, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-13 17:58:58');
+INSERT INTO `sys_login_record` VALUES (439, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-13 17:59:20');
+INSERT INTO `sys_login_record` VALUES (440, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-13 17:59:46');
+INSERT INTO `sys_login_record` VALUES (441, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-13 18:00:12');
+INSERT INTO `sys_login_record` VALUES (442, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-13 18:01:06');
+INSERT INTO `sys_login_record` VALUES (443, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-13 18:04:51');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -403,13 +767,13 @@ CREATE TABLE `sys_menu`  (
   `pid` bigint NULL DEFAULT NULL COMMENT '父级id',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 56 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统菜单表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统菜单表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
 INSERT INTO `sys_menu` VALUES (1, '用户管理', '/', 1, NULL, 'el-icon-user-solid', 1, 0, '2021-09-12 10:05:56');
-INSERT INTO `sys_menu` VALUES (2, '账户设置', '/Account', 2, NULL, NULL, 1, 1, '2021-09-10 15:05:32');
+INSERT INTO `sys_menu` VALUES (2, '账户设置', '/sysUserPage/index', 2, NULL, NULL, 1, 1, '2021-09-10 15:05:32');
 INSERT INTO `sys_menu` VALUES (3, '菜单管理', '/', 1, NULL, 'el-icon-menu', 2, 0, '2021-09-12 10:42:20');
 INSERT INTO `sys_menu` VALUES (4, '菜单设置', '/Menu', 2, NULL, NULL, 1, 3, '2021-09-12 10:42:55');
 INSERT INTO `sys_menu` VALUES (5, '权限管理', '/', 1, NULL, 'el-icon-view', 3, 0, '2021-09-18 14:08:42');
@@ -417,39 +781,39 @@ INSERT INTO `sys_menu` VALUES (6, '权限设置', '/role', 2, NULL, NULL, 1, 5, 
 INSERT INTO `sys_menu` VALUES (7, '系统工具', '/', 1, NULL, 'el-icon-s-tools\n', 4, 0, '2021-09-29 17:16:57');
 INSERT INTO `sys_menu` VALUES (8, '定时任务', '/quartz', 2, NULL, NULL, 5, 7, '2021-09-29 17:17:43');
 INSERT INTO `sys_menu` VALUES (9, '代码生成', '/generator', 2, NULL, NULL, 1, 7, '2021-10-17 22:21:34');
-INSERT INTO `sys_menu` VALUES (14, '字典类型', '/sysDictType', 2, NULL, NULL, 3, 7, '2021-10-23 11:01:10');
-INSERT INTO `sys_menu` VALUES (24, '账户设置列表', '#', 3, 'dolores:sysUser:list', NULL, 1, 2, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (25, '账户设置新增', '#', 3, 'dolores:sysUser:add', NULL, 2, 2, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (26, '账户设置编辑', '#', 3, 'dolores:sysUser:edit', NULL, 3, 2, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (27, '账户设置移除', '#', 3, 'dolores:sysUser:remove', NULL, 4, 2, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (28, '菜单列表', '#', 3, 'dolores:sysMenu:list', NULL, 1, 4, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (29, '菜单新增', '#', 3, 'dolores:sysMenu:add', NULL, 2, 4, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (30, '菜单编辑', '#', 3, 'dolores:sysMenu:edit', NULL, 3, 4, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (31, '菜单移除', '#', 3, 'dolores:sysMenu:remove', NULL, 4, 4, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (32, '权限设置列表', '#', 3, 'dolores:sysRole:list', NULL, 1, 6, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (33, '权限设置新增', '#', 3, 'dolores:sysRole:add', NULL, 2, 6, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (34, '权限设置编辑', '#', 3, 'dolores:sysRole:edit', NULL, 3, 6, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (35, '权限设置移除', '#', 3, 'dolores:sysRole:remove', NULL, 4, 6, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (36, '定时任务列表', '#', 3, 'dolores:quartz:list', NULL, 1, 8, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (37, '定时任务新增', '#', 3, 'dolores:quartz:add', NULL, 2, 8, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (38, '定时任务编辑', '#', 3, 'dolores:quartz:edit', NULL, 3, 8, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (39, '定时任务移除', '#', 3, 'dolores:quartz:remove', NULL, 4, 8, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (40, '代码生成列表', '#', 3, 'dolores:generator:list', NULL, 1, 9, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (41, '代码生成新增', '#', 3, 'dolores:generator:add', NULL, 2, 9, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (42, '代码生成编辑', '#', 3, 'dolores:generator:edit', NULL, 3, 9, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (43, '代码生成移除', '#', 3, 'dolores:generator:remove', NULL, 4, 9, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (44, '字典类型列表', '#', 3, 'dolores:sysDictType:list', NULL, 1, 14, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (45, '字典类型新增', '#', 3, 'dolores:sysDictType:add', NULL, 2, 14, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (46, '字典类型编辑', '#', 3, 'dolores:sysDictType:edit', NULL, 3, 14, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (47, '字典类型移除', '#', 3, 'dolores:sysDictType:remove', NULL, 4, 14, '2021-12-13 21:48:08');
-INSERT INTO `sys_menu` VALUES (48, '字典数据列表', '#', 3, 'dolores:sysDictData:list', NULL, 1, 14, '2022-01-25 18:17:46');
-INSERT INTO `sys_menu` VALUES (49, '字典数据新增', '#', 3, 'dolores:sysDictData:add', NULL, 2, 14, '2022-01-25 18:17:46');
-INSERT INTO `sys_menu` VALUES (50, '字典数据编辑', '#', 3, 'dolores:sysDictData:edit', NULL, 3, 14, '2022-01-25 18:17:47');
-INSERT INTO `sys_menu` VALUES (51, '字典数据移除', '#', 3, 'dolores:sysDictData:remove', NULL, 4, 14, '2022-01-25 18:17:47');
-INSERT INTO `sys_menu` VALUES (52, '24点工具', '/', 1, NULL, 'el-icon-coin', 5, 0, '2022-02-21 23:18:01');
-INSERT INTO `sys_menu` VALUES (53, '24点概率工具', '/blackjack', 2, 'dolores:blackjack:tool', NULL, 1, 52, '2022-02-21 23:18:01');
-INSERT INTO `sys_menu` VALUES (54, '场数纪录', '/blackJackRoundRecord', 2, NULL, NULL, 2, 52, '2022-02-25 23:44:26');
-INSERT INTO `sys_menu` VALUES (55, '来访记录', '/sysLoginRecord', 2, NULL, NULL, 2, 1, '2022-03-01 17:15:15');
+INSERT INTO `sys_menu` VALUES (10, '字典类型', '/sysDictType', 2, NULL, NULL, 3, 7, '2021-10-23 11:01:10');
+INSERT INTO `sys_menu` VALUES (11, '账户设置列表', '#', 3, 'dolores:sysUser:list', NULL, 1, 2, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (12, '账户设置新增', '#', 3, 'dolores:sysUser:add', NULL, 2, 2, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (13, '账户设置编辑', '#', 3, 'dolores:sysUser:edit', NULL, 3, 2, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (14, '账户设置移除', '#', 3, 'dolores:sysUser:remove', NULL, 4, 2, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (15, '菜单列表', '#', 3, 'dolores:sysMenu:list', NULL, 1, 4, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (16, '菜单新增', '#', 3, 'dolores:sysMenu:add', NULL, 2, 4, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (17, '菜单编辑', '#', 3, 'dolores:sysMenu:edit', NULL, 3, 4, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (18, '菜单移除', '#', 3, 'dolores:sysMenu:remove', NULL, 4, 4, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (19, '权限设置列表', '#', 3, 'dolores:sysRole:list', NULL, 1, 6, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (20, '权限设置新增', '#', 3, 'dolores:sysRole:add', NULL, 2, 6, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (21, '权限设置编辑', '#', 3, 'dolores:sysRole:edit', NULL, 3, 6, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (22, '权限设置移除', '#', 3, 'dolores:sysRole:remove', NULL, 4, 6, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (23, '定时任务列表', '#', 3, 'dolores:quartz:list', NULL, 1, 8, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (24, '定时任务新增', '#', 3, 'dolores:quartz:add', NULL, 2, 8, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (25, '定时任务编辑', '#', 3, 'dolores:quartz:edit', NULL, 3, 8, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (26, '定时任务移除', '#', 3, 'dolores:quartz:remove', NULL, 4, 8, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (27, '代码生成列表', '#', 3, 'dolores:generator:list', NULL, 1, 9, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (28, '代码生成新增', '#', 3, 'dolores:generator:add', NULL, 2, 9, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (29, '代码生成编辑', '#', 3, 'dolores:generator:edit', NULL, 3, 9, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (30, '代码生成移除', '#', 3, 'dolores:generator:remove', NULL, 4, 9, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (31, '字典类型列表', '#', 3, 'dolores:sysDictType:list', NULL, 1, 14, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (32, '字典类型新增', '#', 3, 'dolores:sysDictType:add', NULL, 2, 14, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (33, '字典类型编辑', '#', 3, 'dolores:sysDictType:edit', NULL, 3, 14, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (34, '字典类型移除', '#', 3, 'dolores:sysDictType:remove', NULL, 4, 14, '2021-12-13 21:48:08');
+INSERT INTO `sys_menu` VALUES (35, '字典数据列表', '#', 3, 'dolores:sysDictData:list', NULL, 1, 14, '2022-01-25 18:17:46');
+INSERT INTO `sys_menu` VALUES (36, '字典数据新增', '#', 3, 'dolores:sysDictData:add', NULL, 2, 14, '2022-01-25 18:17:46');
+INSERT INTO `sys_menu` VALUES (37, '字典数据编辑', '#', 3, 'dolores:sysDictData:edit', NULL, 3, 14, '2022-01-25 18:17:47');
+INSERT INTO `sys_menu` VALUES (38, '字典数据移除', '#', 3, 'dolores:sysDictData:remove', NULL, 4, 14, '2022-01-25 18:17:47');
+INSERT INTO `sys_menu` VALUES (39, '24点工具', '/', 1, NULL, 'el-icon-coin', 5, 0, '2022-02-21 23:18:01');
+INSERT INTO `sys_menu` VALUES (40, '24点概率工具', '/blackjack', 2, 'dolores:blackjack:tool', NULL, 1, 52, '2022-02-21 23:18:01');
+INSERT INTO `sys_menu` VALUES (41, '场数纪录', '/blackJackRoundRecord', 2, NULL, NULL, 2, 52, '2022-02-25 23:44:26');
+INSERT INTO `sys_menu` VALUES (42, '来访记录', '/sysLoginRecord', 2, NULL, NULL, 2, 1, '2022-03-01 17:15:15');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -467,7 +831,7 @@ CREATE TABLE `sys_role`  (
   `remark` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
   PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统角色表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统角色表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role
@@ -486,53 +850,53 @@ CREATE TABLE `sys_role_menu`  (
   `menu_id` bigint NULL DEFAULT NULL COMMENT '菜单id',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统角色菜单关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统角色菜单关联表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_menu
 -- ----------------------------
-INSERT INTO `sys_role_menu` VALUES (1, 1, 1, '2023-05-03 09:50:12');
-INSERT INTO `sys_role_menu` VALUES (2, 1, 2, '2023-05-03 09:50:12');
-INSERT INTO `sys_role_menu` VALUES (3, 1, 3, '2023-05-03 09:50:12');
-INSERT INTO `sys_role_menu` VALUES (4, 1, 4, '2023-05-03 09:50:12');
-INSERT INTO `sys_role_menu` VALUES (5, 1, 5, '2023-05-03 09:50:12');
-INSERT INTO `sys_role_menu` VALUES (6, 1, 6, '2023-05-03 09:50:12');
-INSERT INTO `sys_role_menu` VALUES (7, 1, 7, '2023-05-03 09:50:12');
-INSERT INTO `sys_role_menu` VALUES (8, 1, 8, '2023-05-03 09:50:12');
-INSERT INTO `sys_role_menu` VALUES (9, 1, 9, '2023-05-03 09:50:12');
-INSERT INTO `sys_role_menu` VALUES (10, 1, 14, '2023-05-03 09:50:12');
-INSERT INTO `sys_role_menu` VALUES (11, 1, 24, '2023-05-03 09:50:12');
-INSERT INTO `sys_role_menu` VALUES (12, 1, 25, '2023-05-03 09:50:12');
-INSERT INTO `sys_role_menu` VALUES (13, 1, 26, '2023-05-03 09:50:12');
-INSERT INTO `sys_role_menu` VALUES (14, 1, 27, '2023-05-03 09:50:12');
-INSERT INTO `sys_role_menu` VALUES (15, 1, 28, '2023-05-03 09:50:12');
-INSERT INTO `sys_role_menu` VALUES (16, 1, 29, '2023-05-03 09:50:12');
-INSERT INTO `sys_role_menu` VALUES (17, 1, 30, '2023-05-03 09:50:12');
-INSERT INTO `sys_role_menu` VALUES (18, 1, 31, '2023-05-03 09:50:12');
-INSERT INTO `sys_role_menu` VALUES (19, 1, 32, '2023-05-03 09:50:12');
-INSERT INTO `sys_role_menu` VALUES (20, 1, 33, '2023-05-03 09:50:12');
-INSERT INTO `sys_role_menu` VALUES (21, 1, 34, '2023-05-03 09:50:13');
-INSERT INTO `sys_role_menu` VALUES (22, 1, 35, '2023-05-03 09:50:13');
-INSERT INTO `sys_role_menu` VALUES (23, 1, 36, '2023-05-03 09:50:13');
-INSERT INTO `sys_role_menu` VALUES (24, 1, 37, '2023-05-03 09:50:13');
-INSERT INTO `sys_role_menu` VALUES (25, 1, 38, '2023-05-03 09:50:13');
-INSERT INTO `sys_role_menu` VALUES (26, 1, 39, '2023-05-03 09:50:13');
-INSERT INTO `sys_role_menu` VALUES (27, 1, 40, '2023-05-03 09:50:13');
-INSERT INTO `sys_role_menu` VALUES (28, 1, 41, '2023-05-03 09:50:13');
-INSERT INTO `sys_role_menu` VALUES (29, 1, 42, '2023-05-03 09:50:13');
-INSERT INTO `sys_role_menu` VALUES (30, 1, 43, '2023-05-03 09:50:13');
-INSERT INTO `sys_role_menu` VALUES (31, 1, 44, '2023-05-03 09:50:13');
-INSERT INTO `sys_role_menu` VALUES (32, 1, 45, '2023-05-03 09:50:13');
-INSERT INTO `sys_role_menu` VALUES (33, 1, 46, '2023-05-03 09:50:13');
-INSERT INTO `sys_role_menu` VALUES (34, 1, 47, '2023-05-03 09:50:13');
-INSERT INTO `sys_role_menu` VALUES (35, 1, 48, '2023-05-03 09:50:13');
-INSERT INTO `sys_role_menu` VALUES (36, 1, 49, '2023-05-03 09:50:13');
-INSERT INTO `sys_role_menu` VALUES (37, 1, 50, '2023-05-03 09:50:13');
-INSERT INTO `sys_role_menu` VALUES (38, 1, 51, '2023-05-03 09:50:13');
-INSERT INTO `sys_role_menu` VALUES (39, 1, 52, '2023-05-03 09:50:13');
-INSERT INTO `sys_role_menu` VALUES (40, 1, 53, '2023-05-03 09:50:13');
-INSERT INTO `sys_role_menu` VALUES (41, 1, 54, '2023-05-03 09:50:13');
-INSERT INTO `sys_role_menu` VALUES (42, 1, 55, '2023-05-03 09:50:13');
+INSERT INTO `sys_role_menu` VALUES (1, 1, 1, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (2, 1, 2, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (3, 1, 3, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (4, 1, 4, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (5, 1, 5, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (6, 1, 6, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (7, 1, 7, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (8, 1, 8, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (9, 1, 9, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (10, 1, 10, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (11, 1, 11, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (12, 1, 12, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (13, 1, 13, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (14, 1, 14, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (15, 1, 15, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (16, 1, 16, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (17, 1, 17, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (18, 1, 18, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (19, 1, 19, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (20, 1, 20, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (21, 1, 21, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (22, 1, 22, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (23, 1, 23, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (24, 1, 24, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (25, 1, 25, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (26, 1, 26, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (27, 1, 27, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (28, 1, 28, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (29, 1, 29, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (30, 1, 30, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (31, 1, 31, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (32, 1, 32, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (33, 1, 33, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (34, 1, 34, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (35, 1, 35, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (36, 1, 36, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (37, 1, 37, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (38, 1, 38, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (39, 1, 39, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (40, 1, 40, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (41, 1, 41, '2023-05-12 16:37:32');
+INSERT INTO `sys_role_menu` VALUES (42, 1, 42, '2023-05-12 16:37:32');
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -540,26 +904,28 @@ INSERT INTO `sys_role_menu` VALUES (42, 1, 55, '2023-05-03 09:50:13');
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user`  (
   `user_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '系统用户id',
-  `user_name` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '系统用户名',
+  `user_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '系统用户名',
   `phone` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '系统用户手机号',
   `salt` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '盐',
   `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '系统用户密码',
-  `email` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户邮箱',
+  `email` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '用户邮箱',
   `gender` tinyint(1) NULL DEFAULT 1 COMMENT '性别(0.女 1.男)',
-  `status` tinyint(1) NULL DEFAULT 1 COMMENT '账号状态(0.未启用 1.已启用)',
+  `is_enable` tinyint(1) NULL DEFAULT 1 COMMENT '账号状态(0.未启用 1.已启用)',
   `avatar` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像路径',
   `login_ip` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户登录ip',
   `login_date` datetime NULL DEFAULT NULL COMMENT '用户登录时间',
+  `is_delete` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除(0.未删除 1.已删除)',
   `pwd_update_date` datetime NULL DEFAULT NULL COMMENT '密码更新日期',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
   `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建者'
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('62a199a1713c91a33ecc8d1d14a0789e', 'admin', NULL, '62176177E49D07CE78BE7DF8404077F444FF0545A4E2102405C9739D2460', 'E61201A7D6C137974E94B9AD5097ACBEB7E85B6EE70D5F78F42004F087873FE444FF0545A4E2102405C9739D2460', NULL, 1, 1, NULL, '0:0:0:0:0:0:0:1', '2023-05-03 01:52:15', NULL, '2023-05-03 09:45:30', NULL, NULL);
+INSERT INTO `sys_user` VALUES ('62a199a1713c91a33ecc8d1d14a0789e', 'admin', '15915773353', 'd8cf9cc793f85ff58f4010facd137ce776d3d4f86b9674e41f798d2748e8', '72b01a676facd496a2ffb3d7bae4d226', 'huangxinghua05@gmail.com', 1, 1, NULL, '0:0:0:0:0:0:0:1', '2023-05-13 10:04:51', 0, NULL, '2023-05-03 09:45:30', NULL, NULL);
+INSERT INTO `sys_user` VALUES ('8a9e0e923a79ce4a779d838e90c4b447', 'sss', '', '5645d5ad96fa40b8124be6e3fe93f3e636fefb7a4a0bd10128f57f2aa955', '', '', 2, 0, NULL, NULL, NULL, 0, NULL, '2023-05-12 17:06:39', '', NULL);
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -571,12 +937,13 @@ CREATE TABLE `sys_user_role`  (
   `role_id` bigint NULL DEFAULT NULL COMMENT '角色id',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户角色表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户角色表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user_role
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES (1, '62a199a1713c91a33ecc8d1d14a0789e', 1, '2023-05-03 09:49:28');
+INSERT INTO `sys_user_role` VALUES (9, '8a9e0e923a79ce4a779d838e90c4b447', 2, '2023-05-12 18:00:37');
 
 -- ----------------------------
 -- Procedure structure for test
