@@ -140,19 +140,22 @@ function initTbody(option) {
         const tr = document.createElement('tr');
         const childList = child;
         if (childList != null && childList.length > 0) {
-            let checkboxTd = document.createElement('td');
-            checkboxTd.classList.add('first-column');
-            let label = document.createElement('label');
-            label.classList.add('custom-control', 'custom-checkbox');
-            let input = document.createElement('input');
-            input.setAttribute('type', 'checkbox');
-            input.classList.add('custom-control-input', 'checkbox-item');
-            let span = document.createElement('span');
-            span.classList.add('custom-control-label');
-            label.appendChild(input);
-            label.appendChild(span);
-            checkboxTd.appendChild(label);
-            tr.appendChild(checkboxTd);
+            //判断是否需要复选框
+            if (option.isNeedCheckbox) {
+                let checkboxTd = document.createElement('td');
+                checkboxTd.classList.add('first-column');
+                let label = document.createElement('label');
+                label.classList.add('custom-control', 'custom-checkbox');
+                let input = document.createElement('input');
+                input.setAttribute('type', 'checkbox');
+                input.classList.add('custom-control-input', 'checkbox-item');
+                let span = document.createElement('span');
+                span.classList.add('custom-control-label');
+                label.appendChild(input);
+                label.appendChild(span);
+                checkboxTd.appendChild(label);
+                tr.appendChild(checkboxTd);
+            }
 
             childList.forEach(cell => {
                 let td = document.createElement('td');
@@ -179,11 +182,14 @@ function initTbody(option) {
                 modifyBtn.setAttribute('id', 'modify');
                 modifyBtn.classList.add('btn', 'btn-success', 'btn-sm');
                 modifyBtn.classList.add('modal-effect');
+                modifyBtn.setAttribute('id', 'single-modifyBtn')
                 modifyBtn.setAttribute('data-bs-effect', 'effect-flip-vertical')
                 modifyBtn.setAttribute('data-bs-toggle', 'modal')
                 modifyBtn.setAttribute('href', '#dolores-edit-modal')
                 modifyBtn.setAttribute('onclick', "openModal('#modify','#dolores-edit-modal')")
                 modifyBtn.style.marginRight = '10px';
+                removeBtn.setAttribute('id', 'single-removeBtn');
+                removeBtn.setAttribute('onclick', 'remove()');
                 removeBtn.classList.add('btn', 'btn-danger', 'btn-sm');
                 operateTd.append(modifyBtn);
                 operateTd.append(removeBtn);

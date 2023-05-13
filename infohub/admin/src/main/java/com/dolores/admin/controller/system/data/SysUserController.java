@@ -98,9 +98,9 @@ public class SysUserController extends BaseController {
     }
 
 
-    @DeleteMapping("/remove")
+    @DeleteMapping("/remove/{ids}")
     @PreAuthorize("hasAuthority('dolores:sysUser:remove')")
-    public AjaxResult remove(@RequestParam String ids) {
+    public AjaxResult remove(@PathVariable("ids") String ids) {
         if (StringUtils.isBlank(ids)) {
             return error("删除id不能为空");
         }

@@ -40,10 +40,11 @@ function login() {
         dataType: 'JSON',
         contentType: "application/json; charset=utf-8",
         success: function (resp) {
-            success('提示', resp.msg);
             if (resp.code === 200) {
+                success('提示', resp.msg);
                 delayJump(homePage);
             } else {
+                warning('提示', resp.msg);
                 getCaptcha();
             }
         }

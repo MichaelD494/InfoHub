@@ -38,7 +38,7 @@
                         th:onclick="openEditModal()">编辑
                 </button>
 
-                <button type="button" class="btn btn-danger btn-sm" id="deleteBtn" th:onclick="openSaveModal()">删除
+                <button type="button" class="btn btn-danger btn-sm" id="deleteBtn" th:onclick="remove()">删除
                 </button>
             </div>
             <div class="common-table" th:replace="~{common/table}"></div>
@@ -64,6 +64,11 @@
         //获取添加页面
         addPage();
     })
+
+    function getSelectedCheckboxes() {
+        const checkBoxList = $('.checkbox-item');
+        return checkBoxList.filter(':checked');
+    }
 
     //重置
     function reset() {
@@ -136,8 +141,7 @@
     }
 
     function openEditModal() {
-        const checkBoxList = $('.checkbox-item');
-        const selectedCheckboxes = checkBoxList.filter(':checked')
+        const selectedCheckboxes = getSelectedCheckboxes();
         let userId;
         if (selectedCheckboxes.length <= 0) {
             warning('提示', '请选择编辑数据');
@@ -167,6 +171,28 @@
                 'X-Api-Request': 'false'
             }
         });
+    }
+
+    function remove() {
+        const selectedCheckboxes = getSelectedCheckboxes();
+        if (selectedCheckboxes.length === 0) {
+            warning('提示', '请选择至少一项删除');
+            return;
+        }
+        let ids = '';
+        selectedCheckboxes.each(function () {
+            const row = $(this).closest('tr');
+            ids += row.find('#idColumn').text() + ',';
+        });
+        del('/sysUser/remove/' + ids, null, function (resp) {
+            console.log(resp)
+            if (resp.code === 200) {
+                success('提示', '删除成功')
+                list();
+            } else {
+                error('提示', '删除失败');
+            }
+        })
     }
 </script>
 </body>

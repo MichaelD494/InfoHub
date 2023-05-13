@@ -67,6 +67,17 @@ public class LoginController extends BaseController {
         }
         //从缓存中删除已匹配过的验证码
         DoloresRedis.deleteSecurityCode(dto.getUuid());
+        LoginUser verifyUser = sysUserService.queryUserByName(dto.getUsername());
+        if (verifyUser == null) {
+            return error("不存在此用户");
+        }
+        SysUser user = verifyUser.getSysUser();
+        if (user.getIsDelete() != null && user.getIsDelete() == 1) {
+            return error("账户已被删除，请联系管理员");
+        }
+        if (user.getIsEnable() != null && user.getIsEnable() == 0) {
+            return error("账户未开启，请联系管理员");
+        }
         Authentication auth = authenticationProvider.authenticate(
                 new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword()));
         if (!auth.isAuthenticated()) {

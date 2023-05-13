@@ -38,7 +38,7 @@ function put(url, data, successCallback) {
     });
 }
 
-function remove(url, data, successCallback) {
+function del(url, data, successCallback) {
     $.ajax({
         url: url,
         type: 'DELETE',

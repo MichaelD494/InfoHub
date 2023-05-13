@@ -8,6 +8,8 @@
             <result column="user_name" property="userName"/>
             <result column="salt" property="salt"/>
             <result column="password" property="password"/>
+            <result column="is_delete" property="isDelete"/>
+            <result column="is_enable" property="isEnable"/>
         </association>
         <collection property="roles"
                     select="queryUserByNameSelect"
@@ -17,15 +19,22 @@
     <select id="queryUserByNameSelect" resultType="com.dolores.system.domain.SysUserPerms">
         select sm.id as menuId, sm.perms
         from sys_role_menu srm
-                 left join sys_menu sm
+                 inner join sys_menu sm
                            on srm.menu_id = sm.id
         where srm.role_id = #{role_id}
     </select>
     <select id="queryUserByName" resultMap="queryUserByNameMap">
-        select su.user_id, su.user_id, user_name, password, salt, role_id
+        select su.user_id,
+               su.user_id,
+               user_name,
+               password,
+               salt,
+               role_id,
+               su.is_delete,
+               su.is_enable
         from sys_user su
-                 left join sys_user_role sur
-                           on su.user_id = sur.user_id
+                 inner join sys_user_role sur
+                            on su.user_id = sur.user_id
         where user_name = #{name}
         limit 1
     </select>
@@ -33,6 +42,7 @@
     <select id="querySysUserList" resultType="com.dolores.system.domain.SysUser">
         select * from sys_user
         <where>
+            and is_delete = 0
             <if test="sysUser!=null">
                 <if test="sysUser.userName!=null and sysUser.userName!=''">
                     and user_name like concat('%',#{sysUser.userName},'%')
