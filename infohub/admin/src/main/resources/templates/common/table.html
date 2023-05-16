@@ -10,13 +10,30 @@
 <body>
 <div class="table-responsive">
     <div id="dolores-table-area">
+        <div class="entries row" style="margin-top: 20px;;margin-bottom: 20px;">
+            <div class="d-flex align-items-center">
+                <div>展示</div>
+                <label style="width: 5%" class="ms-2 mb-0">
+                    <select id="dolores-pageSize" class="form-control form-select select2">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </label>
+                <div class="ms-2">条</div>
+            </div>
+        </div>
         <table id="dolores-table"
                class="table table-bordered border text-nowrap text-md-nowrap
                mg-b-0 table-striped table-hover ">
+            <thead id="dolores-thead"></thead>
+            <tbody id="dolores-tbody"></tbody>
         </table>
-
+        <nav id="dolores-nav"></nav>
         <div class="d-flex justify-content-center">
-            <div id="data-loading" class="spinner-border" role="status">
+            <div id="data-loading" class="spinner-border spinner-border-sm" aria-hidden="true" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
         </div>

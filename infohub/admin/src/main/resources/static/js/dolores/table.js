@@ -17,40 +17,45 @@ function init(option) {
     initPage();
 }
 
+function searchData() {
+    $("#dolores-tbody").empty();
+    loadTable();
+    initTbody();
+    appendTbody();
+    hideLoading();
+}
+
 //重构表格选项对象
 function rebuildOption(option) {
     rewriteObj(option, dolores_option);
 }
 
 function loadData(action, page) {
-    let tbody = $("#dolores-tbody");
-    tbody.remove();
+    $("#dolores-tbody").empty();
     if (action === 'pre') {
-        dolores_option.pageDetail.pageNum = dolores_option.pageInfo.prePage;
+        dolores_option.pageDetail.pageNum = dolores_option.pageDetail.prePage;
     } else if (action === 'next') {
-        dolores_option.pageDetail.pageNum = dolores_option.pageInfo.nextPage;
+        dolores_option.pageDetail.pageNum = dolores_option.pageDetail.nextPage;
     } else if (action === 'page') {
         dolores_option.pageDetail.pageNum = page;
     }
     loadTable();
     initTbody();
-    const buildTbody = dolores_option.tbody;
-    document
-        .getElementById("dolores-table")
-        .appendChild(buildTbody);
+    appendTbody();
     hideLoading();
 }
 
 //加载表单
 function loadTable() {
-//获取数据地址
+    $('#dolores-tbody').hide();
+    //获取数据地址
     const url = dolores_option.url;
     //获取查询参数
     const queryParam = dolores_option.queryParam;
     //获取页数对象
     const pageDetail = dolores_option.pageDetail;
     $.ajax({
-        url: url + '?pageNum=' + pageDetail.pageNum + '&pageSize=' + pageDetail.pageSize,
+        url: url + '?pageNum=' + pageDetail.pageNum + '&pageSize=' + $('#dolores-pageSize').val(),
         type: 'POST',
         async: false,
         data: JSON.stringify(queryParam),
@@ -59,6 +64,7 @@ function loadTable() {
         success: function (resp) {
             const pageInfo = resp.pageInfo;
             dolores_option.pageInfo = pageInfo;
+            reloadPageData();
             //获取资源
             const resourceList = pageInfo.list;
             //展示数据加载层
@@ -115,17 +121,15 @@ function appendOperate() {
 
 //初始化表格
 function initTable() {
-    const table = $("#dolores-table");
-    table.html('');
+    $("#dolores-tbody").empty();
+    $('#dolores-nav').empty();
 }
 
 //初始化表格头部
 function initThead() {
     let columnList = dolores_option.columnList;
     //创建表格头部
-    let thead = document.createElement('thead');
-    //设置元素属性
-    thead.setAttribute('id', 'dolores-thead');
+    let thead = document.getElementById('dolores-thead');
     //创建行
     const tr = document.createElement('tr');
     //判断是否需要首列
@@ -159,8 +163,7 @@ function initThead() {
 //初始化主体
 function initTbody() {
     let parentList = dolores_option.parentList;
-    let tbody = document.createElement('tbody');
-    tbody.setAttribute('id', 'dolores-tbody');
+    let tbody = document.getElementById('dolores-tbody');
     parentList.forEach((child, index) => {
         const tr = document.createElement('tr');
         const childList = child;
@@ -182,7 +185,6 @@ function initTbody() {
                 tr.appendChild(checkboxTd);
             }
 
-
             childList.forEach((cell, index) => {
                 let td = document.createElement('td');
                 const idCol = cell.idColumn;
@@ -196,7 +198,6 @@ function initTbody() {
                 td.innerText = cell.value;
                 tr.appendChild(td);
             });
-
 
             //判断是否需要操作按钮
             if (dolores_option.isNeedOperate) {
@@ -233,30 +234,43 @@ function appendTbody() {
         document
             .getElementById("dolores-table")
             .appendChild(tbody);
+        $('#dolores-tbody').show();
     }, timeout)
+}
+
+function reloadPageData() {
+    const pageInfo = dolores_option.pageInfo;
+    let prePage = pageInfo.prePage;
+    let nextPage = pageInfo.nextPage;
+    if (prePage === 0) {
+        prePage = 1;
+    }
+    if (nextPage === 0) {
+        nextPage = pageInfo.pageNum;
+    }
+    dolores_option.pageDetail.prePage = prePage;
+    dolores_option.pageDetail.nextPage = nextPage;
 }
 
 function initPage() {
     const pageInfo = dolores_option.pageInfo;
-    const prePage = pageInfo.prePage;
-    const nextPage = pageInfo.nextPage;
     const pages = pageInfo.pages;
     const hasPreviousPage = pageInfo.hasPreviousPage;
     const hasNextPage = pageInfo.hasNextPage;
     const pageDetail = dolores_option.pageDetail;
     //创建导航标签
-    let nav = document.createElement('nav');
+    let nav = document.getElementById('dolores-nav');
     nav.setAttribute('aria-label', 'Page navigation');
     nav.classList.add('d-flex', 'justify-content-end');
     //创建ul
     let ul = document.createElement('pagination');
     ul.classList.add('pagination');
     //创建pre_page模块
-    initPreModule(ul, prePage);
+    initPreModule(ul);
     //创建pages模块
     initPagesModule(ul, pages, hasPreviousPage, hasNextPage, pageDetail.pageSize);
     //创建next_page模块
-    initNextModule(ul, nextPage);
+    initNextModule(ul);
     nav.appendChild(ul);
     document
         .getElementById("dolores-table-area")
@@ -264,8 +278,7 @@ function initPage() {
 }
 
 //创建pre_page模块
-function initPreModule(ul, prePage) {
-    dolores_option.pageDetail.pageNum = prePage;
+function initPreModule(ul) {
     let pre_li = document.createElement('li');
     pre_li.setAttribute('id', 'next_page');
     pre_li.classList.add('page-item');
@@ -299,8 +312,7 @@ function initPagesModule(ul, pages, hasPreviousPage, hasNextPage, pageSize) {
 }
 
 //创建next_page模块
-function initNextModule(ul, nextPage) {
-    dolores_option.pageDetail.pageNum = nextPage;
+function initNextModule(ul) {
     let next_li = document.createElement('li');
     next_li.classList.add('page-item');
     let next_a = document.createElement('a');

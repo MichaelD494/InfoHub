@@ -15,7 +15,7 @@
                     </div>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-primary btn-sm" th:onclick="list()">搜索</button>
+                    <button type="button" class="btn btn-primary btn-sm" th:onclick="search()">搜索</button>
                     <button type="button" class="btn btn-secondary btn-sm" th:onclick="reset()">重置</button>
                 </div>
             </div>
@@ -57,14 +57,14 @@
 
     var pageDetail = {
         pageNum: 1,
-        pageSize: 3
+        pageSize: 5
     };
 
     $(function () {
         //数据加载层
         loading();
         //获取数据
-        list();
+        buildTable();
         //获取添加页面
         addPage();
     })
@@ -88,8 +88,7 @@
     }
 
     //获取数据
-    function list() {
-        loadForm();
+    function buildTable() {
         //配置加载表格选项
         let option = {
             columnList: [
@@ -125,6 +124,11 @@
         option.queryParam = searchObj;
         option.pageDetail = pageDetail;
         init(option);
+    }
+
+    function search() {
+        loadForm();
+        searchData();
     }
 
     function addPage() {
