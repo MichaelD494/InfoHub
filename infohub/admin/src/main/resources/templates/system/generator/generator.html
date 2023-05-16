@@ -2,16 +2,16 @@
 <html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div class="page-header">
-    <h1 class="page-title">用户管理</h1>
+    <h1 class="page-title">代码生成</h1>
 </div>
 <div class="card">
     <div class="card-body">
         <form id="searchForm">
             <div class="row marAuto wrap" style="height: 100px;margin-bottom: 30px">
                 <div class="flex marginR aic">
-                    <div class="nowrap">用户名:</div>
+                    <div class="nowrap">表名:</div>
                     <div>
-                        <input type="text" name="userName" class="form-control form-control-sm" id="userName"/>
+                        <input type="text" name="userName" class="form-control form-control-sm" id="tableName"/>
                     </div>
                 </div>
                 <div>
@@ -54,12 +54,6 @@
     var removeUrl = '/sysUser/remove/';
     //查询对象
     var searchObj = {};
-
-    var pageDetail = {
-        pageNum: 1,
-        pageSize: 3
-    };
-
     $(function () {
         //数据加载层
         loading();
@@ -100,30 +94,29 @@
                     name: 'userId',
                 },
                 {
-                    comment: "用户名",
-                    name: "userName"
+                    comment: "表名",
+                    name: "tableName"
                 },
                 {
-                    comment: "邮箱",
-                    name: "email"
+                    comment: "表注释",
+                    name: "tableComment"
                 },
                 {
-                    comment: "性别",
-                    name: "gender"
+                    comment: "对象名",
+                    name: "entityName"
                 },
                 {
-                    comment: "登录ip",
-                    name: "loginIp"
+                    comment: "作者",
+                    name: "author"
                 },
                 {
-                    comment: "登录日期",
-                    name: "loginDate"
+                    comment: "模块名",
+                    name: "moduleName"
                 }
             ]
         }
         option.url = listUrl;
         option.queryParam = searchObj;
-        option.pageDetail = pageDetail;
         init(option);
     }
 

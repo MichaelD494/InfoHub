@@ -1,12 +1,20 @@
 <!doctype html>
 <html lang="en" dir="ltr">
+<head>
+    <style>
+        .pagination .page-link {
+            color: dodgerblue;
+        }
+    </style>
+</head>
 <body>
 <div class="table-responsive">
-    <div>
+    <div id="dolores-table-area">
         <table id="dolores-table"
                class="table table-bordered border text-nowrap text-md-nowrap
-               mg-b-0 table-striped table-hover">
+               mg-b-0 table-striped table-hover ">
         </table>
+
         <div class="d-flex justify-content-center">
             <div id="data-loading" class="spinner-border" role="status">
                 <span class="sr-only">Loading...</span>
@@ -23,7 +31,7 @@
         hidden: false,          //是否需要隐藏该列
         isNeedOperate: true,   //是否需要操作按钮
         isNeedCheckbox: true,   //是否需要复选框
-        columnList: []          //列集合
+        columnList: []         //列集合
     };
 
     $(function () {

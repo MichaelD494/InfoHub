@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.dolores.framework.core.controller.BaseController;
 import com.dolores.framework.core.domain.AjaxResult;
+import com.dolores.framework.domain.common.TableDataInfo;
+import com.dolores.system.domain.PageDetail;
 import com.dolores.system.domain.SysUser;
 import com.dolores.system.domain.SysUserRole;
 import com.dolores.system.domain.dto.SysUserDto;
@@ -12,6 +14,7 @@ import com.dolores.system.service.ISysUserRoleService;
 import com.dolores.system.service.ISysUserService;
 import com.dolores.utils.DoloresEncrypt;
 import com.dolores.utils.StringUtils;
+import com.github.pagehelper.PageHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +30,10 @@ public class SysUserController extends BaseController {
 
     @PreAuthorize("hasAuthority('dolores:sysUser:list')")
     @PostMapping("/list")
-    public AjaxResult list(@RequestBody SysUser sysUser) {
+    public TableDataInfo list(@RequestBody SysUser sysUser) {
+        startPage();
         List<SysUser> sysUserList = sysUserService.querySysUserList(sysUser);
-        return success(sysUserList);
+        return TableDataInfo.init(sysUserList);
     }
 
     @PostMapping("/save")

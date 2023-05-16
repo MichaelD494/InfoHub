@@ -3,6 +3,9 @@ package com.dolores.framework.core.controller;
 import com.dolores.framework.core.domain.AjaxResult;
 import com.dolores.framework.utils.DoloresUtils;
 import com.dolores.system.domain.SysUser;
+import com.dolores.utils.ServletUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -15,6 +18,14 @@ import java.util.Objects;
  * @date 2021/9/10 9:41
  */
 public class BaseController {
+    public static void startPage() {
+        HttpServletRequest request = ServletUtil.getRequest();
+        if (request != null) {
+            int pageNum = Integer.parseInt(request.getParameter("pageNum"));
+            int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+            PageHelper.startPage(pageNum,pageSize);
+        }
+    }
 
     /**
      * 返回成功

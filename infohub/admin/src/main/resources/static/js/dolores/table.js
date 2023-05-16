@@ -2,17 +2,19 @@
 function init(option) {
     rebuildOption(option, dolores_option);
     //加载表格数据
-    loadTable(dolores_option);
+    loadTable();
     //初始化表格
-    initTable(dolores_option);
+    initTable();
     //初始化表格头部
-    initThead(dolores_option);
+    initThead();
     //初始化表格主体
-    initTbody(dolores_option);
+    initTbody();
     //隐藏数据加载层
     hideLoading();
     //追加
-    appendTbody(dolores_option);
+    appendTbody();
+    //初始化页数
+    initPage();
 }
 
 //重构表格选项对象
@@ -20,34 +22,57 @@ function rebuildOption(option) {
     rewriteObj(option, dolores_option);
 }
 
+function loadData(action, page) {
+    let tbody = $("#dolores-tbody");
+    tbody.remove();
+    if (action === 'pre') {
+        dolores_option.pageDetail.pageNum = dolores_option.pageInfo.prePage;
+    } else if (action === 'next') {
+        dolores_option.pageDetail.pageNum = dolores_option.pageInfo.nextPage;
+    } else if (action === 'page') {
+        dolores_option.pageDetail.pageNum = page;
+    }
+    loadTable();
+    initTbody();
+    const buildTbody = dolores_option.tbody;
+    document
+        .getElementById("dolores-table")
+        .appendChild(buildTbody);
+    hideLoading();
+}
+
 //加载表单
-function loadTable(option) {
-    //获取数据地址
-    const url = option.url;
+function loadTable() {
+//获取数据地址
+    const url = dolores_option.url;
     //获取查询参数
-    const queryParam = option.queryParam;
+    const queryParam = dolores_option.queryParam;
+    //获取页数对象
+    const pageDetail = dolores_option.pageDetail;
     $.ajax({
-        url: url,
+        url: url + '?pageNum=' + pageDetail.pageNum + '&pageSize=' + pageDetail.pageSize,
         type: 'POST',
         async: false,
-        data: queryParam == null ? null : JSON.stringify(queryParam),
+        data: JSON.stringify(queryParam),
         dataType: 'JSON',
         contentType: 'application/json; charset=utf-8',
         success: function (resp) {
+            const pageInfo = resp.pageInfo;
+            dolores_option.pageInfo = pageInfo;
             //获取资源
-            const resourceList = resp.data;
+            const resourceList = pageInfo.list;
             //展示数据加载层
             showLoading();
             //数据装配
-            matchData(option, resourceList);
+            matchData(resourceList);
         }
     })
 }
 
 //匹配表格数据
-function matchData(option, resourceList) {
+function matchData(resourceList) {
     //获取列数据
-    let columnList = option.columnList;
+    let columnList = dolores_option.columnList;
     //父级
     let parentList = [];
     //资源数据遍历
@@ -76,16 +101,16 @@ function matchData(option, resourceList) {
         parentList.push(childList);
     });
     //重新赋值
-    option.parentList = parentList;
-    const isNeedOperate = option.isNeedOperate;
+    dolores_option.parentList = parentList;
+    const isNeedOperate = dolores_option.isNeedOperate;
     //判断是否需要操作头
     if (isNeedOperate) {
-        appendOperate(option);
+        appendOperate();
     }
 }
 
-function appendOperate(option) {
-    option.columnList.push({comment: '操作', name: 'operate'});
+function appendOperate() {
+    dolores_option.columnList.push({comment: '操作', name: 'operate'});
 }
 
 //初始化表格
@@ -95,8 +120,8 @@ function initTable() {
 }
 
 //初始化表格头部
-function initThead(option) {
-    let columnList = option.columnList;
+function initThead() {
+    let columnList = dolores_option.columnList;
     //创建表格头部
     let thead = document.createElement('thead');
     //设置元素属性
@@ -104,7 +129,7 @@ function initThead(option) {
     //创建行
     const tr = document.createElement('tr');
     //判断是否需要首列
-    if (option.isNeedCheckbox) {
+    if (dolores_option.isNeedCheckbox) {
         let checkboxTd = document.createElement('td');
         checkboxTd.innerText = '#';
         checkboxTd.classList.add('first-column');
@@ -132,16 +157,16 @@ function initThead(option) {
 }
 
 //初始化主体
-function initTbody(option) {
-    let parentList = option.parentList;
+function initTbody() {
+    let parentList = dolores_option.parentList;
     let tbody = document.createElement('tbody');
     tbody.setAttribute('id', 'dolores-tbody');
-    parentList.forEach(child => {
+    parentList.forEach((child, index) => {
         const tr = document.createElement('tr');
         const childList = child;
         if (childList != null && childList.length > 0) {
             //判断是否需要复选框
-            if (option.isNeedCheckbox) {
+            if (dolores_option.isNeedCheckbox) {
                 let checkboxTd = document.createElement('td');
                 checkboxTd.classList.add('first-column');
                 let label = document.createElement('label');
@@ -157,23 +182,24 @@ function initTbody(option) {
                 tr.appendChild(checkboxTd);
             }
 
-            childList.forEach(cell => {
+
+            childList.forEach((cell, index) => {
                 let td = document.createElement('td');
                 const idCol = cell.idColumn;
                 const hidden = cell.hidden;
                 if (idCol) {
-                    td.setAttribute('id', 'idColumn');
+                    td.setAttribute('id', 'id-column-' + index);
                 }
-                // console.log(hidden)
                 if (hidden) {
                     td.style.display = 'none';
                 }
-                td.innerText = cell == null ? null : cell.value;
+                td.innerText = cell.value;
                 tr.appendChild(td);
             });
 
+
             //判断是否需要操作按钮
-            if (option.isNeedOperate) {
+            if (dolores_option.isNeedOperate) {
                 let operateTd = document.createElement('td');
                 let modifyBtn = document.createElement('button');
                 let removeBtn = document.createElement('button');
@@ -182,14 +208,13 @@ function initTbody(option) {
                 modifyBtn.setAttribute('id', 'modify');
                 modifyBtn.classList.add('btn', 'btn-success', 'btn-sm');
                 modifyBtn.classList.add('modal-effect');
-                modifyBtn.setAttribute('id', 'single-modifyBtn')
-                modifyBtn.setAttribute('data-bs-effect', 'effect-flip-vertical')
-                modifyBtn.setAttribute('data-bs-toggle', 'modal')
-                modifyBtn.setAttribute('href', '#dolores-edit-modal')
-                modifyBtn.setAttribute('onclick', "openModal('#modify','#dolores-edit-modal')")
+                modifyBtn.setAttribute('id', 'single-modifyBtn-' + index);
+                modifyBtn.setAttribute('data-bs-effect', 'effect-flip-vertical');
+                modifyBtn.setAttribute('href', '#dolores-edit-modal');
+                modifyBtn.setAttribute('onclick', "singleOpenEditModal(this)");
                 modifyBtn.style.marginRight = '10px';
-                removeBtn.setAttribute('id', 'single-removeBtn');
-                removeBtn.setAttribute('onclick', 'remove()');
+                removeBtn.setAttribute('id', 'single-removeBtn-');
+                removeBtn.setAttribute('onclick', 'singleRemove(this)');
                 removeBtn.classList.add('btn', 'btn-danger', 'btn-sm');
                 operateTd.append(modifyBtn);
                 operateTd.append(removeBtn);
@@ -198,15 +223,98 @@ function initTbody(option) {
         }
         tbody.appendChild(tr);
     });
-    option.tbody = tbody;
+    dolores_option.tbody = tbody;
 }
 
 //追加主体
-function appendTbody(option) {
+function appendTbody() {
     setTimeout(function () {
-        const tbody = option.tbody;
+        const tbody = dolores_option.tbody;
         document
             .getElementById("dolores-table")
             .appendChild(tbody);
     }, timeout)
+}
+
+function initPage() {
+    const pageInfo = dolores_option.pageInfo;
+    const prePage = pageInfo.prePage;
+    const nextPage = pageInfo.nextPage;
+    const pages = pageInfo.pages;
+    const hasPreviousPage = pageInfo.hasPreviousPage;
+    const hasNextPage = pageInfo.hasNextPage;
+    const pageDetail = dolores_option.pageDetail;
+    //创建导航标签
+    let nav = document.createElement('nav');
+    nav.setAttribute('aria-label', 'Page navigation');
+    nav.classList.add('d-flex', 'justify-content-end');
+    //创建ul
+    let ul = document.createElement('pagination');
+    ul.classList.add('pagination');
+    //创建pre_page模块
+    initPreModule(ul, prePage);
+    //创建pages模块
+    initPagesModule(ul, pages, hasPreviousPage, hasNextPage, pageDetail.pageSize);
+    //创建next_page模块
+    initNextModule(ul, nextPage);
+    nav.appendChild(ul);
+    document
+        .getElementById("dolores-table-area")
+        .appendChild(nav);
+}
+
+//创建pre_page模块
+function initPreModule(ul, prePage) {
+    dolores_option.pageDetail.pageNum = prePage;
+    let pre_li = document.createElement('li');
+    pre_li.setAttribute('id', 'next_page');
+    pre_li.classList.add('page-item');
+    let pre_a = document.createElement('a');
+    pre_a.classList.add('page-link');
+    pre_a.setAttribute('aria-label', 'Previous');
+    pre_a.setAttribute('onclick', "loadData('pre')");
+    let pre_fist_span = document.createElement('span');
+    pre_fist_span.setAttribute('aria-hidden', 'true');
+    pre_fist_span.innerHTML = '&laquo;';
+    let pre_second_span = document.createElement('span');
+    pre_second_span.classList.add('sr-only');
+    pre_second_span.innerText = 'Previous';
+    pre_a.appendChild(pre_fist_span);
+    pre_a.appendChild(pre_second_span);
+    pre_li.appendChild(pre_a);
+    ul.appendChild(pre_li);
+}
+
+function initPagesModule(ul, pages, hasPreviousPage, hasNextPage, pageSize) {
+    for (let pageNum = 1; pageNum <= pages; pageNum++) {
+        let li = document.createElement('li');
+        li.classList.add('page-item');
+        let a = document.createElement('a');
+        a.classList.add('page-link');
+        a.setAttribute('onclick', "loadData('page'," + pageNum + ")");
+        a.innerText = pageNum;
+        li.appendChild(a);
+        ul.appendChild(li);
+    }
+}
+
+//创建next_page模块
+function initNextModule(ul, nextPage) {
+    dolores_option.pageDetail.pageNum = nextPage;
+    let next_li = document.createElement('li');
+    next_li.classList.add('page-item');
+    let next_a = document.createElement('a');
+    next_a.classList.add('page-link');
+    next_a.setAttribute('aria-label', 'Next');
+    next_a.setAttribute('onclick', "loadData('next')");
+    let next_fist_span = document.createElement('span');
+    next_fist_span.setAttribute('aria-hidden', 'true');
+    next_fist_span.innerHTML = '&raquo;';
+    let next_second_span = document.createElement('span');
+    next_second_span.classList.add('sr-only');
+    next_second_span.innerText = 'Next';
+    next_a.appendChild(next_fist_span);
+    next_a.appendChild(next_second_span);
+    next_li.appendChild(next_a);
+    ul.appendChild(next_li);
 }

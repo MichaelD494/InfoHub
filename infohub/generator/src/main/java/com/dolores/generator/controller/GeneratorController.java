@@ -184,8 +184,7 @@ public class GeneratorController extends BaseController {
 
     public String subStr(String json) {
         int first = json.indexOf(",") + 1;
-        String replace = "{" + json.substring(first);
-        return replace;
+        return "{" + json.substring(first);
     }
 
     @PostMapping("/saveGeneratorInfo")
