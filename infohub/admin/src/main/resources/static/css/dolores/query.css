@@ -1,7 +1,7 @@
 .search-input {
     display: flex;
     margin-right: 15px;
-    margin-top:20px;
+    margin-top: 20px;
     align-items: center;
 }
 
@@ -22,6 +22,10 @@
     word-break: break-word;
     /* 设置单元格内边距，以便内容更易于阅读 */
     padding: 8px;
+}
+
+.dolores-operate-group > .dolores-operate {
+    margin-right: 5px;
 }
 
 .box-shadow-pink > .row {
