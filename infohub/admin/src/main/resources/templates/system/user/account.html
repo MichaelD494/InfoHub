@@ -7,21 +7,21 @@
 <div class="card">
     <div class="card-body">
         <form id="searchForm">
-            <div class="row marAuto wrap" style="height: 100px;margin-bottom: 30px">
-                <div class="flex marginR aic">
+            <div class="form-row d-flex flex-wrap box-shadow-pink" style="margin-bottom: 30px">
+                <div class="search-input">
                     <div class="nowrap">用户名:</div>
                     <div>
                         <input type="text" name="userName" class="form-control form-control-sm" id="userName"/>
                     </div>
                 </div>
-                <div>
+                <div class="flex-wrap" id="search-group" style="width: 100%;margin: 15px 0px 15px 15px">
                     <button type="button" class="btn btn-primary btn-sm" th:onclick="search()">搜索</button>
                     <button type="button" class="btn btn-secondary btn-sm" th:onclick="reset()">重置</button>
                 </div>
             </div>
         </form>
         <div class="row">
-            <div class="dolores-btn-group" style="margin-bottom: 10px;display: flex">
+            <div class="dolores-btn-group d-flex" style="margin-bottom: 10px;">
                 <button type="button"
                         class="modal-effect btn btn-default btn-sm"
                         id="addBtn"
