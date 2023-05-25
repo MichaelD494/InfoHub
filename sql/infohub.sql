@@ -11,7 +11,7 @@
  Target Server Version : 80027 (8.0.27)
  File Encoding         : 65001
 
- Date: 13/05/2023 18:17:31
+ Date: 25/05/2023 18:18:55
 */
 
 SET NAMES utf8mb4;
@@ -382,7 +382,7 @@ CREATE TABLE `sys_login_record`  (
   `address` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登录地',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 444 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统登录记录表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 459 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统登录记录表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_login_record
@@ -751,6 +751,21 @@ INSERT INTO `sys_login_record` VALUES (440, '62a199a1713c91a33ecc8d1d14a0789e', 
 INSERT INTO `sys_login_record` VALUES (441, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-13 18:00:12');
 INSERT INTO `sys_login_record` VALUES (442, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-13 18:01:06');
 INSERT INTO `sys_login_record` VALUES (443, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-13 18:04:51');
+INSERT INTO `sys_login_record` VALUES (444, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-13 18:43:31');
+INSERT INTO `sys_login_record` VALUES (445, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-13 18:51:33');
+INSERT INTO `sys_login_record` VALUES (446, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-15 10:00:46');
+INSERT INTO `sys_login_record` VALUES (447, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-15 13:37:11');
+INSERT INTO `sys_login_record` VALUES (448, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-15 14:03:58');
+INSERT INTO `sys_login_record` VALUES (449, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-16 09:44:28');
+INSERT INTO `sys_login_record` VALUES (450, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-16 13:42:20');
+INSERT INTO `sys_login_record` VALUES (451, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-17 11:53:53');
+INSERT INTO `sys_login_record` VALUES (452, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Unknown', 'Unknown', '内网IP', '2023-05-17 11:57:03');
+INSERT INTO `sys_login_record` VALUES (453, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-17 18:24:54');
+INSERT INTO `sys_login_record` VALUES (454, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-18 11:23:16');
+INSERT INTO `sys_login_record` VALUES (455, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Unknown', 'Unknown', '内网IP', '2023-05-18 11:27:45');
+INSERT INTO `sys_login_record` VALUES (456, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-18 11:37:47');
+INSERT INTO `sys_login_record` VALUES (457, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-18 11:45:08');
+INSERT INTO `sys_login_record` VALUES (458, '62a199a1713c91a33ecc8d1d14a0789e', 'admin', '0:0:0:0:0:0:0:1', 'Windows 10', 'Chrome 11', '内网IP', '2023-05-18 16:25:41');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -780,7 +795,7 @@ INSERT INTO `sys_menu` VALUES (5, '权限管理', '/', 1, NULL, 'el-icon-view', 
 INSERT INTO `sys_menu` VALUES (6, '权限设置', '/role', 2, NULL, NULL, 1, 5, '2021-09-18 14:09:30');
 INSERT INTO `sys_menu` VALUES (7, '系统工具', '/', 1, NULL, 'el-icon-s-tools\n', 4, 0, '2021-09-29 17:16:57');
 INSERT INTO `sys_menu` VALUES (8, '定时任务', '/quartz', 2, NULL, NULL, 5, 7, '2021-09-29 17:17:43');
-INSERT INTO `sys_menu` VALUES (9, '代码生成', '/generator', 2, NULL, NULL, 1, 7, '2021-10-17 22:21:34');
+INSERT INTO `sys_menu` VALUES (9, '代码生成', '/generatorPage/index', 2, NULL, NULL, 1, 7, '2021-10-17 22:21:34');
 INSERT INTO `sys_menu` VALUES (10, '字典类型', '/sysDictType', 2, NULL, NULL, 3, 7, '2021-10-23 11:01:10');
 INSERT INTO `sys_menu` VALUES (11, '账户设置列表', '#', 3, 'dolores:sysUser:list', NULL, 1, 2, '2021-12-13 21:48:08');
 INSERT INTO `sys_menu` VALUES (12, '账户设置新增', '#', 3, 'dolores:sysUser:add', NULL, 2, 2, '2021-12-13 21:48:08');
@@ -924,8 +939,12 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('62a199a1713c91a33ecc8d1d14a0789e', 'admin', '15915773353', 'd8cf9cc793f85ff58f4010facd137ce776d3d4f86b9674e41f798d2748e8', '72b01a676facd496a2ffb3d7bae4d226', 'huangxinghua05@gmail.com', 1, 1, NULL, '0:0:0:0:0:0:0:1', '2023-05-13 10:04:51', 0, NULL, '2023-05-03 09:45:30', NULL, NULL);
+INSERT INTO `sys_user` VALUES ('62a199a1713c91a33ecc8d1d14a0789e', 'admin', '15915773353', 'd8cf9cc793f85ff58f4010facd137ce776d3d4f86b9674e41f798d2748e8', '72b01a676facd496a2ffb3d7bae4d226', 'huangxinghua05@gmail.com', 1, 1, NULL, '0:0:0:0:0:0:0:1', '2023-05-18 08:25:41', 0, NULL, '2023-05-03 09:45:30', NULL, NULL);
 INSERT INTO `sys_user` VALUES ('8a9e0e923a79ce4a779d838e90c4b447', 'sss', '', '5645d5ad96fa40b8124be6e3fe93f3e636fefb7a4a0bd10128f57f2aa955', '', '', 2, 0, NULL, NULL, NULL, 0, NULL, '2023-05-12 17:06:39', '', NULL);
+INSERT INTO `sys_user` VALUES ('73ffc038f57cf161a7d7878808d5b9d8', 'ss', '', '29ad174ca7682454d498666c90abadacc48acb8b381e01802e2e59d4745c', '1489c7091c5bf98e96e343e5ac8b9c3d', '', 1, 0, NULL, NULL, NULL, 0, NULL, '2023-05-15 14:13:06', '', NULL);
+INSERT INTO `sys_user` VALUES ('f747f7169d95ae9562caf097e1fed440', 'ssssssss', '', '05f4c829cce940418f2066af7836924e091d098afcc30a654ac16ecdb743', '78a8d0cf0d4e7a21ac8f1b09ba04bac8', '', 1, 0, NULL, NULL, NULL, 0, NULL, '2023-05-15 14:13:16', '', NULL);
+INSERT INTO `sys_user` VALUES ('1ff71d17f5b3eae57625320b072145f8', 'ss', '', 'ac415649f7c5774465b633a77706edd6cf8b9147a962e7eea0e1cb42ba4d', '082eac5eaa25bd0f7e0d6f9cb5f4eaaa', '', 1, 0, NULL, NULL, NULL, 0, NULL, '2023-05-15 14:13:23', '', NULL);
+INSERT INTO `sys_user` VALUES ('3222140b3d2390e184b5af73c8308449', 'ss', '', 'f8de3f6d0dd240dbac03329a673b7d8940cb746111ac8f9c5757672272bf', '23935c81161d32dc2b546dc351c77e30', '', 1, 0, NULL, NULL, NULL, 0, NULL, '2023-05-15 14:13:28', '', NULL);
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -937,13 +956,17 @@ CREATE TABLE `sys_user_role`  (
   `role_id` bigint NULL DEFAULT NULL COMMENT '角色id',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户角色表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户角色表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user_role
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES (1, '62a199a1713c91a33ecc8d1d14a0789e', 1, '2023-05-03 09:49:28');
 INSERT INTO `sys_user_role` VALUES (9, '8a9e0e923a79ce4a779d838e90c4b447', 2, '2023-05-12 18:00:37');
+INSERT INTO `sys_user_role` VALUES (10, '73ffc038f57cf161a7d7878808d5b9d8', 3, '2023-05-15 14:13:06');
+INSERT INTO `sys_user_role` VALUES (11, 'f747f7169d95ae9562caf097e1fed440', 3, '2023-05-15 14:13:16');
+INSERT INTO `sys_user_role` VALUES (12, '1ff71d17f5b3eae57625320b072145f8', 3, '2023-05-15 14:13:23');
+INSERT INTO `sys_user_role` VALUES (13, '3222140b3d2390e184b5af73c8308449', 3, '2023-05-15 14:13:28');
 
 -- ----------------------------
 -- Procedure structure for test
