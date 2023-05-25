@@ -13,7 +13,7 @@
     font-size: 12px;
 }
 
-#dolores-table td {
+#dolores-table td:not(:first-child) {
     /* 设置单元格宽度 */
     width: 150px;
     /* 设置单元格内容自动换行 */
@@ -31,3 +31,25 @@
 .box-shadow-pink > .row {
     margin: 20px 20px 0 0;
 }
+
+td.first-column {
+    width: 0 !important;
+    position: relative;
+}
+
+.checkbox-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.custom-control.custom-checkbox {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+

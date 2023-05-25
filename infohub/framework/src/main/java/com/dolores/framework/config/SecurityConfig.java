@@ -34,7 +34,7 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/sys/login", "/login", "/logout", "/verify")
+                .requestMatchers("/", "/sys/login", "/login", "/logout", "/verify","/generator/list")
                 .permitAll()
                 .and()
                 .addFilterBefore(xssFilter, UsernamePasswordAuthenticationFilter.class)

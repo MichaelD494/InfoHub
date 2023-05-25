@@ -1,4 +1,4 @@
-package com.dolores.admin.controller.system.data;
+package com.dolores.controller.system.data;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -29,8 +29,8 @@ public class SysUserController extends BaseController {
     private final ISysUserRoleService sysUserRoleService;
 
     @PreAuthorize("hasAuthority('dolores:sysUser:list')")
-    @PostMapping("/list")
-    public TableDataInfo list(@RequestBody SysUser sysUser) {
+    @GetMapping("/list")
+    public TableDataInfo list(SysUser sysUser) {
         startPage();
         List<SysUser> sysUserList = sysUserService.querySysUserList(sysUser);
         return TableDataInfo.init(sysUserList);

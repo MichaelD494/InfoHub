@@ -1,4 +1,4 @@
-package com.dolores.admin.controller.system.page;
+package com.dolores.controller.system.page;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package com.dolores.admin.controller.system.page;
+package com.dolores.controller.system.page;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:insert="~{common/include :: select2-css}"/>
+    <style>
+        .form-switch .form-check-input[type="checkbox"] {
+            transform: scale(150%);
+        }
+    </style>
+</head>
+<body>
+<div class="modal fade" id="dolores-MetaData">
+    <div class="modal-dialog modal-dialog-centered text-center" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">数据源</h6>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span
+                        aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="common-table" id="dolores-table-sync" th:replace="~{common/table}"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:insert="~{common/include :: select2-js}"/>
+<th:block th:insert="~{common/include :: validate-js}"/>
+<script>
+
+    var listUri = "/generator/dbTableList";
+
+    $(function () {
+        loading();
+        buildTable();
+    })
+
+    //获取数据
+    function buildTable() {
+        //配置加载表格选项
+        let option = {
+            tableId: 'sync',
+            columnList: [
+                {
+                    idColumn: true,
+                    hidden: true,
+                    comment: 'tableId',
+                    name: 'id',
+                },
+                {
+                    comment: "表名",
+                    name: "tableName"
+                },
+                {
+                    comment: "表注释",
+                    name: "tableComment"
+                },
+                {
+                    comment: "作者",
+                    name: "author"
+                },
+                {
+                    comment: "模块名称",
+                    name: "moduleName"
+                },
+                {
+                    comment: "创建时间",
+                    name: "createTime",
+                    dataType: 'date'
+                }
+            ]
+        }
+        option.url = listUri;
+        option.queryParam = searchObj;
+        option.pageDetail = pageDetail;
+        init(option);
+    }
+
+    function reset() {
+        $('#addForm input').val('');
+        $('#addForm [name=gender]').val('').trigger('change');
+        $('#addForm [name=roleId]').val(null).trigger('change');
+    }
+</script>
+</body>
+</html>

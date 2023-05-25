@@ -1,5 +1,6 @@
 //初始化
 function init(option) {
+    //重构dolores_option
     rebuildOption(option, dolores_option);
     //加载表格数据
     loadTable();
@@ -11,8 +12,10 @@ function init(option) {
     initTbody();
     //隐藏数据加载层
     hideLoading();
-    //追加
+    //追加主体
     appendTbody();
+    //初始化页数信息
+    initPageInfo();
     //初始化页数
     initPage();
 }
@@ -48,22 +51,26 @@ function loadData(action, page) {
 //加载表单
 function loadTable() {
     $('#dolores-tbody').hide();
+    //获取表格id
+    const tableId = dolores_option.tableId;
+    //赋值表格id
+    $("[name=dolores-table]").attr('id', tableId);
     //获取数据地址
     const url = dolores_option.url;
     //获取查询参数
-    const queryParam = dolores_option.queryParam;
+    const queryParams = $.param(dolores_option.queryParam);
     //获取页数对象
     const pageDetail = dolores_option.pageDetail;
     $.ajax({
-        url: url + '?pageNum=' + pageDetail.pageNum + '&pageSize=' + $('#dolores-pageSize').val(),
-        type: 'POST',
+        url: url + '?pageNum=' + pageDetail.pageNum + '&pageSize=' + $('#dolores-pageSize').val() + '&' + queryParams,
+        type: 'GET',
         async: false,
-        data: JSON.stringify(queryParam),
         dataType: 'JSON',
         contentType: 'application/json; charset=utf-8',
         success: function (resp) {
             const pageInfo = resp.pageInfo;
             dolores_option.pageInfo = pageInfo;
+            initPageInfo();
             reloadPageData();
             //获取资源
             const resourceList = pageInfo.list;
@@ -100,6 +107,7 @@ function matchData(resourceList) {
                 }
                 obj.name = key;
                 obj.value = value;
+                obj.dataType = match.dataType;
                 childList.push(obj);
             }
         });
@@ -156,7 +164,7 @@ function initThead() {
     thead.appendChild(tr);
     //表格追加
     document
-        .getElementById("dolores-table")
+        .getElementById(dolores_option.tableId)
         .appendChild(thead);
 }
 
@@ -172,6 +180,8 @@ function initTbody() {
             if (dolores_option.isNeedCheckbox) {
                 let checkboxTd = document.createElement('td');
                 checkboxTd.classList.add('first-column');
+                let checkboxContainer = document.createElement('div');
+                checkboxContainer.classList.add('checkbox-container');
                 let label = document.createElement('label');
                 label.classList.add('custom-control', 'custom-checkbox');
                 let input = document.createElement('input');
@@ -181,7 +191,8 @@ function initTbody() {
                 span.classList.add('custom-control-label');
                 label.appendChild(input);
                 label.appendChild(span);
-                checkboxTd.appendChild(label);
+                checkboxContainer.appendChild(label)
+                checkboxTd.appendChild(checkboxContainer);
                 tr.appendChild(checkboxTd);
             }
 
@@ -189,13 +200,19 @@ function initTbody() {
                 let td = document.createElement('td');
                 const idCol = cell.idColumn;
                 const hidden = cell.hidden;
+                const dataType = cell.dataType;
                 if (idCol) {
                     td.setAttribute('id', 'id-column-' + index);
                 }
                 if (hidden) {
                     td.style.display = 'none';
                 }
-                td.innerText = cell.value;
+                const cellValue = cell.value
+                if (dataType === 'date' && cellValue != null) {
+                    td.innerText = parseDate(cellValue);
+                } else {
+                    td.innerText = cellValue;
+                }
                 tr.appendChild(td);
             });
 
@@ -232,7 +249,7 @@ function appendTbody() {
     setTimeout(function () {
         const tbody = dolores_option.tbody;
         document
-            .getElementById("dolores-table")
+            .getElementById(dolores_option.tableId)
             .appendChild(tbody);
         $('#dolores-tbody').show();
     }, timeout)
@@ -329,4 +346,21 @@ function initNextModule(ul) {
     next_a.appendChild(next_second_span);
     next_li.appendChild(next_a);
     ul.appendChild(next_li);
+}
+
+function initPageInfo() {
+    $('#pageInfo').empty();
+    const pageInfo = dolores_option.pageInfo;
+    let spaceDiv = document.createElement('div');
+    spaceDiv.classList.add('col-sm-12', 'col-md-12');
+    let infoDiv = document.createElement('div');
+    infoDiv.classList.add('dataTables_info');
+    infoDiv.setAttribute('id', 'responsive-datatable_info');
+    infoDiv.setAttribute('role', 'status');
+    infoDiv.setAttribute('aria-live', 'polite');
+    infoDiv.innerText = '显示 ' + pageInfo.pageNum + ' 到 ' + pageInfo.pageSize + ' 条，共有 ' + pageInfo.total + ' 条记录';
+    spaceDiv.appendChild(infoDiv);
+    document
+        .getElementById("pageInfo")
+        .appendChild(spaceDiv);
 }

@@ -13,7 +13,11 @@ function initObj(obj) {
 //重写对象
 function rewriteObj(obj, targetObj) {
     for (const [key, value] of Object.entries(obj)) {
-        targetObj[key] = value;
+        if (key === 'tableId') {
+            targetObj[key] = 'dolores-table-' + value;
+        } else {
+            targetObj[key] = value;
+        }
     }
 }
 

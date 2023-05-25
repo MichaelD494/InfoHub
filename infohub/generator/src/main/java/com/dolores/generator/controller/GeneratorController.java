@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.dolores.framework.core.controller.BaseController;
 import com.dolores.framework.core.domain.AjaxResult;
+import com.dolores.framework.domain.common.TableDataInfo;
 import com.dolores.framework.utils.DoloresUtils;
 import com.dolores.generator.entity.DBTable;
 import com.dolores.generator.entity.GenColumn;
@@ -20,12 +21,11 @@ import com.dolores.utils.StringUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,11 +43,10 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/generator")
+@RequiredArgsConstructor
 public class GeneratorController extends BaseController {
-    @Autowired
-    private IGenColumnService genColumnService;
-    @Autowired
-    private IGenTableService genTableService;
+    private final IGenColumnService genColumnService;
+    private final IGenTableService genTableService;
 
 
     /**
@@ -55,7 +54,6 @@ public class GeneratorController extends BaseController {
      *
      * @param tableNames 表名
      * @param response
-     * @throws IOException
      */
     @GetMapping("/generateCode")
     public void generatorCode(String tableNames, HttpServletResponse response) throws IOException {
@@ -77,10 +75,9 @@ public class GeneratorController extends BaseController {
         IoUtil.write(response.getOutputStream(), false, data);
     }
 
-    @PostMapping("/tableList")
-    public AjaxResult tableList(PageDetail pageDetail, GenTableDto dto) {
-        AjaxResult ajaxResult = success();
-        PageHelper.startPage(pageDetail.getPageNum(), pageDetail.getPageSize());
+    @PreAuthorize("hasAuthority('dolores:generator:list')")
+    @GetMapping("/list")
+    public TableDataInfo list(GenTableDto dto) {
         LambdaQueryWrapper<GenTable> query = Wrappers.lambdaQuery(GenTable.class);
         query.select(GenTable::getTableId, GenTable::getTableName,
                 GenTable::getTableComment, GenTable::getCreateBy,
@@ -106,28 +103,21 @@ public class GeneratorController extends BaseController {
                 query.lt(GenTable::getUpdateTime, dto.getUpdateDateMap().get("endDate"));
             }
         }
-        List<GenTable> list = genTableService.list(query);
-        PageInfo<GenTable> page = new PageInfo<>(list);
-        ajaxResult.put("page", page);
-        return ajaxResult;
+        startPage();
+        List<GenTable> genTableList = genTableService.list(query);
+        return TableDataInfo.init(genTableList);
     }
 
-    @PostMapping("/getDBTableList")
-    public AjaxResult getDBTableList(PageDetail pageDetail, String tableName, String tableComment) {
-        AjaxResult ajaxResult = success();
-        List<String> dbList = genTableService.queryTableList().stream().map(DBTable::getTableName).collect(Collectors.toList());
+    @GetMapping("/dbTableList")
+    public TableDataInfo dbTableList(String tableName, String tableComment) {
+        List<String> dbList = genTableService.queryTableList().stream().map(DBTable::getTableName).toList();
         LambdaQueryWrapper<GenTable> query = Wrappers.lambdaQuery(GenTable.class);
         query.select(GenTable::getTableName);
-        List<String> tableNameList = genTableService.list(query).stream().map(GenTable::getTableName).collect(Collectors.toList());
+        List<String> tableNameList = genTableService.list(query).stream().map(GenTable::getTableName).toList();
         List<String> reduce = dbList.stream().filter(item -> !tableNameList.contains(item)).collect(Collectors.toList());
-        if (reduce.size() == 0) {
-            return warn();
-        }
-        PageHelper.startPage(pageDetail.getPageNum(), pageDetail.getPageSize());
+        startPage();
         List<GenTable> genTableList = genTableService.queryGenTableByDetail(tableName, tableComment, reduce);
-        PageInfo<GenTable> page = new PageInfo<>(genTableList);
-        ajaxResult.put("page", page);
-        return ajaxResult;
+        return TableDataInfo.init(genTableList);
     }
 
     @GetMapping("/importTable")
@@ -168,7 +158,7 @@ public class GeneratorController extends BaseController {
     /**
      * 同步
      *
-     * @param tableName 表明
+     * @param tableName 表名
      * @return
      */
     @PostMapping("/syncCode")

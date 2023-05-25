@@ -1,4 +1,4 @@
-package com.dolores.admin.controller.system.page;
+package com.dolores.controller.system.page;
 
 import com.dolores.framework.core.controller.BaseController;
 import com.dolores.system.domain.vo.SysMenuVo;
@@ -18,6 +18,7 @@ import java.util.List;
 @RequestMapping("/sys")
 public class SystemPageController extends BaseController {
     private final ISysMenuService sysMenuService;
+
     private final String prefix = "system/";
 
     @GetMapping("/login")
@@ -32,4 +33,5 @@ public class SystemPageController extends BaseController {
         modelMap.put("sysMenuList", sysMenuList);
         return prefix + "home";
     }
+
 }

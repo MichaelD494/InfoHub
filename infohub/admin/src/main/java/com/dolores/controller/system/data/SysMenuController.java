@@ -1,4 +1,4 @@
-package com.dolores.admin.controller.system.data;
+package com.dolores.controller.system.data;
 
 import com.dolores.framework.core.controller.BaseController;
 import com.dolores.framework.core.domain.AjaxResult;

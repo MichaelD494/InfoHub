@@ -20,11 +20,13 @@ import java.util.Objects;
 public class BaseController {
     public static void startPage() {
         HttpServletRequest request = ServletUtil.getRequest();
-        if (request != null) {
-            int pageNum = Integer.parseInt(request.getParameter("pageNum"));
-            int pageSize = Integer.parseInt(request.getParameter("pageSize"));
-            PageHelper.startPage(pageNum,pageSize);
+        int pageNum = 1;
+        int pageSize = 5;
+        if (request != null && request.getParameterMap().containsKey("pageNum") && request.getParameterMap().containsKey("pageSize")) {
+            pageNum = Integer.parseInt(request.getParameter("pageNum"));
+            pageSize = Integer.parseInt(request.getParameter("pageSize"));
         }
+        PageHelper.startPage(pageNum, pageSize);
     }
 
     /**

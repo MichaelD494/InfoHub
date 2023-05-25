@@ -1,4 +1,4 @@
-package com.dolores.admin.controller.system.data;
+package com.dolores.controller.system.data;
 
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.ShearCaptcha;

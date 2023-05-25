@@ -153,7 +153,7 @@ public class DoloresRedis {
      */
     public static void setSecurityCode(String uuid, String code) {
         redisUtil.set(RedisConstant.SECURITYCODE + uuid, code);
-        redisUtil.expire(RedisConstant.SECURITYCODE + uuid, 30);
+        redisUtil.expire(RedisConstant.SECURITYCODE + uuid, 60);
     }
 
     /**

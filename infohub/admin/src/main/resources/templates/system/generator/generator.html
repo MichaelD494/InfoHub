@@ -7,60 +7,88 @@
 <div class="card">
     <div class="card-body">
         <form id="searchForm">
-            <div class="row marAuto wrap" style="height: 100px;margin-bottom: 30px">
-                <div class="flex marginR aic">
+            <div class="form-row d-flex flex-wrap box-shadow-pink" style="margin-bottom: 30px">
+                <div class="search-input">
                     <div class="nowrap">表名:</div>
                     <div>
-                        <input type="text" name="userName" class="form-control form-control-sm" id="tableName"/>
+                        <input type="text" name="tableName" class="form-control form-control-sm" id="userName"/>
                     </div>
                 </div>
-                <div>
-                    <button type="button" class="btn btn-primary btn-sm" th:onclick="list()">搜索</button>
+                <div class="flex-wrap" id="search-group" style="width: 100%;margin: 15px 0px 15px 15px">
+                    <button type="button" class="btn btn-primary btn-sm" th:onclick="search()">搜索</button>
                     <button type="button" class="btn btn-secondary btn-sm" th:onclick="reset()">重置</button>
                 </div>
             </div>
         </form>
         <div class="row">
-            <div class="dolores-btn-group" style="margin-bottom: 10px;display: flex">
+            <div class="dolores-operate-group">
                 <button type="button"
-                        class="modal-effect btn btn-default btn-sm"
-                        id="addBtn"
+                        class="modal-effect btn btn-warning btn-sm dolores-operate"
+                        id="syncBtn"
                         data-bs-effect="effect-flip-vertical"
-                        data-bs-toggle="modal"
-                        href="#dolores-add-modal"
-                        th:onclick="openSaveModal()">添加
+                        href="#dolores-MetaData"
+                        th:onclick="openSyncModal()">同步
                 </button>
                 <button type="button"
-                        class="modal-effect btn btn-success btn-sm"
+                        class="modal-effect btn btn-success btn-sm dolores-operate"
                         id="editBtn"
                         data-bs-effect="effect-flip-vertical"
                         href="#dolores-edit-modal"
                         th:onclick="openEditModal()">编辑
                 </button>
-
                 <button type="button" class="btn btn-danger btn-sm" id="deleteBtn" th:onclick="remove()">删除
                 </button>
             </div>
-            <div class="common-table" th:replace="~{common/table}"></div>
+            <!--            <div class="common-table" th:replace="~{common/table}"></div>-->
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <td class="checkbox-cell">
+                        <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <span class="custom-control-label checkbox-item"></span>
+                        </label>
+                    </td>
+                    <td>数据列1</td>
+                    <td>数据列2</td>
+                    <td>数据列3</td>
+                </tr>
+                </tbody>
+            </table>
             <div id="add-modal"></div>
             <div id="edit-modal"></div>
+            <div id="sync-modal"></div>
         </div>
     </div>
 </div>
 <script>
     //查询url
-    var listUrl = "/sysUser/list";
-    var editPageUrl = '/sysUserPage/edit/';
-    var removeUrl = '/sysUser/remove/';
+    var listUri = "/generator/list";
+    var editPageUri = '/generator/edit/';
+    var removeUri = '/generator/remove/';
+    var syncPageUri = '/generatorPage/sync'
     //查询对象
     var searchObj = {};
+
+    var pageDetail = {
+        pageNum: 1,
+        pageSize: 5
+    };
+
     $(function () {
-        //数据加载层
-        loading();
-        //获取数据
-        list();
-        //获取添加页面
-        addPage();
+        $('.checkbox-cell').click(function() {
+            // 切换复选框的选择状态
+            var checkbox = $(this).find('input[type="checkbox"]');
+            checkbox.prop('checked', !checkbox.prop('checked'));
+        });
+
+        // //数据加载层
+        // loading();
+        // //获取数据
+        // buildTable();
+        // //获取添加页面
+        // addPage();
+
     })
 
     function getSelectedCheckboxes() {
@@ -72,7 +100,7 @@
     function reset() {
         initObj(searchObj);
         $('#searchForm input').val('');
-        list();
+        search();
     }
 
     //加载表单
@@ -82,16 +110,16 @@
     }
 
     //获取数据
-    function list() {
-        loadForm();
+    function buildTable() {
         //配置加载表格选项
         let option = {
+            tableId: 'generator',
             columnList: [
                 {
                     idColumn: true,
                     hidden: true,
-                    comment: 'id',
-                    name: 'userId',
+                    comment: 'tableId',
+                    name: 'id',
                 },
                 {
                     comment: "表名",
@@ -102,22 +130,29 @@
                     name: "tableComment"
                 },
                 {
-                    comment: "对象名",
-                    name: "entityName"
-                },
-                {
                     comment: "作者",
                     name: "author"
                 },
                 {
-                    comment: "模块名",
+                    comment: "模块名称",
                     name: "moduleName"
+                },
+                {
+                    comment: "创建时间",
+                    name: "createTime",
+                    dataType: 'date'
                 }
             ]
         }
-        option.url = listUrl;
+        option.url = listUri;
         option.queryParam = searchObj;
+        option.pageDetail = pageDetail;
         init(option);
+    }
+
+    function search() {
+        loadForm();
+        searchData();
     }
 
     function addPage() {
@@ -138,6 +173,25 @@
         openModal('addBtn', 'dolores-add-modal');
     }
 
+    function openSyncModal() {
+        $.ajax({
+            url: syncPageUri,
+            type: 'GET',
+            async: false,
+            success: function (resp) {
+                $('#sync-modal').empty();
+                $('#sync-modal').append(resp);
+                $('#dolores-MetaData').on('show.bs.modal', function () {
+                    openModal('syncBtn', 'dolores-MetaData', 'effect-flip-vertical');
+                });
+                $('#dolores-MetaData').modal('show');
+            },
+            headers: {
+                'X-Api-Request': 'false'
+            }
+        });
+    }
+
     function openEditModal() {
         const selectedCheckboxes = getSelectedCheckboxes();
         let userId;
@@ -154,7 +208,7 @@
             userId = row.find('[id^=id-column-]').text();
         });
         $.ajax({
-            url: editPageUrl + userId,
+            url: editPageUri + userId,
             type: 'GET',
             async: false,
             success: function (resp) {
@@ -175,7 +229,7 @@
         const singleMBId = $($this).closest('tr').find('[id^=single-modifyBtn-]').attr('id');
         const userId = $($this).closest('tr').find('[id^=id-column-]').text();
         $.ajax({
-            url: editPageUrl + userId,
+            url: editPageUri + userId,
             type: 'GET',
             async: false,
             success: function (resp) {
@@ -203,7 +257,7 @@
             const row = $(this).closest('tr');
             ids += row.find('#idColumn').text() + ',';
         });
-        del(removeUrl + ids, null, function (resp) {
+        del(removeUri + ids, null, function (resp) {
             if (resp.code === 200) {
                 success('提示', '删除成功')
                 list();
@@ -215,7 +269,7 @@
 
     function singleRemove($this) {
         const userId = $($this).closest('tr').find('[id^=id-column-]').text();
-        del(removeUrl + userId, null, function (resp) {
+        del(removeUri + userId, null, function (resp) {
             if (resp.code === 200) {
                 success('提示', '删除成功')
                 list();

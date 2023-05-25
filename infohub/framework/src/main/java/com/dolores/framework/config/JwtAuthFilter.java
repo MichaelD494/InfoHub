@@ -83,6 +83,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             );
             //重新注入到安全作用域
             SecurityContextHolder.getContext().setAuthentication(authToken);
+            chain.doFilter(request, response);
+            return;
         }
         chain.doFilter(request, response);
     }

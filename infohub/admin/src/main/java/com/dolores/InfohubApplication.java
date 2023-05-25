@@ -1,4 +1,4 @@
-package com.dolores.admin;
+package com.dolores;
 
 import com.dolores.html.domain.JsoupResolver;
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +10,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,14 +20,18 @@ import java.util.List;
 
 @ServletComponentScan
 @MapperScan({"com.dolores.*.mapper"})
-@SpringBootApplication(scanBasePackages = "com.dolores.**")
+@SpringBootApplication(scanBasePackages = {"com.dolores.**"})
 public class InfohubApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(InfohubApplication.class, args);
-        /*String path = "D:\\IdeaProject\\InfoHub\\infohub\\admin\\src\\main\\resources\\templates\\system\\status\\503.html";
+
+    }
+
+    public static void execute() {
+        String path = "D:\\IdeaProject\\InfoHub\\infohub\\admin\\src\\main\\resources\\templates\\system\\status\\503.html";
         String html = getHtml(path);
-        parseHtml(html, path);*/
+        parseHtml(html, path);
     }
 
     public static void parseHtml(String html, String path) {
