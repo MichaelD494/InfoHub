@@ -39,22 +39,7 @@
                 <button type="button" class="btn btn-danger btn-sm" id="deleteBtn" th:onclick="remove()">删除
                 </button>
             </div>
-            <!--            <div class="common-table" th:replace="~{common/table}"></div>-->
-            <table class="table table-bordered">
-                <tbody>
-                <tr>
-                    <td class="checkbox-cell">
-                        <label class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input">
-                            <span class="custom-control-label checkbox-item"></span>
-                        </label>
-                    </td>
-                    <td>数据列1</td>
-                    <td>数据列2</td>
-                    <td>数据列3</td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="common-table" id="dolores-table-generator" th:replace="~{common/table}"></div>
             <div id="add-modal"></div>
             <div id="edit-modal"></div>
             <div id="sync-modal"></div>
@@ -76,18 +61,12 @@
     };
 
     $(function () {
-        $('.checkbox-cell').click(function() {
-            // 切换复选框的选择状态
-            var checkbox = $(this).find('input[type="checkbox"]');
-            checkbox.prop('checked', !checkbox.prop('checked'));
-        });
-
-        // //数据加载层
-        // loading();
-        // //获取数据
-        // buildTable();
-        // //获取添加页面
-        // addPage();
+        //数据加载层
+        loading();
+        //获取数据
+        buildTable();
+        //获取添加页面
+        addPage();
 
     })
 

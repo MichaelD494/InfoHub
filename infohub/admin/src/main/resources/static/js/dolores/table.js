@@ -180,8 +180,7 @@ function initTbody() {
             if (dolores_option.isNeedCheckbox) {
                 let checkboxTd = document.createElement('td');
                 checkboxTd.classList.add('first-column');
-                let checkboxContainer = document.createElement('div');
-                checkboxContainer.classList.add('checkbox-container');
+                checkboxTd.setAttribute('onclick', 'expand_checkbox_area(this)')
                 let label = document.createElement('label');
                 label.classList.add('custom-control', 'custom-checkbox');
                 let input = document.createElement('input');
@@ -191,8 +190,7 @@ function initTbody() {
                 span.classList.add('custom-control-label');
                 label.appendChild(input);
                 label.appendChild(span);
-                checkboxContainer.appendChild(label)
-                checkboxTd.appendChild(checkboxContainer);
+                checkboxTd.appendChild(label);
                 tr.appendChild(checkboxTd);
             }
 
@@ -349,9 +347,10 @@ function initNextModule(ul) {
 }
 
 function initPageInfo() {
-    $('#pageInfo').empty();
+    $('[name=pageInfo]').empty();
     const pageInfo = dolores_option.pageInfo;
     let spaceDiv = document.createElement('div');
+    spaceDiv.setAttribute('id', 'dolores-pageInfo-' + dolores_option.tableId)
     spaceDiv.classList.add('col-sm-12', 'col-md-12');
     let infoDiv = document.createElement('div');
     infoDiv.classList.add('dataTables_info');
@@ -360,7 +359,10 @@ function initPageInfo() {
     infoDiv.setAttribute('aria-live', 'polite');
     infoDiv.innerText = '显示 ' + pageInfo.pageNum + ' 到 ' + pageInfo.pageSize + ' 条，共有 ' + pageInfo.total + ' 条记录';
     spaceDiv.appendChild(infoDiv);
-    document
-        .getElementById("pageInfo")
-        .appendChild(spaceDiv);
+    $('[name=pageInfo]').append(spaceDiv)
+}
+
+function expand_checkbox_area(that) {
+    var checkbox = $(that).find('input[type="checkbox"]');
+    checkbox.prop('checked', !checkbox.prop('checked'));
 }
